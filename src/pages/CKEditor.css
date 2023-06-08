@@ -1,0 +1,5 @@
+.ck.ck-content:not(.ck-comment__input *) {
+  /* Note: You can use min-height and max-height instead here. */
+  height: 300px;
+  overflow-y: scroll;
+}
