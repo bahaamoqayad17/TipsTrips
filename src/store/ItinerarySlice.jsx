@@ -4,24 +4,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Router from "next/router";
 
 export const index = createAsyncThunk(
-  "hotels/index",
+  "Itineraries/index",
   async (params, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.post("Hotels", params);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
-
-export const indexHotels = createAsyncThunk(
-  "hotels/indexHotels",
-  async (params, { rejectWithValue, dispatch }) => {
-    dispatch(startLoading());
-    try {
-      const res = await axios.post("Hotels", params);
+      const res = await axios.post("Itineraries", params);
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -30,11 +17,11 @@ export const indexHotels = createAsyncThunk(
 );
 
 export const show = createAsyncThunk(
-  "hotels/show",
+  "Itineraries/show",
   async (id, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.get(`Hotels/${id}`);
+      const res = await axios.get(`Itineraries/${id}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -43,12 +30,10 @@ export const show = createAsyncThunk(
 );
 
 export const create = createAsyncThunk(
-  "hotels/create",
+  "Itineraries/create",
   async (item, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post("Hotels/Create", item);
-      Router.push("/admin/hotels");
-
+      const res = await axios.post("Itineraries/Create", item);
       return res.data;
     } catch (error) {
       FireToast("error", error.response?.data?.message);
@@ -57,11 +42,11 @@ export const create = createAsyncThunk(
   }
 );
 
-export const removeHotel = createAsyncThunk(
-  "hotels/delete",
+export const removeItinerary = createAsyncThunk(
+  "Itineraries/delete",
   async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.delete(`Hotels/destroy/${id}`);
+      const res = await axios.delete(`Itineraries/destroy/${id}`);
       dispatch(index());
       return { message: "success" };
     } catch (error) {
@@ -72,10 +57,10 @@ export const removeHotel = createAsyncThunk(
 );
 
 export const update = createAsyncThunk(
-  "hotels/update",
+  "Itineraries/update",
   async (item, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post(`Hotels/Update/${item.id}`, item);
+      const res = await axios.post(`Itineraries/Update/${item.id}`, item);
       return res.data;
     } catch (error) {
       FireToast("error", error.response?.data?.message);
@@ -86,14 +71,13 @@ export const update = createAsyncThunk(
 
 const initialState = {
   all: [],
-  hotels: [],
   one: {},
   loading: false,
   error: null,
   success: null,
 };
 
-const HotelSlice = createSlice({
+const Itinerarieslice = createSlice({
   name: "hotels",
   initialState,
   reducers: {
@@ -103,41 +87,35 @@ const HotelSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(index.fulfilled, (state, action) => {
-      state.all = action.payload.hotels;
+      state.all = action.payload.Itineraries;
       state.count = action.payload.total;
       state.loading = false;
       state.error = null;
     });
     builder.addCase(create.fulfilled, (state, action) => {
-      FireToast("success", "Hotel Created Successfully");
-      Router.push("/admin/hotels");
+      FireToast("success", "Itinerary Created Successfully");
+      Router.push("/admin/itineraries");
       state.loading = false;
       state.error = null;
     });
-    builder.addCase(removeHotel.fulfilled, (state, action) => {
-      FireToast("warning", "Hotel Deleted Successfully");
+    builder.addCase(removeItinerary.fulfilled, (state, action) => {
+      FireToast("warning", "Itinerary Deleted Successfully");
       state.loading = false;
       state.error = null;
     });
     builder.addCase(update.fulfilled, (state, action) => {
-      FireToast("success", "Hotel Updated Successfully");
-      Router.push("/admin/hotels");
-      state.loading = false;
-      state.error = null;
-    });
-    builder.addCase(indexHotels.fulfilled, (state, action) => {
-      state.hotels = action.payload.hotels;
-      state.count = action.payload.total;
+      FireToast("success", "Itinerary Updated Successfully");
+      Router.push("/admin/itineraries");
       state.loading = false;
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
-      state.one = action.payload.Hotels;
+      state.one = action.payload.Itinerarie;
       state.loading = false;
       state.error = null;
     });
   },
 });
 
-export const { startLoading } = HotelSlice.actions;
-export default HotelSlice.reducer;
+export const { startLoading } = Itinerarieslice.actions;
+export default Itinerarieslice.reducer;

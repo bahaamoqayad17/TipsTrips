@@ -32,29 +32,40 @@ export default function EditTransport(props) {
     { type: "walking", duration: "", distance: "" },
     { type: "driving", duration: "", distance: "" },
   ]);
-
   const handleChange = (e, index) => {
     const { name, value, checked } = e.target;
     const updatedItems = [...items];
-    updatedItems[index][name] = value;
-    updatedItems[index].checked = checked;
+    const updatedItem = { ...updatedItems[index] };
+
+    if (name === "checked") {
+      updatedItem.checked = checked;
+    } else {
+      updatedItem[name] = value;
+    }
+
+    updatedItems[index] = updatedItem;
     setItems(updatedItems);
   };
 
   const handleSubmit = () => {
-    const checkedTypes = items
-      .filter((item) => item.checked)
-      .map((item) => item.type);
-
-    const updatedDays = props?.days.map((day) => ({
+    const checkedItems = items.filter((item) => item.checked);
+    const newTransports = checkedItems.map((item) => ({
+      type: item.type,
+      duration: item.duration,
+      distance: item.distance,
+    }));
+    const updatedDays = props.days.map((day) => ({
       ...day,
       properties: day.properties.map((property) => {
-        if (property.property.id === props.propertyId) {
+        console.log("property.property", property.property);
+        if (property?.property?.id === props.propertyId) {
           return {
             ...property,
             property: {
               ...property.property,
-              transport: checkedTypes,
+              transport: property.property.transport
+                ? [...property.property.transport, ...newTransports]
+                : [...newTransports],
             },
           };
         }
@@ -63,6 +74,7 @@ export default function EditTransport(props) {
     }));
 
     props.setDays(updatedDays);
+    props.handleCloseModal();
   };
 
   return (
@@ -77,7 +89,7 @@ export default function EditTransport(props) {
         <Box key={index} sx={box}>
           <Box sx={{ display: "flex" }}>
             <Checkbox
-              checked={item.checked}
+              checked={item?.checked}
               onChange={(e) => handleChange(e, index)}
               name="checked"
             />
@@ -91,6 +103,7 @@ export default function EditTransport(props) {
                 onChange={(e) => handleChange(e, index)}
                 name="duration"
                 value={item.duration}
+                type="number"
               />
             </Box>
             <Box sx={inputs}>
@@ -99,6 +112,7 @@ export default function EditTransport(props) {
                 onChange={(e) => handleChange(e, index)}
                 name="distance"
                 value={item.distance}
+                type="number"
               />
             </Box>
           </Box>

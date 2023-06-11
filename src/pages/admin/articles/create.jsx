@@ -7,25 +7,23 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import countryList from "react-select-country-list";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import CKEditor from "@/lib/CKEditor";
 import { Button } from "@mui/material";
-import { create, update, show } from "@/store/ArticleSlice";
+import { create } from "@/store/ArticleSlice";
 import { handleImageChange } from "@/lib/Base64EnCode";
 
 const style = {
   marginBottom: "30px",
 };
-const img = { width: "100px", height: "100%", display: "block" };
 
 const Page = () => {
   const { t } = useTranslation();
-  const { one, loading } = useSelector(({ articles }) => articles);
 
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
-  const [item, setItem] = useState(id === "create" ? {} : one);
+  const [item, setItem] = useState({});
   const [featuredImageUrl, setFeaturedImageUrl] = useState(null);
   const [headImageUrl, setHeadImageUrl] = useState(null);
 
@@ -50,18 +48,6 @@ const Page = () => {
 
   useEffect(() => {
     setEditorLoaded(true);
-    dispatch(show(id))
-      .then((response) => {
-        setItem(response.payload.Article);
-        setItem({
-          ...item,
-          featured_image: { data: one?.featured_image, mime: "image/jpg" },
-          head_image: { data: one?.head_image, mime: "image/jpg" },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }, [id, dispatch]);
 
   const handleAutocompleteChange = (event, value) => {
@@ -70,14 +56,13 @@ const Page = () => {
   };
 
   const handleSubmit = () => {
-    dispatch(update(item));
+    dispatch(create(item));
   };
 
   return (
     <>
       <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
-        <h1 style={style}>{t("article_update")}</h1>
-
+        <h1 style={style}>{t("article_create")}</h1>
         <Typography variant="h6">{t("article_name")}</Typography>
         <TextField
           sx={style}
@@ -134,26 +119,21 @@ const Page = () => {
           fullWidth
         />
         <Typography variant="h6">{t("countries")}</Typography>
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={options}
+          required
+          getOptionLabel={(option) => option.label}
+          onChange={handleAutocompleteChange}
+          style={style}
+          filterSelectedOptions
+          name="country"
+          renderInput={(params) => (
+            <TextField {...params} required name="country" />
+          )}
+        />
 
-        {one?.country && (
-          <Autocomplete
-            multiple
-            id="tags-outlined"
-            options={options}
-            required
-            getOptionLabel={(option) => option.label}
-            onChange={handleAutocompleteChange}
-            style={style}
-            defaultValue={one?.country
-              ?.split(",")
-              .map((value) => ({ label: value.trim() }))}
-            filterSelectedOptions
-            name="country"
-            renderInput={(params) => (
-              <TextField {...params} required name="country" />
-            )}
-          />
-        )}
         <Box sx={style}>
           <Typography variant="h6" sx={{ my: 5 }}>
             {t("content")}
@@ -162,7 +142,6 @@ const Page = () => {
           <CKEditor
             editorLoaded={editorLoaded}
             onChange={(v) => setItem({ ...item, content: v })}
-            // value={one?.content}
           />
         </Box>
         <Box sx={style}>
@@ -173,7 +152,6 @@ const Page = () => {
           <CKEditor
             editorLoaded={editorLoaded}
             onChange={(v) => setItem({ ...item, content_ar: v })}
-            // value={one?.content_ar}
           />
         </Box>
         <Box>
@@ -191,16 +169,6 @@ const Page = () => {
             <Box sx={style}>
               <img
                 src={featuredImageUrl}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-
-          {one?.featured_image && (
-            <Box sx={style}>
-              <img
-                src={one?.featured_image}
                 alt="Selected Image"
                 style={{ width: "100px", height: "auto" }}
               />
@@ -240,16 +208,6 @@ const Page = () => {
             <Box sx={style}>
               <img
                 src={featuredImageUrl}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-
-          {one?.head_image && (
-            <Box sx={style}>
-              <img
-                src={one?.head_image}
                 alt="Selected Image"
                 style={{ width: "100px", height: "auto" }}
               />

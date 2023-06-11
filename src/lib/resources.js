@@ -1,6 +1,7 @@
 import { removeArticle } from "@/store/ArticleSlice";
 import { removeDestination } from "@/store/DestinationSlice";
 import { removeHotel } from "@/store/HotelSlice";
+import { removeItinerary } from "@/store/ItinerarySlice";
 import { removeProperty } from "@/store/PropertiesSlice";
 import { removeRestaurant } from "@/store/RestaurantsSlice";
 
@@ -31,7 +32,8 @@ export const resources = {
     remove: removeDestination,
   },
   itineraries: {
-    headers: ["itinerary_name", "itinerary_name_ar", "country", "seo_title"],
-    fields: ["title", "title_ar", "country", "seo_title"],
+    headers: ["itinerary_name", "itinerary_name_ar", "country"],
+    fields: ["title", "title_ar", "country"],
+    remove: removeItinerary,
   },
 };

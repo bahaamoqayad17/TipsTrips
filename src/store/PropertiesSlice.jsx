@@ -1,11 +1,24 @@
 import { FireToast } from "@/lib/FireToast";
 import axios from "@/lib/axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Router from "next/router";
 
 export const index = createAsyncThunk(
   "properties/index",
   async (params, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
+    try {
+      const res = await axios.post("properties", params);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const indexProperties = createAsyncThunk(
+  "properties/indexProperties",
+  async (params, { rejectWithValue, dispatch }) => {
     try {
       const res = await axios.post("properties", params);
       return res.data;
@@ -86,13 +99,20 @@ const PropertieSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(index.fulfilled, (state, action) => {
-      state.all = action.payload.properties;
+      state.all = action.payload.Properties;
+      state.count = action.payload.total;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(indexProperties.fulfilled, (state, action) => {
+      state.all = action.payload.Properties;
       state.count = action.payload.total;
       state.loading = false;
       state.error = null;
     });
     builder.addCase(create.fulfilled, (state, action) => {
       FireToast("success", "Property Created Successfully");
+      Router.push("/admin/properties");
       state.loading = false;
       state.error = null;
     });
@@ -103,6 +123,7 @@ const PropertieSlice = createSlice({
     });
     builder.addCase(update.fulfilled, (state, action) => {
       FireToast("success", "Property Updated Successfully");
+      Router.push("/admin/properties");
       state.loading = false;
       state.error = null;
     });

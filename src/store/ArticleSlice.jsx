@@ -1,6 +1,7 @@
 import { FireToast } from "@/lib/FireToast";
 import axios from "@/lib/axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Router from "next/router";
 
 export const index = createAsyncThunk(
   "articles/index",
@@ -93,6 +94,7 @@ const ArticleSlice = createSlice({
     });
     builder.addCase(create.fulfilled, (state, action) => {
       FireToast("success", "Article Created Successfully");
+      Router.push("/admin/articles");
       state.loading = false;
       state.error = null;
     });
@@ -103,6 +105,7 @@ const ArticleSlice = createSlice({
     });
     builder.addCase(update.fulfilled, (state, action) => {
       FireToast("success", "Article Updated Successfully");
+      Router.push("/admin/articles");
       state.loading = false;
       state.error = null;
     });

@@ -14,32 +14,32 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardLayout from "@/components/Admin/DashboardLayout";
 import DataTable from "@/components/Admin/DataTable";
-// import { index } from "@/store/itinerarieslice";
+import { index } from "@/store/ItinerarySlice";
 import { useRouter } from "next/router";
 
 const Page = () => {
-  // const { count, all, loading } = useSelector(({ itineraries }) => itineraries);
+  const { count, all, loading } = useSelector(({ itineraries }) => itineraries);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const getPagination = (page, limit) => {
     page++;
-    // dispatch(index({ page }));
+    dispatch(index({ page }));
   };
   const router = useRouter();
 
   const search = (e) => {
     const value = e.target.value;
-    if (e.key === "Enter") {
-      if (value) {
-        // dispatch(index({ name: value }));
-      } else {
-        // dispatch(index());
-      }
+    if (value) {
+      setTimeout(() => {
+        dispatch(index({ searchbyjobname: value }));
+      }, 500);
+    } else {
+      dispatch(index());
     }
   };
 
   useEffect(() => {
-    // dispatch(index());
+    dispatch(index());
   }, []);
 
   return (
@@ -105,9 +105,9 @@ const Page = () => {
             <DataTable
               getPagination={getPagination}
               model={"itineraries"}
-              // loading={loading}
-              // items={all}
-              // count={count}
+              loading={loading}
+              items={all}
+              count={count}
             />
           </Box>
         </Container>

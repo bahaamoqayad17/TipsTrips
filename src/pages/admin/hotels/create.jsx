@@ -4,7 +4,8 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { show, update } from "@/store/HotelSlice";
+import { create, show } from "@/store/HotelSlice";
+import { update } from "@/store/HotelSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DashboardLayout from "@/components/Admin/DashboardLayout";
@@ -51,26 +52,11 @@ const suitable_for = [
 
 const Page = () => {
   const { t } = useTranslation();
-  const { one } = useSelector(({ hotels }) => hotels);
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
-  const [item, setItem] = useState(one);
+  const [item, setItem] = useState({});
   const [image, setImage] = useState(null);
-
-  useEffect(() => {
-    dispatch(show(id))
-      .then((response) => {
-        setItem(response.payload.Hotels);
-        setItem({
-          ...item,
-          image: { data: one?.image, mime: "image/jpg" },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [id, dispatch]);
 
   const handleChange = async (e) => {
     if (e.target.name === "image") {
@@ -86,15 +72,13 @@ const Page = () => {
 
   const FormSubmit = async (e) => {
     e.preventDefault();
-    dispatch(update(item));
+    dispatch(create(item));
   };
 
   return (
     <>
       <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
-        <h1 style={style}>
-          {id === "create" ? t("hotel_create") : t("hotel_update")}
-        </h1>
+        <h1 style={style}>{t("hotel_create")}</h1>
         <Typography variant="h6">{t("name")}</Typography>
         <TextField
           sx={style}
@@ -202,16 +186,6 @@ const Page = () => {
               src={URL.createObjectURL(image)}
               alt="Selected Image"
               style={{ width: "100px", height: "auto" }}
-            />
-          </Box>
-        )}
-
-        {one?.image && (
-          <Box sx={style}>
-            <img
-              src={one?.image}
-              alt=""
-              style={{ width: "100px", height: "100px" }}
             />
           </Box>
         )}

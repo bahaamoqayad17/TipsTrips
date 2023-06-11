@@ -63,8 +63,6 @@ export default function Dropzone(props) {
     },
   });
 
-  console.log(props.owners);
-
   const deleteFile = (fileName, fileGallery) => {
     if (fileName) {
       props.setOwners((prevOwners) =>
@@ -73,13 +71,17 @@ export default function Dropzone(props) {
     }
     if (fileGallery) {
       props.setOwners((prevOwners) =>
-        prevOwners.filter((owner) => owner.gellery.url !== fileGallery)
+        prevOwners.filter((owner) => owner.gallery.url !== fileGallery)
       );
     }
   };
 
   const handleOpenModal = (file) => {
-    setSelectedFile(file);
+    if (file.image) {
+      setSelectedFile(file.image);
+    } else {
+      setSelectedFile(file);
+    }
     setOpenModal(true);
   };
 
@@ -98,17 +100,17 @@ export default function Dropzone(props) {
           <div style={thumbInner}>
             <img
               src={
-                file?.image?.preview ? file?.image?.preview : file?.gellery?.url
+                file?.gallery?.url ? file?.gallery?.url : file?.image?.preview
               }
               style={img}
-              onClick={() => handleOpenModal(file.image)}
+              onClick={() => handleOpenModal(file)}
               alt="test"
             />
           </div>
         </div>
         <Button
           variant="contained"
-          onClick={() => deleteFile(file.image, file?.gellery?.url)}
+          onClick={() => deleteFile(file.image, file?.gallery?.url)}
         >
           {t("delete")}
         </Button>

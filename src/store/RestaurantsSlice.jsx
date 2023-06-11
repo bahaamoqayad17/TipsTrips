@@ -87,8 +87,8 @@ const Restaurantslice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(index.fulfilled, (state, action) => {
-      state.all = action.payload.restaurants;
-      state.restaurants = action.payload.restaurants;
+      state.all = action.payload.Restaurants;
+      state.restaurants = action.payload.Restaurants;
       state.count = action.payload.total;
       state.loading = false;
       state.error = null;

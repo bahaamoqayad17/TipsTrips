@@ -9,7 +9,7 @@ const style = {
 
 export default function EditOwner(props) {
   const { t } = useTranslation();
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState(props.image);
 
   const handleChange = (e) => {
     setItem({ ...item, [e.target.name]: e.target.value });

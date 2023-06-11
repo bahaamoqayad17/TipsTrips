@@ -5,6 +5,7 @@ import ArticleSlice from "./ArticleSlice";
 import PropertiesSlice from "./PropertiesSlice";
 import RestaurantsSlice from "./RestaurantsSlice";
 import DestinationSlice from "./DestinationSlice";
+import ItinerarySlice from "./ItinerarySlice";
 import AuthSlice from "./AuthSlice";
 
 export const store = configureStore({
@@ -16,5 +17,6 @@ export const store = configureStore({
     restaurants: RestaurantsSlice,
     destinations: DestinationSlice,
     auth: AuthSlice,
+    itineraries: ItinerarySlice,
   },
 });

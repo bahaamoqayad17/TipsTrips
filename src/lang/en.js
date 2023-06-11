@@ -144,5 +144,11 @@ export const en = {
     owner_head: "Owner Head Image",
     source_link_head: "Source Link Head Image",
     selected_countries: "Selected Countries",
+    meters: "Meters",
+    driving: "Driving",
+    bus: "Bus",
+    walking: "Walking",
+    itinerary_types: "Itinerary Types",
+    general_notes_ar: "General Notes Arabic",
   },
 };

@@ -16,14 +16,24 @@ const style = {
   marginBottom: "30px",
 };
 
+const halals = [
+  {
+    label: "yes",
+    value: "Yes",
+  },
+  {
+    label: "no",
+    value: "No",
+  },
+];
+
 const Page = () => {
   const { t } = useTranslation();
-  const { one } = useSelector(({ destinations }) => destinations);
   const dispatch = useDispatch();
 
   const router = useRouter();
   const { id } = router.query;
-  const [item, setItem] = useState(one);
+  const [item, setItem] = useState({});
   const [image, setImage] = useState("");
   const options = useMemo(() => countryList().getData(), []);
 
@@ -40,11 +50,7 @@ const Page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (item?.id) {
-      dispatch(update(item));
-    } else {
-      dispatch(create(item));
-    }
+    dispatch(create(item));
   };
 
   const handleAutocompleteChange = (event, value) => {
@@ -52,29 +58,10 @@ const Page = () => {
     setItem({ ...item, country: selectedCountries });
   };
 
-  useEffect(() => {
-    if (id === "create") {
-    } else {
-      dispatch(show(id))
-        .then((response) => {
-          setItem(response.payload.Destinations);
-          setItem({
-            ...item,
-            image: { data: one?.image, mime: "image/jpg" },
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [id, dispatch]);
-
   return (
     <>
       <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
-        <h1 style={style}>
-          {id === "create" ? t("destination_create") : t("destination_update")}
-        </h1>
+        <h1 style={style}>{t("destination_create")}</h1>
 
         <Typography variant="h6">{t("name")}</Typography>
 
@@ -95,29 +82,23 @@ const Page = () => {
           name="name_ar"
           fullWidth
         />
-        {one?.country && (
-          <>
-            <Typography variant="h6">{t("countries")}</Typography>
 
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={options}
-              required
-              getOptionLabel={(option) => option.label}
-              onChange={handleAutocompleteChange}
-              style={style}
-              defaultValue={one?.country
-                ?.split(",")
-                .map((value) => ({ label: value.trim() }))}
-              filterSelectedOptions
-              name="country"
-              renderInput={(params) => (
-                <TextField {...params} required name="country" />
-              )}
-            />
-          </>
-        )}
+        <Typography variant="h6">{t("countries")}</Typography>
+
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={options}
+          required
+          getOptionLabel={(option) => option.label}
+          onChange={handleAutocompleteChange}
+          style={style}
+          filterSelectedOptions
+          name="country"
+          renderInput={(params) => (
+            <TextField {...params} required name="country" />
+          )}
+        />
 
         <Typography variant="h6">{t("city")}</Typography>
 
@@ -154,16 +135,6 @@ const Page = () => {
           <Box sx={style}>
             <img
               src={URL.createObjectURL(image)}
-              alt="Selected Image"
-              style={{ width: "100px", height: "auto" }}
-            />
-          </Box>
-        )}
-
-        {one?.image && (
-          <Box sx={style}>
-            <img
-              src={one?.image}
               alt="Selected Image"
               style={{ width: "100px", height: "auto" }}
             />

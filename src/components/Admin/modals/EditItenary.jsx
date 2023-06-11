@@ -41,10 +41,6 @@ export default function EditItenary(props) {
 
     props.handleCloseModal();
   };
-
-  useEffect(() => {
-    dispatch(index());
-  }, []);
   return (
     <>
       <h1 style={style}>{t("add_property")}</h1>

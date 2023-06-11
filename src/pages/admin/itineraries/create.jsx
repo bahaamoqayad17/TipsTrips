@@ -9,12 +9,14 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { useEffect, useMemo, useState } from "react";
 import { indexHotels } from "@/store/HotelSlice";
+import { update } from "@/store/HotelSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DashboardLayout from "@/components/Admin/DashboardLayout";
 import { useRouter } from "next/router";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+
 import Dropzone from "@/lib/Dropzone";
 import countryList from "react-select-country-list";
 import { index } from "@/store/RestaurantsSlice";
@@ -23,7 +25,7 @@ import { Link } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import CKEditor from "@/lib/CKEditor";
 import { indexProperties } from "@/store/PropertiesSlice";
-import { show, update } from "@/store/ItinerarySlice";
+import { create } from "@/store/ItinerarySlice";
 import { handleImageChange } from "@/lib/Base64EnCode";
 
 const style = {
@@ -91,30 +93,22 @@ const seasons = [
 const TabPanel = ({ value, index, children }) => {
   return (
     <div role="tabpanel" hidden={value !== index}>
-      {value === index && <Box p={5}>{children}</Box>}
+      {value === index && <Box>{children}</Box>}
     </div>
   );
 };
 
-const Page = () => {
-  const { one, loading } = useSelector(({ itineraries }) => itineraries);
+const Page = (props) => {
   const { restaurants } = useSelector(({ restaurants }) => restaurants);
   const { hotels } = useSelector(({ hotels }) => hotels);
   const { t } = useTranslation();
-  const router = useRouter();
-  const { id } = router.query;
   const dispatch = useDispatch();
-  const [item, setItem] = useState(one);
+  const [item, setItem] = useState({});
   const [image, setImage] = useState(null);
   const options = useMemo(() => countryList().getData(), []);
   const [value, setValue] = useState(0);
   const [model, setModel] = useState({});
-  const [days, setDays] = useState(one?.days);
-
-  const [openModal, setOpenModal] = useState(false);
-
-  const [editorLoaded, setEditorLoaded] = useState(false);
-  const [owners, setOwners] = useState(one?.datee);
+  const [days, setDays] = useState([{ name: "day", properties: [] }]);
 
   const handleDeleteDay = () => {
     if (days.length === 1) return;
@@ -159,6 +153,13 @@ const Page = () => {
     });
   };
 
+  const [openModal, setOpenModal] = useState(false);
+
+  const router = useRouter();
+  const { id } = router.query;
+  const [editorLoaded, setEditorLoaded] = useState(false);
+  const [owners, setOwners] = useState([]);
+
   const handleOpenModal = (model, dayIndex, propertyId) => {
     setModel({ model, dayIndex, propertyId });
     setOpenModal(true);
@@ -169,20 +170,12 @@ const Page = () => {
     dispatch(indexHotels());
     dispatch(indexProperties());
     setEditorLoaded(true);
-
-    dispatch(show(id))
-      .then((response) => {
-        setItem(response.payload.Itinerarie);
-        setOwners(one?.datee);
-        setItem({
-          ...item,
-          featured_image: { data: one?.featured_image, mime: "image/jpg" },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    if (id === "create") {
+      console.log("create");
+    } else {
+      console.log("update");
+    }
+  }, [id, value]);
 
   useEffect(() => {
     setItem({ ...item, datee: owners, days: days });
@@ -241,7 +234,11 @@ const Page = () => {
 
   const FormSubmit = (e) => {
     e.preventDefault();
-    dispatch(update(item));
+    if (item?.id) {
+      dispatch(update(item));
+    } else {
+      dispatch(create(item));
+    }
   };
 
   const handleAutocompleteChange = (event, value) => {
@@ -252,7 +249,7 @@ const Page = () => {
   return (
     <>
       <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
-        <h1 style={style}>{t("itinerary_update")}</h1>
+        <h1 style={style}>{t("itinerary_create")}</h1>
 
         <Typography variant="h6">{t("itinerary_title")}</Typography>
 
@@ -277,22 +274,17 @@ const Page = () => {
 
           <Typography variant="h6">{t("countries")}</Typography>
 
-          {one?.country && (
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={options}
-              getOptionLabel={(option) => option.label}
-              onChange={handleAutocompleteChange}
-              style={style}
-              defaultValue={one?.country
-                ?.split(",")
-                .map((value) => ({ label: value.trim() }))}
-              name="country"
-              filterSelectedOptions
-              renderInput={(params) => <TextField {...params} name="country" />}
-            />
-          )}
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={options}
+            getOptionLabel={(option) => option.label}
+            style={style}
+            name="country"
+            onChange={handleAutocompleteChange}
+            filterSelectedOptions
+            renderInput={(params) => <TextField {...params} name="country" />}
+          />
 
           <Typography variant="h6">{t("city")}</Typography>
 
@@ -355,6 +347,19 @@ const Page = () => {
             value={item?.description}
           />
 
+          <Typography variant="h6">{t("description_ar")}</Typography>
+
+          <TextField
+            onChange={handleChange}
+            sx={style}
+            id="outlined-multiline-flexible"
+            name="description_ar"
+            multiline
+            minRows={5}
+            fullWidth
+            value={item?.description_ar}
+          />
+
           <Box sx={style}>
             <Typography variant="h6" sx={{ my: 5 }}>
               {t("general_notes")}
@@ -377,53 +382,43 @@ const Page = () => {
             />
           </Box>
 
-          {!loading && (
-            <Box sx={{ my: 10, mb: 5 }}>
-              <Typography variant="h6">{t("gallery")}</Typography>
+          <Box sx={{ my: 10, mb: 5 }}>
+            <Typography variant="h6">{t("gallery")}</Typography>
 
-              <Dropzone setOwners={setOwners} owners={owners} />
-            </Box>
-          )}
+            <Dropzone setOwners={setOwners} owners={owners} />
+          </Box>
 
           <Typography variant="h6">{t("restaurants")}</Typography>
 
-          {one?.restaurant_id && (
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={restaurants}
-              getOptionLabel={(option) =>
-                option?.title + " - " + option?.geo_location
-              }
-              style={style}
-              defaultValue={one?.restaurant_id}
-              filterSelectedOptions
-              name="restaurants"
-              onChange={(e, v) => setItem({ ...item, restaurant_id: v })}
-              renderInput={(params) => (
-                <TextField {...params} name="restaurants" />
-              )}
-            />
-          )}
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={restaurants}
+            getOptionLabel={(option) =>
+              option?.title + " - " + option?.geo_location
+            }
+            style={style}
+            filterSelectedOptions
+            name="restaurants"
+            onChange={(e, v) => setItem({ ...item, restaurant_id: v })}
+            renderInput={(params) => (
+              <TextField {...params} name="restaurants" />
+            )}
+          />
 
           <Typography variant="h6">{t("hotels")}</Typography>
 
-          {one?.hotel_id && (
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={hotels}
-              getOptionLabel={(option) =>
-                option?.name + " - " + option?.location
-              }
-              style={style}
-              defaultValue={one?.hotel_id}
-              filterSelectedOptions
-              name="hotels"
-              onChange={(e, v) => setItem({ ...item, hotel_id: v })}
-              renderInput={(params) => <TextField {...params} name="hotels" />}
-            />
-          )}
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={hotels}
+            getOptionLabel={(option) => option?.name + " - " + option?.location}
+            style={style}
+            filterSelectedOptions
+            name="hotels"
+            onChange={(e, v) => setItem({ ...item, hotel_id: v })}
+            renderInput={(params) => <TextField {...params} name="hotels" />}
+          />
 
           <Typography variant="h6">{t("featured_image")}</Typography>
 
@@ -439,16 +434,6 @@ const Page = () => {
             <Box sx={style}>
               <img
                 src={URL.createObjectURL(image)}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-
-          {one?.featured_image && (
-            <Box sx={style}>
-              <img
-                src={one?.featured_image}
                 alt="Selected Image"
                 style={{ width: "100px", height: "auto" }}
               />
@@ -484,6 +469,7 @@ const Page = () => {
             variant="scrollable"
             scrollButtons
             allowScrollButtonsMobile
+            sx={style}
             aria-label="scrollable force tabs example"
           >
             {days?.map((day, i) => (
