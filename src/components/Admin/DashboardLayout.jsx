@@ -27,6 +27,7 @@ import FestivalIcon from "@mui/icons-material/Festival";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 import CommuteIcon from "@mui/icons-material/Commute";
+import image from "./logo.png";
 
 const drawerWidth = 240;
 
@@ -154,7 +155,7 @@ function DashboardLayout(props) {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap component="div">
-                <img src="/logo.png" width={"220"} height={"60"} alt="test" />
+                <Image src={image} width={"220"} height={"60"} alt="test" />
               </Typography>
             </Box>
             <Box>
