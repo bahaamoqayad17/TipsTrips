@@ -155,7 +155,7 @@ function DashboardLayout(props) {
               </IconButton>
               <Typography variant="h6" noWrap component="div">
                 <Image
-                  src={"Logo.png"}
+                  src={"/Logo.png"}
                   width={"220"}
                   height={"60"}
                   alt="test"
