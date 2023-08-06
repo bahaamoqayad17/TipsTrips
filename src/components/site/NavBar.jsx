@@ -106,7 +106,7 @@ function NavBar(props) {
               />
             </Box>
 
-            <Image src="/logo.png" width={"180"} height={"50"} alt="logo" />
+            <img src="/logo.png" width={"180"} height={"50"} alt="logo" />
           </IconButton>
 
           <Container>
@@ -122,7 +122,7 @@ function NavBar(props) {
                 component="div"
                 sx={{ display: { xs: "none", sm: "block" } }}
               >
-                <Image
+                <img
                   src="/logo.png"
                   width={"240"}
                   height={"70"}
