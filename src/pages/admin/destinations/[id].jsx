@@ -18,19 +18,22 @@ const style = {
 
 const Page = () => {
   const { t } = useTranslation();
-  const { one } = useSelector(({ destinations }) => destinations);
+  const { all } = useSelector(({ destinations }) => destinations);
   const dispatch = useDispatch();
 
   const router = useRouter();
   const { id } = router.query;
-  const [item, setItem] = useState(one);
-  const [image, setImage] = useState("");
+  const [item, setItem] = useState(all.find((item) => item.id == id));
+  const [image, setImage] = useState({
+    data: item?.image,
+    mime: "image/jpg",
+  });
   const options = useMemo(() => countryList().getData(), []);
 
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
     if (name === "image") {
-      setImage(files[0]);
+      setImage({ data: URL.createObjectURL(files[0]) });
       setItem({ ...item, [name]: await handleImageChange(files[0]) });
     } else {
       setItem({ ...item, [name]: value });
@@ -60,7 +63,7 @@ const Page = () => {
           setItem(response.payload.Destinations);
           setItem({
             ...item,
-            image: { data: one?.image, mime: "image/jpg" },
+            image: { data: item.image, mime: "image/jpg" },
           });
         })
         .catch((error) => {
@@ -95,7 +98,7 @@ const Page = () => {
           name="name_ar"
           fullWidth
         />
-        {one?.country && (
+        {item.country && (
           <>
             <Typography variant="h6">{t("countries")}</Typography>
 
@@ -107,7 +110,7 @@ const Page = () => {
               getOptionLabel={(option) => option.label}
               onChange={handleAutocompleteChange}
               style={style}
-              defaultValue={one?.country
+              defaultValue={item.country
                 ?.split(",")
                 .map((value) => ({ label: value.trim() }))}
               filterSelectedOptions
@@ -153,17 +156,7 @@ const Page = () => {
         {image && (
           <Box sx={style}>
             <img
-              src={URL.createObjectURL(image)}
-              alt="Selected Image"
-              style={{ width: "100px", height: "auto" }}
-            />
-          </Box>
-        )}
-
-        {one?.image && (
-          <Box sx={style}>
-            <img
-              src={one?.image}
+              src={image?.data}
               alt="Selected Image"
               style={{ width: "100px", height: "auto" }}
             />

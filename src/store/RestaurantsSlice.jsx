@@ -95,6 +95,7 @@ const Restaurantslice = createSlice({
     });
     builder.addCase(create.fulfilled, (state, action) => {
       FireToast("success", "Restaurant Created Successfully");
+      Router.push("/admin/restaurants");
       state.loading = false;
       state.error = null;
     });
@@ -105,6 +106,7 @@ const Restaurantslice = createSlice({
     });
     builder.addCase(update.fulfilled, (state, action) => {
       FireToast("success", "Restaurant Updated Successfully");
+      Router.push("/admin/restaurants");
       state.loading = false;
       state.error = null;
     });

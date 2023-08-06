@@ -17,8 +17,8 @@ export const resources = {
     remove: removeArticle,
   },
   properties: {
-    headers: ["property_name", "city", "title_ar", "notes"],
-    fields: ["title", "city", "title_ar", "notes_for_things_to_do"],
+    headers: ["property_name", "city", "property_name_ar"],
+    fields: ["title", "city", "title_ar"],
     remove: removeProperty,
   },
   restaurants: {

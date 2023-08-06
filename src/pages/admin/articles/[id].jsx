@@ -20,14 +20,16 @@ const img = { width: "100px", height: "100%", display: "block" };
 
 const Page = () => {
   const { t } = useTranslation();
-  const { one, loading } = useSelector(({ articles }) => articles);
+  const { all } = useSelector(({ articles }) => articles);
 
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
-  const [item, setItem] = useState(id === "create" ? {} : one);
-  const [featuredImageUrl, setFeaturedImageUrl] = useState(null);
-  const [headImageUrl, setHeadImageUrl] = useState(null);
+  const [item, setItem] = useState(all.find((item) => item.id == id));
+  const [featuredImageUrl, setFeaturedImageUrl] = useState(
+    item?.featured_image
+  );
+  const [headImageUrl, setHeadImageUrl] = useState(item?.head_image);
 
   const [editorLoaded, setEditorLoaded] = useState(false);
   const options = useMemo(() => countryList().getData(), []);
@@ -50,19 +52,12 @@ const Page = () => {
 
   useEffect(() => {
     setEditorLoaded(true);
-    dispatch(show(id))
-      .then((response) => {
-        setItem(response.payload.Article);
-        setItem({
-          ...item,
-          featured_image: { data: one?.featured_image, mime: "image/jpg" },
-          head_image: { data: one?.head_image, mime: "image/jpg" },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [id, dispatch]);
+    setItem({
+      ...item,
+      featured_image: { data: item?.featured_image, mime: "image/jpg" },
+      head_image: { data: item?.head_image, mime: "image/jpg" },
+    });
+  }, [id]);
 
   const handleAutocompleteChange = (event, value) => {
     const selectedCountries = value.map((option) => option.label).join(",");
@@ -135,25 +130,23 @@ const Page = () => {
         />
         <Typography variant="h6">{t("countries")}</Typography>
 
-        {one?.country && (
-          <Autocomplete
-            multiple
-            id="tags-outlined"
-            options={options}
-            required
-            getOptionLabel={(option) => option.label}
-            onChange={handleAutocompleteChange}
-            style={style}
-            defaultValue={one?.country
-              ?.split(",")
-              .map((value) => ({ label: value.trim() }))}
-            filterSelectedOptions
-            name="country"
-            renderInput={(params) => (
-              <TextField {...params} required name="country" />
-            )}
-          />
-        )}
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={options}
+          required
+          getOptionLabel={(option) => option.label}
+          onChange={handleAutocompleteChange}
+          style={style}
+          defaultValue={item?.country
+            ?.split(",")
+            .map((value) => ({ label: value.trim() }))}
+          filterSelectedOptions
+          name="country"
+          renderInput={(params) => (
+            <TextField {...params} required name="country" />
+          )}
+        />
         <Box sx={style}>
           <Typography variant="h6" sx={{ my: 5 }}>
             {t("content")}
@@ -162,7 +155,7 @@ const Page = () => {
           <CKEditor
             editorLoaded={editorLoaded}
             onChange={(v) => setItem({ ...item, content: v })}
-            // value={one?.content}
+            value={item?.content}
           />
         </Box>
         <Box sx={style}>
@@ -173,7 +166,7 @@ const Page = () => {
           <CKEditor
             editorLoaded={editorLoaded}
             onChange={(v) => setItem({ ...item, content_ar: v })}
-            // value={one?.content_ar}
+            value={item?.content_ar}
           />
         </Box>
         <Box>
@@ -191,16 +184,6 @@ const Page = () => {
             <Box sx={style}>
               <img
                 src={featuredImageUrl}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-
-          {one?.featured_image && (
-            <Box sx={style}>
-              <img
-                src={one?.featured_image}
                 alt="Selected Image"
                 style={{ width: "100px", height: "auto" }}
               />
@@ -239,17 +222,7 @@ const Page = () => {
           {headImageUrl && (
             <Box sx={style}>
               <img
-                src={featuredImageUrl}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-
-          {one?.head_image && (
-            <Box sx={style}>
-              <img
-                src={one?.head_image}
+                src={headImageUrl}
                 alt="Selected Image"
                 style={{ width: "100px", height: "auto" }}
               />

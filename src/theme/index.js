@@ -4,14 +4,14 @@ const theme = createTheme({
   direction: "ltr",
   palette: {
     black: {
-      main: "#000000",
+      main: "#2C2C2C",
     },
     primary: {
       main: "#44A44C",
       200: "#ADEDB1",
     },
     secondary: {
-      main: "#FFC93C",
+      main: "#757575",
       contrastText: "#ffffff",
     },
     gray: {
@@ -50,6 +50,7 @@ const theme = createTheme({
         flexDirection: "column",
         height: "100%",
         width: "100%",
+        fontFamily: "Source Sans 3, sans-serif",
       },
     },
   },
@@ -64,8 +65,6 @@ const theme = createTheme({
     button: {
       fontWeight: 600,
     },
-    fontFamily:
-      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
     body1: {
       fontSize: "1rem",
       fontWeight: 400,

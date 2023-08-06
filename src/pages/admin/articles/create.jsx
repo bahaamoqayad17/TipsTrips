@@ -207,7 +207,7 @@ const Page = () => {
           {headImageUrl && (
             <Box sx={style}>
               <img
-                src={featuredImageUrl}
+                src={headImageUrl}
                 alt="Selected Image"
                 style={{ width: "100px", height: "auto" }}
               />

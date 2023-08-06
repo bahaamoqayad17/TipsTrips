@@ -97,24 +97,27 @@ const TabPanel = ({ value, index, children }) => {
 };
 
 const Page = () => {
-  const { one, loading } = useSelector(({ itineraries }) => itineraries);
+  const { all, loading } = useSelector(({ itineraries }) => itineraries);
   const { restaurants } = useSelector(({ restaurants }) => restaurants);
   const { hotels } = useSelector(({ hotels }) => hotels);
   const { t } = useTranslation();
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
-  const [item, setItem] = useState(one);
-  const [image, setImage] = useState(null);
+  const [item, setItem] = useState(all.find((item) => item.id == id));
+  const [image, setImage] = useState({
+    data: item?.featured_image,
+    mime: "image/jpg",
+  });
   const options = useMemo(() => countryList().getData(), []);
   const [value, setValue] = useState(0);
   const [model, setModel] = useState({});
-  const [days, setDays] = useState(one?.days);
+  const [days, setDays] = useState(item.days);
 
   const [openModal, setOpenModal] = useState(false);
 
   const [editorLoaded, setEditorLoaded] = useState(false);
-  const [owners, setOwners] = useState(one?.datee);
+  const [owners, setOwners] = useState(item.datee);
 
   const handleDeleteDay = () => {
     if (days.length === 1) return;
@@ -169,35 +172,20 @@ const Page = () => {
     dispatch(indexHotels());
     dispatch(indexProperties());
     setEditorLoaded(true);
-
-    dispatch(show(id))
-      .then((response) => {
-        setItem(response.payload.Itinerarie);
-        setOwners(one?.datee);
-        setItem({
-          ...item,
-          featured_image: { data: one?.featured_image, mime: "image/jpg" },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }, []);
 
   useEffect(() => {
+    console.log(item);
     setItem({ ...item, datee: owners, days: days });
   }, [owners, days]);
 
   const handleChange = async (e) => {
-    if (e.target.name === "featured_image") {
-      setItem({
-        ...item,
-        [e.target.name]: await handleImageChange(e.target.files[0]),
-      });
-
-      setImage(e.target.files[0]);
+    const { name, value, files } = e.target;
+    if (name === "featured_image") {
+      setImage({ data: URL.createObjectURL(files[0]) });
+      setItem({ ...item, [name]: await handleImageChange(files[0]) });
     } else {
-      setItem({ ...item, [e.target.name]: e.target.value });
+      setItem({ ...item, [name]: value });
     }
   };
 
@@ -277,22 +265,20 @@ const Page = () => {
 
           <Typography variant="h6">{t("countries")}</Typography>
 
-          {one?.country && (
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={options}
-              getOptionLabel={(option) => option.label}
-              onChange={handleAutocompleteChange}
-              style={style}
-              defaultValue={one?.country
-                ?.split(",")
-                .map((value) => ({ label: value.trim() }))}
-              name="country"
-              filterSelectedOptions
-              renderInput={(params) => <TextField {...params} name="country" />}
-            />
-          )}
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={options}
+            getOptionLabel={(option) => option.label}
+            onChange={handleAutocompleteChange}
+            style={style}
+            defaultValue={item.country
+              ?.split(",")
+              .map((value) => ({ label: value.trim() }))}
+            name="country"
+            filterSelectedOptions
+            renderInput={(params) => <TextField {...params} name="country" />}
+          />
 
           <Typography variant="h6">{t("city")}</Typography>
 
@@ -310,7 +296,7 @@ const Page = () => {
             onChange={handleChange}
             sx={style}
             id="outlined-select-currency"
-            value={item?.types}
+            value={item?.itinerary_type}
             select
             fullWidth
             name="itinerary_type"
@@ -329,7 +315,7 @@ const Page = () => {
             onChange={handleChange}
             sx={style}
             id="outlined-select-currency"
-            value={item?.seasons}
+            value={item?.season_for}
             select
             fullWidth
             name="season_for"
@@ -363,6 +349,7 @@ const Page = () => {
             <CKEditor
               editorLoaded={editorLoaded}
               onChange={(v) => setItem({ ...item, general_notes: v })}
+              value={item.general_notes}
             />
           </Box>
 
@@ -374,56 +361,49 @@ const Page = () => {
             <CKEditor
               editorLoaded={editorLoaded}
               onChange={(v) => setItem({ ...item, general_notes_ar: v })}
+              value={item.general_notes_ar}
             />
           </Box>
 
-          {!loading && (
-            <Box sx={{ my: 10, mb: 5 }}>
-              <Typography variant="h6">{t("gallery")}</Typography>
+          <Box sx={{ my: 10, mb: 5 }}>
+            <Typography variant="h6">{t("gallery")}</Typography>
 
-              <Dropzone setOwners={setOwners} owners={owners} />
-            </Box>
-          )}
+            <Dropzone setOwners={setOwners} owners={owners} />
+          </Box>
 
           <Typography variant="h6">{t("restaurants")}</Typography>
 
-          {one?.restaurant_id && (
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={restaurants}
-              getOptionLabel={(option) =>
-                option?.title + " - " + option?.geo_location
-              }
-              style={style}
-              defaultValue={one?.restaurant_id}
-              filterSelectedOptions
-              name="restaurants"
-              onChange={(e, v) => setItem({ ...item, restaurant_id: v })}
-              renderInput={(params) => (
-                <TextField {...params} name="restaurants" />
-              )}
-            />
-          )}
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={restaurants}
+            getOptionLabel={(option) =>
+              option?.title + " - " + option?.geo_location
+            }
+            style={style}
+            defaultValue={item.restaurant_id}
+            filterSelectedOptions
+            name="restaurants"
+            onChange={(e, v) => setItem({ ...item, restaurant_id: v })}
+            renderInput={(params) => (
+              <TextField {...params} name="restaurants" />
+            )}
+          />
 
           <Typography variant="h6">{t("hotels")}</Typography>
 
-          {one?.hotel_id && (
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={hotels}
-              getOptionLabel={(option) =>
-                option?.name + " - " + option?.location
-              }
-              style={style}
-              defaultValue={one?.hotel_id}
-              filterSelectedOptions
-              name="hotels"
-              onChange={(e, v) => setItem({ ...item, hotel_id: v })}
-              renderInput={(params) => <TextField {...params} name="hotels" />}
-            />
-          )}
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={hotels}
+            getOptionLabel={(option) => option?.name + " - " + option?.location}
+            style={style}
+            defaultValue={item.hotel_id}
+            filterSelectedOptions
+            name="hotels"
+            onChange={(e, v) => setItem({ ...item, hotel_id: v })}
+            renderInput={(params) => <TextField {...params} name="hotels" />}
+          />
 
           <Typography variant="h6">{t("featured_image")}</Typography>
 
@@ -438,17 +418,7 @@ const Page = () => {
           {image && (
             <Box sx={style}>
               <img
-                src={URL.createObjectURL(image)}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-
-          {one?.featured_image && (
-            <Box sx={style}>
-              <img
-                src={one?.featured_image}
+                src={image?.data}
                 alt="Selected Image"
                 style={{ width: "100px", height: "auto" }}
               />

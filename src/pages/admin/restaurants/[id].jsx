@@ -32,20 +32,23 @@ const halals = [
 ];
 
 const Page = () => {
-  const { one, loading } = useSelector(({ restaurants }) => restaurants);
+  const { all } = useSelector(({ restaurants }) => restaurants);
   const router = useRouter();
   const dispatch = useDispatch();
   const { id } = router.query;
   const { t } = useTranslation();
-  const [item, setItem] = useState(one);
-  const [owners, setOwners] = useState(one?.datee);
-  const [image, setImage] = useState(null);
+  const [item, setItem] = useState(all.find((item) => item.id == id));
+  const [owners, setOwners] = useState(item?.datee);
+  const [image, setImage] = useState({
+    data: item?.featured_image,
+    mime: "image/jpg",
+  });
   const options = useMemo(() => countryList().getData(), []);
 
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
     if (name === "featured_image") {
-      setImage(files[0]);
+      setImage({ data: URL.createObjectURL(files[0]) });
       setItem({ ...item, [name]: await handleImageChange(files[0]) });
     } else {
       setItem({ ...item, [name]: value });
@@ -68,201 +71,167 @@ const Page = () => {
     setItem({ ...item, datee: owners });
   }, [owners]);
 
-  useEffect(() => {
-    dispatch(show(id))
-      .then((response) => {
-        setItem(response.payload.Restaurants);
-        setOwners(one?.datee);
-        setItem({
-          ...item,
-          featured_image: { data: one?.featured_image, mime: "image/jpg" },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [id, dispatch]);
+  useEffect(() => {}, [id, dispatch]);
 
   return (
     <>
-      {!loading ? (
-        <Box
-          sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}
+      <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
+        <h1 style={style}>{t("restaurant_update")}</h1>
+
+        <Typography variant="h6">{t("reataurant_name")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.title}
+          name="title"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("reataurant_name_ar")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.title_ar}
+          name="title_ar"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("countries")}</Typography>
+
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={options}
+          getOptionLabel={(option) => option.label}
+          onChange={handleAutocompleteChange}
+          style={style}
+          defaultValue={item?.country
+            ?.split(",")
+            .map((value) => ({ label: value.trim() }))}
+          name="country"
+          filterSelectedOptions
+          renderInput={(params) => <TextField {...params} name="country" />}
+        />
+
+        <Typography variant="h6">{t("city")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.city}
+          name="city"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("geo_location")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.geo_location}
+          name="geo_location"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("longitude")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.longitude}
+          name="longitude"
+          type="number"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("latitude")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.latitude}
+          name="latitude"
+          type="number"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("description")}</Typography>
+
+        <TextField
+          onChange={handleChange}
+          sx={style}
+          id="outlined-multiline-flexible"
+          name="description"
+          multiline
+          minRows={5}
+          fullWidth
+          value={item?.description}
+        />
+
+        <Typography variant="h6">{t("description_ar")}</Typography>
+
+        <TextField
+          onChange={handleChange}
+          sx={style}
+          id="outlined-multiline-flexible"
+          name="description_ar"
+          multiline
+          minRows={5}
+          fullWidth
+          value={item?.description_ar}
+        />
+
+        <Typography variant="h6">{t("halal")}</Typography>
+
+        <TextField
+          onChange={handleChange}
+          sx={style}
+          id="outlined-select-currency"
+          value={item?.halal}
+          select
+          fullWidth
+          name="halal"
+          autoComplete="halal"
         >
-          <h1 style={style}>{t("restaurant_update")}</h1>
+          {halals?.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {t(option.label)}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Box>
+          <Typography variant="h6">{t("gallery")}</Typography>
 
-          <Typography variant="h6">{t("reataurant_name")}</Typography>
-
-          <TextField
-            sx={style}
-            onChange={handleChange}
-            value={item?.title}
-            name="title"
-            fullWidth
-          />
-
-          <Typography variant="h6">{t("reataurant_name_ar")}</Typography>
-
-          <TextField
-            sx={style}
-            onChange={handleChange}
-            value={item?.title_ar}
-            name="title_ar"
-            fullWidth
-          />
-
-          <Typography variant="h6">{t("countries")}</Typography>
-
-          {one?.country && (
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={options}
-              getOptionLabel={(option) => option.label}
-              onChange={handleAutocompleteChange}
-              style={style}
-              defaultValue={one?.country
-                ?.split(",")
-                .map((value) => ({ label: value.trim() }))}
-              name="country"
-              filterSelectedOptions
-              renderInput={(params) => <TextField {...params} name="country" />}
-            />
-          )}
-
-          <Typography variant="h6">{t("city")}</Typography>
-
-          <TextField
-            sx={style}
-            onChange={handleChange}
-            value={item?.city}
-            name="city"
-            fullWidth
-          />
-
-          <Typography variant="h6">{t("geo_location")}</Typography>
-
-          <TextField
-            sx={style}
-            onChange={handleChange}
-            value={item?.geo_location}
-            name="geo_location"
-            fullWidth
-          />
-
-          <Typography variant="h6">{t("longitude")}</Typography>
-
-          <TextField
-            sx={style}
-            onChange={handleChange}
-            value={item?.longitude}
-            name="longitude"
-            type="number"
-            fullWidth
-          />
-
-          <Typography variant="h6">{t("latitude")}</Typography>
-
-          <TextField
-            sx={style}
-            onChange={handleChange}
-            value={item?.latitude}
-            name="latitude"
-            type="number"
-            fullWidth
-          />
-
-          <Typography variant="h6">{t("description")}</Typography>
-
-          <TextField
-            onChange={handleChange}
-            sx={style}
-            id="outlined-multiline-flexible"
-            name="description"
-            multiline
-            minRows={5}
-            fullWidth
-            value={item?.description}
-          />
-
-          <Typography variant="h6">{t("description_ar")}</Typography>
-
-          <TextField
-            onChange={handleChange}
-            sx={style}
-            id="outlined-multiline-flexible"
-            name="description_ar"
-            multiline
-            minRows={5}
-            fullWidth
-            value={item?.description_ar}
-          />
-
-          <Typography variant="h6">{t("halal")}</Typography>
-
-          <TextField
-            onChange={handleChange}
-            sx={style}
-            id="outlined-select-currency"
-            value={item?.halal}
-            select
-            fullWidth
-            name="halal"
-            autoComplete="halal"
-          >
-            {halals?.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {t(option.label)}
-              </MenuItem>
-            ))}
-          </TextField>
-          {!loading && (
-            <Box>
-              <Typography variant="h6">{t("gallery")}</Typography>
-
-              <Dropzone setOwners={setOwners} owners={owners} />
-            </Box>
-          )}
-
-          <Typography variant="h6">{t("featured_image")}</Typography>
-
-          <input
-            type="file"
-            name="featured_image"
-            style={style}
-            onChange={handleChange}
-            accept="image/*"
-          />
-          <br />
-
-          {image && (
-            <Box sx={style}>
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-
-          {one?.featured_image && (
-            <Box sx={style}>
-              <img
-                src={one?.featured_image}
-                alt="Selected Image"
-                style={{ width: "100px", height: "auto" }}
-              />
-            </Box>
-          )}
-          <Button onClick={handleSubmit} variant="contained">
-            {t("save")}
-          </Button>
+          <Dropzone setOwners={setOwners} owners={owners} />
         </Box>
-      ) : (
-        <center>
-          <CircularProgress />
-        </center>
-      )}
+
+        <Typography variant="h6">{t("featured_image")}</Typography>
+
+        <input
+          type="file"
+          name="featured_image"
+          style={style}
+          onChange={handleChange}
+          accept="image/*"
+        />
+        <br />
+
+        {image && (
+          <Box sx={style}>
+            <img
+              src={image?.data}
+              alt="Selected Image"
+              style={{ width: "100px", height: "auto" }}
+            />
+          </Box>
+        )}
+
+        <Button onClick={handleSubmit} variant="contained">
+          {t("save")}
+        </Button>
+      </Box>
     </>
   );
 };

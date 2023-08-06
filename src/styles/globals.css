@@ -1,0 +1,68 @@
+* {
+  font-family: "Source Sans 3", sans-serif;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  background-image: url("../../public/header.svg");
+  height: 500px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.css-1peyhh5-MuiButtonBase-root-MuiCheckbox-root {
+  color: #fff !important;
+}
+.css-1peyhh5-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-1peyhh5-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+  color: #d32f2f !important;
+}
+
+/* CustomSlider.css */
+.swiper-button-prev::after {
+  display: none;
+}
+
+.swiper-button-next::after {
+  display: none;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  max-width: 280px;
+}
+
+.css-1a7vnsk-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
+  max-width: 280px !important;
+}
+
+.search-input ::placeholder {
+  font-size: 10px;
+}
+
+.css-17mmue9-MuiButtonBase-root-MuiButton-root {
+  font-family: "Source Sans 3", sans-serif !important;
+}
+
+@media (max-width: 768px) {
+  header {
+    height: 350px;
+  }
+
+  .css-52fzo0-MuiTypography-root {
+    font-weight: bold !important;
+    font-family: "Source Sans 3", sans-serif !important;
+    font-size: 20px !important;
+  }
+
+  .destination-image {
+    height: 140px;
+    width: 140px;
+  }
+}

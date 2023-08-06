@@ -11,6 +11,7 @@ import "@/lang/i18";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import "./CKEditor.css";
+import "../styles/globals.css";
 
 const clientSideEmotionCache = createEmotionCache();
 

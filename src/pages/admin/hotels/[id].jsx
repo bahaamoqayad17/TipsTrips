@@ -51,30 +51,16 @@ const suitable_for = [
 
 const Page = () => {
   const { t } = useTranslation();
-  const { one } = useSelector(({ hotels }) => hotels);
+  const { all } = useSelector(({ hotels }) => hotels);
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
-  const [item, setItem] = useState(one);
-  const [image, setImage] = useState(null);
-
-  useEffect(() => {
-    dispatch(show(id))
-      .then((response) => {
-        setItem(response.payload.Hotels);
-        setItem({
-          ...item,
-          image: { data: one?.image, mime: "image/jpg" },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [id, dispatch]);
+  const [item, setItem] = useState(all.find((item) => item.id == id));
+  const [image, setImage] = useState(item.image);
 
   const handleChange = async (e) => {
     if (e.target.name === "image") {
-      setImage(e.target.files[0]);
+      setImage(URL.createObjectURL(e.target.files[0]));
       setItem({
         ...item,
         [e.target.name]: await handleImageChange(e.target.files[0]),
@@ -92,9 +78,7 @@ const Page = () => {
   return (
     <>
       <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
-        <h1 style={style}>
-          {id === "create" ? t("hotel_create") : t("hotel_update")}
-        </h1>
+        <h1 style={style}>{t("hotel_update")}</h1>
         <Typography variant="h6">{t("name")}</Typography>
         <TextField
           sx={style}
@@ -199,19 +183,9 @@ const Page = () => {
         {image && (
           <Box sx={style}>
             <img
-              src={URL.createObjectURL(image)}
+              src={image}
               alt="Selected Image"
               style={{ width: "100px", height: "auto" }}
-            />
-          </Box>
-        )}
-
-        {one?.image && (
-          <Box sx={style}>
-            <img
-              src={one?.image}
-              alt=""
-              style={{ width: "100px", height: "100px" }}
             />
           </Box>
         )}
