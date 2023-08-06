@@ -151,6 +151,15 @@ const Page = () => {
             <Grid item xs={12} sm={6} md={4}>
               <SingleItenirary />
             </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <SingleItenirary />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <SingleItenirary />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <SingleItenirary />
+            </Grid>
           </Grid>
         </Container>
       </Box>
@@ -168,6 +177,15 @@ const Page = () => {
           </Typography>
 
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={4}>
+              <SingleArticle />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <SingleArticle />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <SingleArticle />
+            </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <SingleArticle />
             </Grid>
