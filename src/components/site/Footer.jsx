@@ -59,7 +59,7 @@ export default function Footer() {
               md={5}
               sx={{ order: { xs: 4, sm: 4, md: 1 } }}
             >
-              <img src="/logo.png" width={"250"} height={"70"} />
+              <Image src="/logo.png" width={"250"} height={"70"} alt="logo" />
               <Typography variant="body1" color="black">
                 {t("copy_right")}
               </Typography>

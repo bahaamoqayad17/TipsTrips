@@ -54,7 +54,12 @@ export default function AccountMenu() {
   };
   return (
     <>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         <Checkbox
           checked={checked}
           onChange={handleCheckBox}
@@ -113,14 +118,16 @@ export default function AccountMenu() {
           elevation: 0,
           sx: {
             overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
+            width: "200px",
+            mt: 2.5,
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
+            borderRadius: "0px 0px 8px 8px",
+            boxShadow: "0px 0px 10px 0px rgba(0,0,0,10%)",
           },
         }}
         transformOrigin={{ horizontal: "bottom", vertical: "top" }}
@@ -129,7 +136,8 @@ export default function AccountMenu() {
         {navItems.map((item, i) => (
           <>
             <MenuItem
-              sx={{ py: 0 }}
+              sx={{ py: 0, fontSize: "14px" }}
+              color="black"
               style={item.title === "sign_out" ? { color: "#44A44C" } : {}}
               key={item.title}
               onClick={handleClose}
@@ -137,7 +145,12 @@ export default function AccountMenu() {
               {t(item.title)}
             </MenuItem>
             {i !== navItems.length - 1 && (
-              <Divider sx={{ backgroundColor: "#000" }} />
+              <Divider
+                sx={{
+                  backgroundColor: "#E0E0E0",
+                }}
+                className="divider-account"
+              />
             )}
           </>
         ))}
