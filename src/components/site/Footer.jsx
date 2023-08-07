@@ -49,7 +49,7 @@ export default function Footer() {
   const { t } = useTranslation();
   return (
     <>
-      <footer style={{ backgroundColor: "#F5F5F5" }}>
+      <footer style={{ backgroundColor: "#F5F5F5", paddingBottom: "20px" }}>
         <Container>
           <Grid container spacing={4}>
             <Grid

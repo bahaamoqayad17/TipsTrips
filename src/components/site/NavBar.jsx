@@ -86,7 +86,7 @@ function NavBar(props) {
         <Toolbar>
           <IconButton
             sx={{
-              display: { sm: "none", xs: "flex" },
+              display: { sm: "flex", xs: "flex", md: "none" },
               width: "100%",
               justifyContent: "space-between",
             }}
@@ -120,7 +120,7 @@ function NavBar(props) {
             >
               <Typography
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" } }}
+                sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
               >
                 <Image
                   src="/logo.png"
