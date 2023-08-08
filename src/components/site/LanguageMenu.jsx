@@ -32,7 +32,7 @@ export default function LanguageMenu() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         color="black"
-        sx={{ p: { xs: 0 } }}
+        sx={{ p: { xs: 0 }, textTransform: "capitalize" }}
       >
         <LanguageIcon />
         &nbsp; English

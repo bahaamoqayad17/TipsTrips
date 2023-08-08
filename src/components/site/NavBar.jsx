@@ -22,6 +22,9 @@ import LanguageMenu from "./LanguageMenu";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Checkbox from "@mui/material/Checkbox";
 import Favorite from "@mui/icons-material/Favorite";
+import Link from "next/link";
+import { HeartFilled } from "@/icons/HeartFilled";
+import { BorderHeart } from "@/icons/BorderHeart";
 
 const drawerWidth = 240;
 const navItems = [
@@ -93,20 +96,14 @@ function NavBar(props) {
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <MenuIcon
-                fontSize="large"
+                fontSize="medium"
                 color="black"
                 onClick={handleDrawerToggle}
               />
-              <Checkbox
-                checked={checked}
-                onChange={handleCheckBox}
-                icon={<FavoriteBorder fontSize="large" color="black" />}
-                checkedIcon={<Favorite fontSize="large" color="error" />}
-                sx={{ ml: 2 }}
-              />
+              <BorderHeart fontSize="medium" color="black" sx={{ ml: 2 }} />
             </Box>
 
-            <Image src="/logo.png" width={"180"} height={"50"} alt="logo" />
+            <img src="/logo-mobile.svg" alt="logo" />
           </IconButton>
 
           <Container>
@@ -122,45 +119,38 @@ function NavBar(props) {
                 component="div"
                 sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
               >
-                <Image
-                  src="/logo.png"
-                  width={"240"}
-                  height={"70"}
-                  alt="logo"
-                  style={{ marginTop: 4 }}
-                />
+                <img src="/logo.png" alt="logo" style={{ marginTop: 4 }} />
               </Typography>
               <Box
                 sx={{
                   display: { xs: "none", sm: "none", md: "flex" },
                   alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "40%",
                 }}
               >
                 {navItems.map((item, i) => (
                   <>
-                    <Button
+                    <Link
                       key={item.title}
-                      sx={{
-                        fontSize: { md: "14px", lg: "20" },
-                        mx: 1,
-                        px: 2,
-                        color: "#2C2C2C/",
-                        textTransform: "capitalize",
-                        fontSize: "15px",
+                      style={{
+                        color: "#2C2C2C",
+                        fontSize: "17px",
+                        display: "block",
+                        textDecoration: "none",
+                        fontWeight: "bold",
                       }}
-                      onClick={() => {
-                        router.push(`/${item.link}`);
-                      }}
+                      href={`/${item.link}`}
                     >
                       {t(item.title)}
-                    </Button>
+                    </Link>
                     {i !== 4 && (
                       <>
                         <div
                           style={{
                             backgroundColor: "#E0E0E0",
                             height: "30px",
-                            display: "inline-block",
+                            display: "block",
                             width: "1px",
                           }}
                         ></div>

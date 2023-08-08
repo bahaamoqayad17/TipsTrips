@@ -11,6 +11,10 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Checkbox from "@mui/material/Checkbox";
 import Favorite from "@mui/icons-material/Favorite";
 import Typography from "@mui/material/Typography";
+import { Heart } from "@/icons/Heart";
+import { HeartFilled } from "@/icons/HeartFilled";
+import { BorderHeart } from "@/icons/BorderHeart";
+import Link from "next/link";
 
 const navItems = [
   {
@@ -60,13 +64,9 @@ export default function AccountMenu() {
           alignItems: "center",
         }}
       >
-        <Checkbox
-          checked={checked}
-          onChange={handleCheckBox}
-          icon={<FavoriteBorder fontSize="large" color="black" />}
-          checkedIcon={<Favorite fontSize="large" color="error" />}
-          sx={{ display: { xs: "none", md: "block" } }}
-        />
+        <Link href={"/favorites"} style={{ margin: "10px 10px 0 10px" }}>
+          <BorderHeart fontSize="large" />
+        </Link>
         <Tooltip title={t("settings")}>
           <Box
             onClick={handleClick}
@@ -119,7 +119,7 @@ export default function AccountMenu() {
           sx: {
             overflow: "visible",
             width: "200px",
-            mt: 2.5,
+            mt: 2,
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,

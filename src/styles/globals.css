@@ -8,7 +8,7 @@ ul {
   margin: 0;
 }
 
-header {
+.header {
   background-image: url("../../public/header.svg");
   height: 500px;
   background-repeat: no-repeat;
@@ -34,16 +34,8 @@ header {
   display: none;
 }
 
-.css-6hp17o-MuiList-root-MuiMenu-list {
-  max-width: 280px;
-}
-
-.css-1a7vnsk-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
-  max-width: 280px !important;
-}
-
 .search-input ::placeholder {
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .css-17mmue9-MuiButtonBase-root-MuiButton-root {
@@ -68,8 +60,9 @@ header {
 }
 
 @media (max-width: 768px) {
-  header {
-    height: 350px;
+  .header {
+    background-image: url("../../public/header-mobile.svg");
+    height: 246px;
   }
 
   .css-52fzo0-MuiTypography-root {
@@ -84,5 +77,10 @@ header {
   }
   .divider-account {
     margin: 0 !important;
+  }
+
+  .next-btn,
+  .prev-btn {
+    display: none;
   }
 }

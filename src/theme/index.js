@@ -90,7 +90,6 @@ const theme = createTheme({
       fontWeight: 600,
       letterSpacing: "0.5px",
       lineHeight: 2.5,
-      textTransform: "uppercase",
     },
     caption: {
       fontSize: "0.75rem",

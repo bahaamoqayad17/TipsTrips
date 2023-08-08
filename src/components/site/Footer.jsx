@@ -59,7 +59,7 @@ export default function Footer() {
               md={5}
               sx={{ order: { xs: 4, sm: 4, md: 1 } }}
             >
-              <Image src="/logo.png" width={"250"} height={"70"} alt="logo" />
+              <img src="/logo.png" alt="logo" />
               <Typography variant="body1" color="black">
                 {t("copy_right")}
               </Typography>
@@ -75,7 +75,7 @@ export default function Footer() {
               md={3}
               sx={{ order: { xs: 3, sm: 2, md: 2 } }} // Reverse order for mobile
             >
-              <Typography variant="h4" fontSize={24}>
+              <Typography variant="h4" fontSize={24} mb={1.5}>
                 {t("destinations")}
               </Typography>
 
@@ -107,7 +107,7 @@ export default function Footer() {
               md={2}
               sx={{ order: { xs: 2, sm: 3, md: 3 } }} // Reverse order for mobile
             >
-              <Typography variant="h4" fontSize={24}>
+              <Typography variant="h4" fontSize={24} mb={1.5}>
                 {t("social")}
               </Typography>
               <Box sx={{ display: "flex" }}>
@@ -125,20 +125,36 @@ export default function Footer() {
               md={2}
               sx={{ order: { xs: 1, sm: 1, md: 4 } }} // Reverse order for mobile
             >
-              <Typography variant="h4" fontSize={24}>
+              <Typography variant="h4" fontSize={24} mb={1.5}>
                 {t("about")}
               </Typography>
               <ul>
-                <Typography mb={1} fontSize={18} color={"black"}>
+                <Typography
+                  mb={1}
+                  fontSize={{ xs: "14px", md: "18px" }}
+                  color={"black"}
+                >
                   {t("about_us")}
                 </Typography>
-                <Typography mb={1} fontSize={18} color={"black"}>
+                <Typography
+                  mb={1}
+                  fontSize={{ xs: "14px", md: "18px" }}
+                  color={"black"}
+                >
                   {t("contact")}
                 </Typography>
-                <Typography mb={1} fontSize={18} color={"black"}>
+                <Typography
+                  mb={1}
+                  fontSize={{ xs: "14px", md: "18px" }}
+                  color={"black"}
+                >
                   {t("terms_of_use")}
                 </Typography>
-                <Typography mb={1} fontSize={18} color={"black"}>
+                <Typography
+                  mb={1}
+                  fontSize={{ xs: "14px", md: "18px" }}
+                  color={"black"}
+                >
                   {t("privacy_policy")}
                 </Typography>
               </ul>

@@ -7,7 +7,7 @@ export default function SingleArticle() {
   return (
     <Card sx={{ borderRadius: "16px", boxShadow: "none" }}>
       <CardMedia component="img" height="250" image="./test1.svg" />
-      <CardContent>
+      <CardContent sx={{ pl: 0 }}>
         <Typography gutterBottom fontSize={20} fontWeight={"bold"}>
           How to Overcome Creative Blocks & Find Inspiration
         </Typography>

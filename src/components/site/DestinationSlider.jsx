@@ -14,10 +14,10 @@ const DestinationSlider = ({ destinations }) => {
       <Swiper
         modules={[Navigation, A11y]}
         slidesPerView={4}
-        // navigation={{
-        //   nextEl: ".swiper-button-next",
-        //   prevEl: ".swiper-button-prev",
-        // }}
+        navigation={{
+          nextEl: ".next-btn",
+          prevEl: ".prev-btn",
+        }}
         breakpoints={{
           0: {
             slidesPerView: 2.5,

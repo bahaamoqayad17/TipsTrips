@@ -173,7 +173,7 @@ export const en = {
     enter_your_email: "Enter your email",
     send: "Send",
     my_trips: "My Trips",
-    choose_destination: "Choose Destination",
+    choose_a_destination: "Choose A Destination",
     where_to: "Where to?",
     choose_city_or_country: "Choose City or Country",
     settings: "Settings",
@@ -181,5 +181,6 @@ export const en = {
     my_subscriptions: "My Subscriptions",
     sign_out: "Sign Out",
     home: "Home",
+    popular_destinations: "Popular Destinations",
   },
 };

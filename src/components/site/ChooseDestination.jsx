@@ -30,11 +30,16 @@ export default function ChooseDestination({ countries }) {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        sx={{ outline: "2px #fff solid", px: 4, py: 1.5, fontSize: 18 }}
+        sx={{
+          outline: "2px #fff solid",
+          px: { xs: 2, md: 4 },
+          py: 1.5,
+          fontSize: 18,
+        }}
         style={open ? { backgroundColor: "#fff", color: "#000" } : {}}
         variant="contained"
       >
-        {t("choose_destination")}
+        {t("choose_a_destination")}
       </Button>
       <Menu
         id="basic-menu"
@@ -44,6 +49,16 @@ export default function ChooseDestination({ countries }) {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        PaperProps={{
+          sx: {
+            overflow: "visible",
+            width: { md: "14.5%", xs: "62%" },
+            mt: 0.4,
+            ml: 1,
+            borderRadius: "0px",
+            boxShadow: "0px 0px 10px 0px rgba(0,0,0,10%)",
+          },
+        }}
       >
         <Autocomplete
           options={countries.map((option) => option.name)}
@@ -51,8 +66,9 @@ export default function ChooseDestination({ countries }) {
             <TextField
               {...params}
               variant="outlined"
-              sx={{ width: 280, px: 1, my: 2 }}
+              sx={{ px: 1, my: 2 }}
               className="search-input"
+              fullWidth
               placeholder={t("choose_city_or_country")}
               InputProps={{
                 startAdornment: (

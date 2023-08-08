@@ -9,6 +9,8 @@ import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
+import { Heart } from "@/icons/Heart";
+import { HeartFilled } from "@/icons/HeartFilled";
 
 export default function SingleItenirary() {
   const { t } = useTranslation();
@@ -25,7 +27,7 @@ export default function SingleItenirary() {
         boxShadow: "0px 0px 20px 0px rgba(0,0,0,10%)",
       }}
     >
-      <CardMedia sx={{ height: 250 }} component="img" image="./test1.svg" />
+      <CardMedia sx={{ height: 295 }} component="img" image="./test1.svg" />
       <CardContent>
         <Typography
           gutterBottom
@@ -51,7 +53,7 @@ export default function SingleItenirary() {
         <Typography variant="body2" fontWeight={"bold"}>
           Estimate Itinerary Cost:
         </Typography>
-        <Typography variant="caption" color={"primary"}>
+        <Typography variant="caption" fontSize={"14px"} color={"primary"}>
           Free
         </Typography>
 
@@ -67,7 +69,7 @@ export default function SingleItenirary() {
             sx={{
               bgcolor: "#ADEDB1",
               borderRadius: "40px",
-              outline: "3px solid #fff",
+              outline: "2px solid #fff",
               p: 1,
               px: 2,
             }}
@@ -81,7 +83,7 @@ export default function SingleItenirary() {
             sx={{
               bgcolor: "#fff",
               borderRadius: "40px",
-              outline: "3px solid #ADEDB1",
+              outline: "2px solid #ADEDB1",
               p: 1,
               px: 2,
               display: "flex",
@@ -104,16 +106,25 @@ export default function SingleItenirary() {
         <Box
           sx={{
             position: "absolute",
-            top: 6,
-            right: 10,
+            top: checked ? 0 : -8,
+            right: checked ? 10 : 9,
           }}
         >
           <Checkbox
             checked={checked}
             onChange={handleCheckBox}
-            color="error"
-            icon={<FavoriteBorder fontSize="large" />}
-            checkedIcon={<Favorite fontSize="large" />}
+            icon={
+              <Heart
+                fontSize="large"
+                sx={{ width: "100px", height: "100px" }}
+              />
+            }
+            checkedIcon={
+              <HeartFilled
+                fontSize="large"
+                sx={{ width: "50px", height: "50px" }}
+              />
+            }
           />
         </Box>
       </CardContent>

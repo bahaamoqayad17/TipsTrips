@@ -71,14 +71,15 @@ const Page = () => {
   const { t } = useTranslation();
   return (
     <>
-      <header style={{ textAlign: "center" }}>
-        <Container sx={{ py: 10 }}>
+      <header className="header" style={{ textAlign: "center" }}>
+        <Container sx={{ py: { xs: 5, md: 10 } }}>
           <Box>
             <Typography
               variant="h1"
               mb={2}
-              fontSize={{ md: 60, xs: 30 }}
+              fontSize={{ md: 60, xs: 24 }}
               color="primary.200"
+              sx={{ px: { xs: 8, md: 0 } }}
             >
               {t("ready_to_start")}
             </Typography>
@@ -87,6 +88,7 @@ const Page = () => {
               mb={3}
               fontSize={{ md: 32, xs: 18 }}
               color="white"
+              sx={{ px: { xs: 5, md: 0 } }}
             >
               {t("ready_content")}
             </Typography>
@@ -115,20 +117,32 @@ const Page = () => {
       <Box>
         <Box sx={{ py: 5 }}>
           <Container>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: { xs: "20px", md: "36px" },
+                mb: { xs: 2, md: 5 },
+              }}
+            >
+              {t("popular_destinations")}
+            </Typography>
             <DestinationSlider destinations={destinations} />
           </Container>
         </Box>
 
-        <Box sx={{ pb: 5, display: { xs: "none", md: "block" } }}>
+        {/* <Box sx={{ pb: 5, display: { xs: "none", md: "block" } }}>
           <center>
             <img src="./advertisement.svg" alt="" />
           </center>
-        </Box>
+        </Box> */}
       </Box>
 
       <Box sx={{ backgroundColor: "#F5F5F5" }}>
         <Container sx={{ py: 5 }}>
-          <Typography variant="h3" mb={5}>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: { xs: "20px", md: "36px" }, mb: { xs: 2, md: 5 } }}
+          >
             {t("popular_itineraries")}
           </Typography>
 
@@ -164,15 +178,18 @@ const Page = () => {
         </Container>
       </Box>
 
-      <Box sx={{ pt: 5, display: { xs: "none", md: "block" } }}>
+      {/* <Box sx={{ pt: 5, display: { xs: "none", md: "block" } }}>
         <center>
           <img src="./advertisement.svg" alt="" />
         </center>
-      </Box>
+      </Box> */}
 
       <Box>
         <Container sx={{ py: 5 }}>
-          <Typography variant="h3" mb={5}>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: { xs: "20px", md: "36px" }, mb: { xs: 2, md: 5 } }}
+          >
             {t("latest_articles")}
           </Typography>
 
@@ -198,11 +215,11 @@ const Page = () => {
           </Grid>
         </Container>
       </Box>
-      <Box sx={{ pb: 5, display: { xs: "none", md: "block" } }}>
+      {/* <Box sx={{ pb: 5, display: { xs: "none", md: "block" } }}>
         <center>
           <img src="./advertisement.svg" alt="" />
         </center>
-      </Box>
+      </Box> */}
 
       <Box
         sx={{
@@ -212,7 +229,7 @@ const Page = () => {
         <Container>
           <Box
             sx={{
-              py: { md: 10, xs: 3 },
+              py: { md: 5.625, xs: 2 },
               px: { md: 5, lg: 10, xs: 3 },
               backgroundColor: "#2C2C2C",
               borderRadius: "16px",
@@ -224,18 +241,18 @@ const Page = () => {
           >
             <Typography
               variant="h1"
-              mb={2}
-              fontSize={{ xs: "24px", md: "42px" }}
+              mb={1}
+              fontSize={{ xs: "18px", md: "42px" }}
+              sx={{ px: { xs: 1, md: 0 } }}
               color={"white"}
             >
               {t("first_to_know")}
             </Typography>
             <Typography
               color={"white"}
-              width={"300px"}
               fontSize={{ xs: "14px", md: "16px" }}
               variant="body1"
-              mb={{ md: 7, xs: 2 }}
+              mb={{ md: 4, xs: 2 }}
             >
               {t("first_to_know_content")}
             </Typography>
@@ -252,7 +269,7 @@ const Page = () => {
                 sx={{
                   backgroundColor: "#fff",
                   borderRadius: "8px",
-                  width: { xs: "300px", md: "400px" },
+                  width: { xs: "330px", md: "400px" },
                   mb: 2,
                 }}
                 placeholder={t("enter_your_email")}
