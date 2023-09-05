@@ -140,7 +140,7 @@ function NavBar(props) {
                         textDecoration: "none",
                         fontWeight: "bold",
                       }}
-                      href={`/${item.link}`}
+                      href={`${item.link}`}
                     >
                       {t(item.title)}
                     </Link>

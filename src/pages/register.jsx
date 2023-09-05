@@ -9,13 +9,16 @@ import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import countryList from "react-select-country-list";
+import ReactFlagsSelect from "react-flags-select";
+import Portrait from "@/icons/Portrait";
 import Email from "@/icons/Email";
 
 const Title = styled("p")(({ theme }) => ({
@@ -55,6 +58,9 @@ const Submit = styled("div")(({ theme }) => ({
 const Page = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const options = useMemo(() => countryList().getData(), []);
+  const flags = useMemo(() => options.map((option) => option.value), []);
+
   return (
     <>
       <section>
@@ -62,7 +68,7 @@ const Page = () => {
           <Card
             sx={{ maxWidth: 468, m: "auto", border: "none", boxShadow: "none" }}
           >
-            <Title>{t("signin")}</Title>
+            <Title>{t("signup")}</Title>
 
             <center>
               <Image src="./login-facebook.svg" alt="" />
@@ -74,6 +80,48 @@ const Page = () => {
                 <SignIn>{t("sign_with")}</SignIn>
               </Divider>
             </center>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: { xs: "column", md: "row" },
+              }}
+            >
+              <Box>
+                <Label>{t("first_name")}</Label>
+                <TextField
+                  id="outlined-basic"
+                  variant="outlined"
+                  fullWidth
+                  placeholder="Bahaa"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Portrait />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+
+              <Box>
+                <Label>{t("last_name")}</Label>
+                <TextField
+                  id="outlined-basic"
+                  variant="outlined"
+                  fullWidth
+                  placeholder="Moqayad"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Portrait />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+            </Box>
 
             <Box>
               <Label>{t("email")}</Label>
@@ -89,6 +137,15 @@ const Page = () => {
                     </InputAdornment>
                   ),
                 }}
+              />
+            </Box>
+
+            <Box>
+              <Label>{t("country")}</Label>
+              <ReactFlagsSelect
+                selected={"PS"}
+                onSelect={(data) => console.log(data)}
+                countries={flags}
               />
             </Box>
 
@@ -118,21 +175,17 @@ const Page = () => {
               />
             </Box>
 
-            <Typography
-              fontSize={14}
-              fontWeight={400}
-              color="primary"
-              textAlign="right"
-              mt={1}
-            >
-              {t("forget_password")}
+            <Typography fontSize={14} fontWeight={400} color="#757575" mt={1}>
+              {t("password_advice")}
             </Typography>
 
-            <FormGroup>
+            <FormGroup sx={{ flexDirection: "row", alignItems: "center" }}>
               <FormControlLabel
+                sx={{ m: 0 }}
                 control={<Checkbox />}
-                label={t("remember_me")}
+                label={t("i_agree")}
               />
+              <span style={{ color: "#44A44C" }}> Terms&Conditions</span>
             </FormGroup>
 
             <Submit>
@@ -146,11 +199,11 @@ const Page = () => {
                 color="primary"
                 variant="contained"
               >
-                {t("login")}
+                {t("signup")}
               </Button>
 
               <Link style={{ marginTop: 20 }} href="/register">
-                {t("dont_have_account")}
+                {t("already_have_account")}
               </Link>
 
               <Link
@@ -160,9 +213,9 @@ const Page = () => {
                   fontWeight: "700",
                   color: "#44A44C",
                 }}
-                href="/register"
+                href="/login"
               >
-                {t("signup")}
+                {t("login")}
               </Link>
             </Submit>
           </Card>
