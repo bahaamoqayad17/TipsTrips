@@ -56,6 +56,7 @@ const Submit = styled("div")(({ theme }) => ({
 }));
 
 const Page = () => {
+  const [flag, setFlag] = useState("PS");
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const options = useMemo(() => countryList().getData(), []);
@@ -143,8 +144,8 @@ const Page = () => {
             <Box>
               <Label>{t("country")}</Label>
               <ReactFlagsSelect
-                selected={"PS"}
-                onSelect={(data) => console.log(data)}
+                selected={flag}
+                onSelect={(data) => setFlag}
                 countries={flags}
               />
             </Box>
