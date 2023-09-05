@@ -145,7 +145,7 @@ const Page = () => {
               <Label>{t("country")}</Label>
               <ReactFlagsSelect
                 selected={flag}
-                onSelect={(data) => setFlag}
+                onSelect={(data) => setFlag(data)}
                 countries={flags}
               />
             </Box>
