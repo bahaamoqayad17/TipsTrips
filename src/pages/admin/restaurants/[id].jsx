@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import countryList from "react-select-country-list";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { create, show, update } from "@/store/RestaurantsSlice";
+import { create, show, update } from "@/store/RestaurantSlice";
 import { useRouter } from "next/router";
 import Dropzone from "@/lib/Dropzone";
 import { handleImageChange } from "@/lib/Base64EnCode";
