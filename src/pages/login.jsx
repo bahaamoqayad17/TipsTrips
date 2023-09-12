@@ -17,8 +17,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Email from "@/icons/Email";
+import LoginFacebook from "@/icons/LoginFacebook";
 
-const Title = styled("p")(({ theme }) => ({
+const Title = styled("h1")(({ theme }) => ({
   color: "#2C2C2C",
   fontSize: 28,
   fontWeight: 700,
@@ -30,8 +31,8 @@ const Image = styled("img")(({ theme }) => ({
   width: "100%",
 }));
 
-const SignIn = styled("p")(({ theme }) => ({
-  color: "#C2C2C2",
+const SignIn = styled("h1")(({ theme }) => ({
+  color: "#484444",
   fontSize: 14,
   fontWeight: 400,
   textAlign: "center",
@@ -52,6 +53,28 @@ const Submit = styled("div")(({ theme }) => ({
   flexDirection: "column",
 }));
 
+const LoginByGoogle = styled("div")(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 20,
+}));
+
+const LoginWith = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  alignSelf: "stretch",
+  border: "1px solid #E0E0E0",
+  padding: "8px 16px",
+  marginBottom: 24,
+  cursor: "pointer",
+  "& p": {
+    color: "#2C2C2C",
+    fontSize: 18,
+    fontWeight: 600,
+  },
+}));
+
 const Page = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
@@ -65,12 +88,23 @@ const Page = () => {
             <Title>{t("signin")}</Title>
 
             <center>
-              <Image src="./login-facebook.svg" alt="" />
-              <Image src="./login-google.svg" alt="" />
+              <LoginWith>
+                <img src="/facebook-login.svg" alt="" />
+                <Typography sx={{ flex: "1 0 0" }}>
+                  {t("login_with_facebook")}
+                </Typography>
+              </LoginWith>
+
+              <LoginWith>
+                <img src="/login-google.svg" alt="" />
+                <Typography sx={{ flex: "1 0 0" }}>
+                  {t("login_with_google")}
+                </Typography>
+              </LoginWith>
             </center>
 
             <center>
-              <Divider textAlign="center">
+              <Divider sx={{ color: "#484444" }} textAlign="center">
                 <SignIn>{t("sign_with")}</SignIn>
               </Divider>
             </center>
@@ -82,6 +116,7 @@ const Page = () => {
                 variant="outlined"
                 fullWidth
                 placeholder="m.reyad.s@gmail.com"
+                type="email"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

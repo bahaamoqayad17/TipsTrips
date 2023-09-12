@@ -27,7 +27,7 @@ export default function SingleItenirary() {
         boxShadow: "0px 0px 20px 0px rgba(0,0,0,10%)",
       }}
     >
-      <CardMedia sx={{ height: 295 }} component="img" image="./test1.svg" />
+      <CardMedia sx={{ height: 295 }} component="img" image="/test1.svg" />
       <CardContent>
         <Typography
           gutterBottom
@@ -106,8 +106,8 @@ export default function SingleItenirary() {
         <Box
           sx={{
             position: "absolute",
-            top: checked ? 0 : -8,
-            right: checked ? 10 : 9,
+            top: 7,
+            right: 10,
           }}
         >
           <Checkbox
@@ -116,13 +116,13 @@ export default function SingleItenirary() {
             icon={
               <Heart
                 fontSize="large"
-                sx={{ width: "100px", height: "100px" }}
+                // sx={{ width: "50px", height: "50px" }}
               />
             }
             checkedIcon={
               <HeartFilled
                 fontSize="large"
-                sx={{ width: "50px", height: "50px" }}
+                // sx={{ width: "50px", height: "50px" }}
               />
             }
           />

@@ -2,7 +2,6 @@ import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -12,27 +11,21 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Checkbox from "@mui/material/Checkbox";
-import Favorite from "@mui/icons-material/Favorite";
 import Link from "next/link";
-import { HeartFilled } from "@/icons/HeartFilled";
 import { BorderHeart } from "@/icons/BorderHeart";
 
 const drawerWidth = 240;
 const navItems = [
   { title: "home", link: "/" },
-  { title: "itineraries", link: "/itineraries" },
+  { title: "itineraries", link: "/" },
   { title: "articles", link: "/articles" },
   { title: "my_trips", link: "/my-trips" },
-  { title: "contact", link: "/contact" },
+  { title: "contact", link: "/" },
 ];
 
 function NavBar(props) {
@@ -85,8 +78,15 @@ function NavBar(props) {
   return (
     <Box sx={{ display: "flex", height: "51px" }}>
       <CssBaseline />
-      <AppBar sx={{ backgroundColor: "#fff" }} elevation={0} component="nav">
-        <Toolbar>
+      <AppBar
+        sx={{
+          backgroundColor: "#fff",
+          boxShadow: "0px 0px 8px #c5c5c5",
+          zIndex: { xs: 1, md: 5000 },
+        }}
+        component="nav"
+      >
+        <Toolbar sx={{ px: { xs: 0, md: "16px" } }}>
           <IconButton
             sx={{
               display: { sm: "flex", xs: "flex", md: "none" },
@@ -103,7 +103,7 @@ function NavBar(props) {
               <BorderHeart fontSize="medium" color="black" sx={{ ml: 2 }} />
             </Box>
 
-            <img src="/logo-mobile.svg" alt="logo" />
+            <img width={"140px"} src="/logo-mobile.svg" alt="logo" />
           </IconButton>
 
           <Container>

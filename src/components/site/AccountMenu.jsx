@@ -7,12 +7,7 @@ import Divider from "@mui/material/Divider";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Checkbox from "@mui/material/Checkbox";
-import Favorite from "@mui/icons-material/Favorite";
 import Typography from "@mui/material/Typography";
-import { Heart } from "@/icons/Heart";
-import { HeartFilled } from "@/icons/HeartFilled";
 import { BorderHeart } from "@/icons/BorderHeart";
 import Link from "next/link";
 
@@ -44,12 +39,6 @@ export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const [checked, setChecked] = useState(false);
-
-  const handleCheckBox = () => {
-    setChecked(!checked);
-  };
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -64,9 +53,16 @@ export default function AccountMenu() {
           alignItems: "center",
         }}
       >
-        <Link href={"/favorites"} style={{ margin: "10px 10px 0 10px" }}>
-          <BorderHeart fontSize="large" />
-        </Link>
+        <Box display={{ xs: "none", md: "block" }}>
+          <Link
+            href={"/"}
+            style={{
+              margin: "10px 10px 0 10px",
+            }}
+          >
+            <BorderHeart fontSize="large" />
+          </Link>
+        </Box>
         <Tooltip title={t("settings")}>
           <Box
             onClick={handleClick}
@@ -95,7 +91,10 @@ export default function AccountMenu() {
               src={"./avatar.png"}
             />
             <Box
-              sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}
+              sx={{
+                display: { xs: "flex", md: "none" },
+                alignItems: "center",
+              }}
             >
               <Avatar sx={{ width: 40, height: 40 }} src={"./avatar.png"} />
 
@@ -118,14 +117,16 @@ export default function AccountMenu() {
           elevation: 0,
           sx: {
             overflow: "visible",
-            width: "200px",
-            mt: 2,
+            width: { xs: "160px", md: "200px" },
+            position: "relative",
+            mt: { md: 2, xs: 0 },
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
+            zIndex: 6000,
             borderRadius: "0px 0px 8px 8px",
             boxShadow: "0px 0px 10px 0px rgba(0,0,0,10%)",
           },
@@ -136,8 +137,12 @@ export default function AccountMenu() {
         {navItems.map((item, i) => (
           <>
             <MenuItem
-              sx={{ py: 0, fontSize: "14px" }}
-              color="black"
+              sx={{
+                py: 0,
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "#2C2C2C",
+              }}
               style={item.title === "sign_out" ? { color: "#44A44C" } : {}}
               key={item.title}
               onClick={handleClose}

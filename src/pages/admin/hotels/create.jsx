@@ -1,16 +1,18 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+import Autocomplete from "@mui/material/Autocomplete";
+import Select from "@mui/material/Select";
 import { useEffect, useState } from "react";
-import { create, show } from "@/store/HotelSlice";
-import { update } from "@/store/HotelSlice";
+import { create } from "@/store/HotelSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DashboardLayout from "@/components/Admin/DashboardLayout";
-import { useRouter } from "next/router";
 import { handleImageChange } from "@/lib/Base64EnCode";
+import CKEditor from "@/lib/CKEditor";
+import { fetchCountriesAndCites } from "@/store/CountrySlice";
 
 const style = {
   marginBottom: "30px",
@@ -41,22 +43,23 @@ const stars = [
 
 const suitable_for = [
   {
-    label: "Suitable For Couples And Families",
-    value: "Suitable for couples and families",
+    label: "couples_and_families",
+    value: 1,
   },
   {
-    label: "Suitable For Couples Only",
-    value: "Suitable for couples only",
+    label: "couples_only",
+    value: 2,
   },
 ];
 
 const Page = () => {
   const { t } = useTranslation();
-  const router = useRouter();
-  const { id } = router.query;
   const dispatch = useDispatch();
   const [item, setItem] = useState({});
   const [image, setImage] = useState(null);
+  const [editorLoaded, setEditorLoaded] = useState(false);
+  const [country, setCountry] = useState({});
+  const { countries } = useSelector(({ countries }) => countries);
 
   const handleChange = async (e) => {
     if (e.target.name === "image") {
@@ -75,88 +78,91 @@ const Page = () => {
     dispatch(create(item));
   };
 
+  useEffect(() => {
+    setEditorLoaded(true);
+    dispatch(fetchCountriesAndCites());
+  }, [dispatch]);
+
   return (
     <>
       <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
         <h1 style={style}>{t("hotel_create")}</h1>
-        <Typography variant="h6">{t("name")}</Typography>
-        <TextField
-          sx={style}
-          onChange={handleChange}
-          value={item?.name}
-          name="name"
-          required
-          fullWidth
-        />
         <Typography variant="h6">{t("name_ar")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.name_ar}
+          value={item?.name_en}
           name="name_ar"
           fullWidth
         />
 
-        <Typography variant="h6">{t("location")}</Typography>
+        <Typography variant="h6">{t("name_en")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.location}
-          name="location"
-          required
-          fullWidth
-        />
-
-        <Typography variant="h6">{t("location_ar")}</Typography>
-
-        <TextField
-          sx={style}
-          onChange={handleChange}
-          value={item?.location_ar}
-          name="location_ar"
+          value={item?.name_ar}
+          name="name_en"
           fullWidth
         />
 
         <Typography variant="h6">{t("stars")}</Typography>
 
-        <TextField
-          onChange={handleChange}
-          sx={style}
-          id="outlined-select-currency"
-          value={item?.stars}
-          required
-          select
-          fullWidth
-          name="stars"
-          autoComplete="stars"
-        >
-          {stars?.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+        <FormControl fullWidth>
+          <Select
+            native
+            name="stars"
+            value={item?.stars}
+            sx={style}
+            onChange={handleChange}
+          >
+            {stars?.map((option) => (
+              <option key={option.value} value={option.value}>
+                {t(option.label)}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+
+        <Box sx={style}>
+          <Typography variant="h6" sx={{ my: 5 }}>
+            {t("description_ar")}
+          </Typography>
+
+          <CKEditor
+            editorLoaded={editorLoaded}
+            onChange={(v) => setItem({ ...item, description_ar: v })}
+          />
+        </Box>
+        <Box sx={style}>
+          <Typography variant="h6" sx={{ my: 5 }}>
+            {t("description_en")}
+          </Typography>
+
+          <CKEditor
+            editorLoaded={editorLoaded}
+            onChange={(v) => setItem({ ...item, description_en: v })}
+          />
+        </Box>
+
         <Typography variant="h6">{t("suitable_for")}</Typography>
 
-        <TextField
-          onChange={handleChange}
-          sx={style}
-          id="outlined-select-currency"
-          value={item?.suitable_for}
-          required
-          select
-          fullWidth
-          name="suitable_for"
-          autoComplete="suitable_for"
-        >
-          {suitable_for?.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+        <FormControl fullWidth>
+          <Select
+            native
+            name="suitable"
+            sx={style}
+            value={item?.suitable}
+            onChange={handleChange}
+          >
+            {suitable_for?.map((option) => (
+              <option key={option.value} value={option.value}>
+                {t(option.label)}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
 
         <Typography variant="h6">{t("url")}</Typography>
 
@@ -168,6 +174,44 @@ const Page = () => {
           name="url"
           fullWidth
         />
+
+        <Typography variant="h6">{t("country")}</Typography>
+
+        <Autocomplete
+          options={countries}
+          getOptionLabel={(option) => option.name}
+          fullWidth
+          sx={style}
+          onChange={(e, val) => {
+            setCountry(val);
+            handleChange({ target: { name: "country_id", value: val?.id } });
+          }}
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
+        />
+
+        <Typography variant="h6">{t("city")}</Typography>
+
+        <Autocomplete
+          options={
+            countries.find((item) => country?.id === item.id)?.cities || []
+          }
+          getOptionLabel={(option) => option.name}
+          fullWidth
+          sx={style}
+          onChange={(e, val) =>
+            handleChange({ target: { name: "city_id", value: val?.id } })
+          }
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
+        />
+
+        <Typography variant="h6">{t("published_draft")}</Typography>
+
+        <FormControl fullWidth>
+          <Select native name="is_draft" sx={style} onChange={handleChange}>
+            <option value="0">{t("published")}</option>
+            <option value="1">{t("draft")}</option>
+          </Select>
+        </FormControl>
 
         <Typography variant="h6">{t("image")}</Typography>
 
@@ -195,8 +239,8 @@ const Page = () => {
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.owner}
-          name="owner"
+          value={item?.image_owner}
+          name="image_owner"
           fullWidth
         />
         <Typography variant="h6">{t("source_link")}</Typography>
@@ -204,8 +248,8 @@ const Page = () => {
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.source_link}
-          name="source_link"
+          value={item?.image_source_link}
+          name="image_source_link"
           fullWidth
         />
         <Button onClick={FormSubmit} variant="contained">

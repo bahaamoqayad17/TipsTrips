@@ -1,14 +1,16 @@
 import { removeArticle } from "@/store/ArticleSlice";
+import { deleteCity } from "@/store/CitySlice";
+import { deleteCountry } from "@/store/CountrySlice";
 import { removeDestination } from "@/store/DestinationSlice";
 import { removeHotel } from "@/store/HotelSlice";
 import { removeItinerary } from "@/store/ItinerarySlice";
 import { removeProperty } from "@/store/PropertiesSlice";
-import { removeRestaurant } from "@/store/RestaurantsSlice";
+import { removeRestaurant } from "@/store/RestaurantSlice";
 
 export const resources = {
   hotels: {
-    headers: ["name", "location", "name_ar", "location_ar", "suitable_for"],
-    fields: ["name", "location", "name_ar", "location_ar", "suitable_for"],
+    headers: ["name"],
+    fields: ["name"],
     remove: removeHotel,
   },
   articles: {
@@ -22,8 +24,8 @@ export const resources = {
     remove: removeProperty,
   },
   restaurants: {
-    headers: ["restaurant_name", "city", "halal", "country"],
-    fields: ["title", "city", "halal", "country"],
+    headers: ["restaurant_name"],
+    fields: ["name"],
     remove: removeRestaurant,
   },
   destinations: {
@@ -35,5 +37,19 @@ export const resources = {
     headers: ["itinerary_name", "itinerary_name_ar", "country"],
     fields: ["title", "title_ar", "country"],
     remove: removeItinerary,
+  },
+  users: {
+    headers: ["name", "email"],
+    fields: ["name", "email"],
+  },
+  countries: {
+    headers: ["name", "code"],
+    fields: ["name", "code"],
+    remove: deleteCountry,
+  },
+  cities: {
+    headers: ["name"],
+    fields: ["name"],
+    remove: deleteCity,
   },
 };

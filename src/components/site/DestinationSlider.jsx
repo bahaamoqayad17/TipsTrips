@@ -2,8 +2,7 @@ import { Navigation, A11y } from "swiper/modules";
 
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import Box from "@mui/material/Box";
-
-// Import Swiper styles
+import Typography from "@mui/material/Typography";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -37,12 +36,16 @@ const DestinationSlider = ({ destinations }) => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  fontWeight: "bold",
-                  fontSize: 20,
                 }}
               >
                 <img className="destination-image" src={item.image} alt="" />
-                {item.name}
+                <Typography
+                  fontSize={{ md: 24, xs: 18 }}
+                  color={"#2C2C2C"}
+                  fontWeight={700}
+                >
+                  {item.name}
+                </Typography>
               </Box>
             </SwiperSlide>
           </>

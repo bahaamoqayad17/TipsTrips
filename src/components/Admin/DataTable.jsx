@@ -55,7 +55,7 @@ export default function DataTable({
   return (
     <Card>
       <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
+        <Box>
           <Table>
             <TableHead>
               <TableRow>
@@ -64,7 +64,7 @@ export default function DataTable({
                     {t(header)}
                   </TableCell>
                 ))}
-                <TableCell>{t("actions")}</TableCell>
+                {model === "users" ? "" : <TableCell>{t("actions")}</TableCell>}
               </TableRow>
             </TableHead>
             {loading ? (
@@ -88,9 +88,13 @@ export default function DataTable({
                         {getFieldValue(item, field)}
                       </TableCell>
                     ))}
-                    <TableCell>
-                      <DynamicMenu model={model} item={item} />
-                    </TableCell>
+                    {model === "users" ? (
+                      ""
+                    ) : (
+                      <TableCell>
+                        <DynamicMenu model={model} item={item} />
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

@@ -3,10 +3,13 @@ import RootSlice from "./RootSlice";
 import HotelSlice from "./HotelSlice";
 import ArticleSlice from "./ArticleSlice";
 import PropertiesSlice from "./PropertiesSlice";
-import RestaurantsSlice from "./RestaurantsSlice";
+import RestaurantSlice from "./RestaurantSlice";
 import DestinationSlice from "./DestinationSlice";
 import ItinerarySlice from "./ItinerarySlice";
 import AuthSlice from "./AuthSlice";
+import CountrySlice from "./CountrySlice";
+import UserSlice from "./UserSlice";
+import CitySlice from "./CitySlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,9 +17,12 @@ export const store = configureStore({
     hotels: HotelSlice,
     articles: ArticleSlice,
     properties: PropertiesSlice,
-    restaurants: RestaurantsSlice,
+    restaurants: RestaurantSlice,
     destinations: DestinationSlice,
     auth: AuthSlice,
     itineraries: ItinerarySlice,
+    countries: CountrySlice,
+    users: UserSlice,
+    cities: CitySlice,
   },
 });

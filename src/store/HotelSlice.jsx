@@ -8,7 +8,7 @@ export const index = createAsyncThunk(
   async (params, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.post("Hotels", params);
+      const res = await axios.get("admin/hotels", { params });
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -21,7 +21,7 @@ export const indexHotels = createAsyncThunk(
   async (params, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.post("Hotels", params);
+      const res = await axios.get("admin/hotels", { params });
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -34,7 +34,7 @@ export const show = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.get(`Hotels/${id}`);
+      const res = await axios.get(`admin/hotels/${id}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -45,15 +45,8 @@ export const show = createAsyncThunk(
 export const create = createAsyncThunk(
   "hotels/create",
   async (item, { rejectWithValue, dispatch }) => {
-    try {
-      const res = await axios.post("Hotels/Create", item);
-      Router.push("/admin/hotels");
-
-      return res.data;
-    } catch (error) {
-      FireToast("error", error.response?.data?.message);
-      return rejectWithValue(error);
-    }
+    const res = await axios.post("admin/hotels", item);
+    return res.data;
   }
 );
 
@@ -61,7 +54,7 @@ export const removeHotel = createAsyncThunk(
   "hotels/delete",
   async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.delete(`Hotels/destroy/${id}`);
+      const res = await axios.delete(`admin/hotels/${id}`);
       dispatch(index());
       return { message: "success" };
     } catch (error) {
@@ -74,13 +67,11 @@ export const removeHotel = createAsyncThunk(
 export const update = createAsyncThunk(
   "hotels/update",
   async (item, { rejectWithValue, dispatch }) => {
-    try {
-      const res = await axios.post(`Hotels/Update/${item.id}`, item);
-      return res.data;
-    } catch (error) {
-      FireToast("error", error.response?.data?.message);
-      return rejectWithValue(error);
+    if (!item.image.startsWith("data:image")) {
+      delete item.image;
     }
+    const res = await axios.post(`admin/hotels/${item.id}`, item);
+    return res.data;
   }
 );
 
@@ -91,6 +82,7 @@ const initialState = {
   loading: false,
   error: null,
   success: null,
+  count: 0,
 };
 
 const HotelSlice = createSlice({
@@ -103,14 +95,16 @@ const HotelSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(index.fulfilled, (state, action) => {
-      state.all = action.payload.hotels;
-      state.count = action.payload.total;
+      state.all = action.payload.data.data;
+      state.count = action.payload.data.total;
       state.loading = false;
       state.error = null;
     });
     builder.addCase(create.fulfilled, (state, action) => {
-      FireToast("success", "Hotel Created Successfully");
-      Router.push("/admin/hotels");
+      if (action.payload.status) {
+        FireToast("success", "Hotel Created Successfully");
+        Router.push("/admin/hotels");
+      }
       state.loading = false;
       state.error = null;
     });
@@ -120,8 +114,10 @@ const HotelSlice = createSlice({
       state.error = null;
     });
     builder.addCase(update.fulfilled, (state, action) => {
-      FireToast("success", "Hotel Updated Successfully");
-      Router.push("/admin/hotels");
+      if (action.payload.status) {
+        FireToast("success", "Hotel Updated Successfully");
+        Router.push("/admin/hotels");
+      }
       state.loading = false;
       state.error = null;
     });

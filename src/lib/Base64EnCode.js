@@ -5,17 +5,7 @@ export const handleImageChange = (file) => {
     reader.onload = (event) => {
       const base64 = event.target.result;
 
-      const mimeRegex = /^data:(.*?);base64,/;
-      const match = base64.match(mimeRegex);
-      const mimeType = match ? match[1] : "";
-
-      const base64Data = base64.replace(mimeRegex, "");
-
-      const imageJson = {
-        data: base64Data,
-        mime: mimeType,
-      };
-      resolve(imageJson);
+      resolve(base64);
     };
 
     reader.onerror = (error) => {

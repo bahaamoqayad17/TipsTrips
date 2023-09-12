@@ -59,7 +59,7 @@ export default function Footer() {
               md={5}
               sx={{ order: { xs: 4, sm: 4, md: 1 } }}
             >
-              <img src="/logo.png" alt="logo" />
+              <img src="/logo.png" alt="logo" width={"200px"} />
               <Typography variant="body1" color="black">
                 {t("copy_right")}
               </Typography>
@@ -75,7 +75,7 @@ export default function Footer() {
               md={3}
               sx={{ order: { xs: 3, sm: 2, md: 2 } }} // Reverse order for mobile
             >
-              <Typography variant="h4" fontSize={24} mb={1.5}>
+              <Typography variant="h4" fontSize={20} mb={1.5}>
                 {t("destinations")}
               </Typography>
 
@@ -87,6 +87,7 @@ export default function Footer() {
                         textDecoration: "none",
                         color: "#000",
                         textTransform: "uppercase",
+                        fontSize: 17,
                       }}
                       href="/destinations"
                     >
@@ -107,12 +108,12 @@ export default function Footer() {
               md={2}
               sx={{ order: { xs: 2, sm: 3, md: 3 } }} // Reverse order for mobile
             >
-              <Typography variant="h4" fontSize={24} mb={1.5}>
+              <Typography variant="h4" fontSize={20} mb={1.5}>
                 {t("social")}
               </Typography>
               <Box sx={{ display: "flex" }}>
                 <FacebookIcon />
-                <Typography mb={1} variant="h6">
+                <Typography mb={1} fontWeight={"normal"} fontSize={17}>
                   {t("facebook")}
                 </Typography>
               </Box>
@@ -125,34 +126,34 @@ export default function Footer() {
               md={2}
               sx={{ order: { xs: 1, sm: 1, md: 4 } }} // Reverse order for mobile
             >
-              <Typography variant="h4" fontSize={24} mb={1.5}>
+              <Typography variant="h4" fontSize={20} mb={1.5}>
                 {t("about")}
               </Typography>
               <ul>
                 <Typography
                   mb={1}
-                  fontSize={{ xs: "14px", md: "18px" }}
+                  fontSize={{ xs: "14px", md: "17px" }}
                   color={"black"}
                 >
                   {t("about_us")}
                 </Typography>
                 <Typography
                   mb={1}
-                  fontSize={{ xs: "14px", md: "18px" }}
+                  fontSize={{ xs: "14px", md: "17px" }}
                   color={"black"}
                 >
                   {t("contact")}
                 </Typography>
                 <Typography
                   mb={1}
-                  fontSize={{ xs: "14px", md: "18px" }}
+                  fontSize={{ xs: "14px", md: "17px" }}
                   color={"black"}
                 >
                   {t("terms_of_use")}
                 </Typography>
                 <Typography
                   mb={1}
-                  fontSize={{ xs: "14px", md: "18px" }}
+                  fontSize={{ xs: "14px", md: "17px" }}
                   color={"black"}
                 >
                   {t("privacy_policy")}

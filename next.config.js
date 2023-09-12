@@ -2,7 +2,7 @@
 const nextConfig = {
   env: {
     APP_NAME: "TipsTrips Travel",
-    API_KEY: "https://test.tiba-bus.com/api/",
+    API_KEY: "https://tipstrips.net/api/",
   },
   reactStrictMode: true,
 };

@@ -52,7 +52,7 @@ export default function ChooseDestination({ countries }) {
         PaperProps={{
           sx: {
             overflow: "visible",
-            width: { md: "14.5%", xs: "62%" },
+            width: { md: "11.1%", xs: "48%" },
             mt: 0.4,
             ml: 1,
             borderRadius: "0px",
@@ -72,7 +72,13 @@ export default function ChooseDestination({ countries }) {
               placeholder={t("choose_city_or_country")}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start" sx={{ fontWeight: "bold" }}>
+                  <InputAdornment
+                    position="start"
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: { xs: "10px", md: "18px" },
+                    }}
+                  >
                     <SearchIcon /> {t("where_to")}
                   </InputAdornment>
                 ),
@@ -80,7 +86,6 @@ export default function ChooseDestination({ countries }) {
             />
           )}
         />
-        <Divider sx={{ backgroundColor: "#000" }} />
         <Box sx={{ mt: 1 }}>
           {countries.map((country) => (
             <>

@@ -13,6 +13,10 @@ a {
   color: inherit;
 }
 
+button {
+  text-transform: none !important;
+}
+
 .header {
   background-image: url("../../public/header.svg");
   height: 500px;
@@ -69,6 +73,25 @@ section {
   cursor: pointer;
 }
 
+.css-2oe6m4-MuiSlider-markLabel,
+.css-1kmqerr-MuiSlider-markLabel {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #2c2c2c !important;
+}
+
+.css-2oe6m4-MuiSlider-markLabel {
+  left: 94% !important;
+}
+
+.css-1kmqerr-MuiSlider-markLabel {
+  left: 6% !important;
+}
+
+.css-1a7vnsk-MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
+  top: 73px !important;
+}
+
 @media (max-width: 768px) {
   .header {
     background-image: url("../../public/header-mobile.svg");
@@ -82,8 +105,8 @@ section {
   }
 
   .destination-image {
-    height: 140px;
-    width: 140px;
+    height: 100%;
+    width: 100%;
   }
   .divider-account {
     margin: 0 !important;

@@ -79,7 +79,10 @@ const Page = () => {
               mb={2}
               fontSize={{ md: 60, xs: 24 }}
               color="primary.200"
-              sx={{ px: { xs: 8, md: 0 } }}
+              sx={{
+                px: { xs: 8, md: 0 },
+                textShadow: "4px 10px 8px rgba(0, 0, 0, 0.40)",
+              }}
             >
               {t("ready_to_start")}
             </Typography>
@@ -88,19 +91,25 @@ const Page = () => {
               mb={3}
               fontSize={{ md: 32, xs: 18 }}
               color="white"
-              sx={{ px: { xs: 5, md: 0 } }}
+              sx={{
+                px: { xs: 5, md: 0 },
+                textShadow: "4px 10px 8px rgba(0, 0, 0, 0.40)",
+              }}
             >
               {t("ready_content")}
             </Typography>
-            <Typography
-              variant="body1"
-              display={{ md: "block", xs: "none" }}
-              mb={5}
-              fontSize={18}
-              color="white"
-            >
-              {t("about_travel")}
-            </Typography>
+            <Box display={"flex"} justifyContent={"center"}>
+              <Typography
+                display={{ md: "block", xs: "none" }}
+                mb={5}
+                textAlign={"center"}
+                fontSize={18}
+                color="white"
+                maxWidth={680}
+              >
+                {t("about_travel")}
+              </Typography>
+            </Box>
           </Box>
           <Box display={{ xs: "none", md: "block" }}>
             <ChooseDestination countries={countries} />
