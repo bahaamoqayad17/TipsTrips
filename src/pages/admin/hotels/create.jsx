@@ -92,7 +92,7 @@ const Page = () => {
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.name_en}
+          value={item?.name_ar}
           name="name_ar"
           fullWidth
         />
