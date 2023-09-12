@@ -19,7 +19,7 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 
 import Dropzone from "@/lib/Dropzone";
 import countryList from "react-select-country-list";
-import { index } from "@/store/RestaurantsSlice";
+import { index } from "@/store/RestaurantSlice";
 import DynamicModal from "@/components/Admin/DynamicModal";
 import { Link } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
