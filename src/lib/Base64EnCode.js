@@ -1,17 +1,17 @@
+import Resizer from "react-image-file-resizer";
 export const handleImageChange = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      const base64 = event.target.result;
-
-      resolve(base64);
-    };
-
-    reader.onerror = (error) => {
-      reject(error);
-    };
-
-    reader.readAsDataURL(file);
+  return new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      2000,
+      2000,
+      "JPEG",
+      100,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "base64"
+    );
   });
 };

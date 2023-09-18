@@ -62,6 +62,8 @@ const LoginWith = styled("div")(({ theme }) => ({
   border: "1px solid #E0E0E0",
   padding: "8px 16px",
   marginBottom: 24,
+  backgroundColor: "#f5f5f5",
+  borderRadius: "5px",
   cursor: "pointer",
   "& p": {
     color: "#2C2C2C",

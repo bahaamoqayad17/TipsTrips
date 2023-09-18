@@ -49,10 +49,9 @@ export default function Dropzone(props) {
     onDrop: async (acceptedFiles) => {
       const updatedOwners = await Promise.all(
         acceptedFiles.map(async (file) => {
-          const base64 = await handleImageChange(file);
           return {
-            gallery: base64,
-            image: Object.assign(file, {
+            image: await handleImageChange(file),
+            imagePreview: Object.assign(file, {
               preview: URL.createObjectURL(file),
             }),
           };
@@ -66,22 +65,18 @@ export default function Dropzone(props) {
   const deleteFile = (fileName, fileGallery) => {
     if (fileName) {
       props.setOwners((prevOwners) =>
-        prevOwners.filter((owner) => owner.image !== fileName)
+        prevOwners.filter((owner) => owner.imagePreview !== fileName)
       );
     }
     if (fileGallery) {
       props.setOwners((prevOwners) =>
-        prevOwners.filter((owner) => owner.gallery.url !== fileGallery)
+        prevOwners.filter((owner) => owner.imagePreview.url !== fileGallery)
       );
     }
   };
 
   const handleOpenModal = (file) => {
-    if (file.image) {
-      setSelectedFile(file.image);
-    } else {
-      setSelectedFile(file);
-    }
+    setSelectedFile(file);
     setOpenModal(true);
   };
 
@@ -93,14 +88,14 @@ export default function Dropzone(props) {
           setOpenModal={setOpenModal}
           open={openModal}
           model={"owners"}
-          image={selectedFile}
+          item={selectedFile}
           owners={props.owners}
         />
-        <div style={thumb} key={file.source_link}>
+        <div style={thumb} key={file}>
           <div style={thumbInner}>
             <img
               src={
-                file?.gallery?.url ? file?.gallery?.url : file?.image?.preview
+                file?.image_url ? file?.image_url : file?.imagePreview?.preview
               }
               style={img}
               onClick={() => handleOpenModal(file)}
@@ -110,7 +105,7 @@ export default function Dropzone(props) {
         </div>
         <Button
           variant="contained"
-          onClick={() => deleteFile(file.image, file?.gallery?.url)}
+          onClick={() => deleteFile(file.imagePreview, file?.image?.image_url)}
         >
           {t("delete")}
         </Button>

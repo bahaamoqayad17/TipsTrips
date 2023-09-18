@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import DashboardLayout from "@/components/Admin/DashboardLayout";
 import { handleImageChange } from "@/lib/Base64EnCode";
-import CKEditor from "@/lib/CKEditor";
 import { fetchCountriesAndCites } from "@/store/CountrySlice";
 
 const style = {
@@ -57,7 +56,6 @@ const Page = () => {
   const dispatch = useDispatch();
   const [item, setItem] = useState({});
   const [image, setImage] = useState(null);
-  const [editorLoaded, setEditorLoaded] = useState(false);
   const [country, setCountry] = useState({});
   const { countries } = useSelector(({ countries }) => countries);
 
@@ -79,13 +77,21 @@ const Page = () => {
   };
 
   useEffect(() => {
-    setEditorLoaded(true);
-    dispatch(fetchCountriesAndCites());
+    if (countries.length === 0) {
+      dispatch(fetchCountriesAndCites());
+    }
   }, [dispatch]);
 
   return (
     <>
-      <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
+      <Box
+        sx={{
+          p: { md: 8, xs: 4 },
+          backgroundColor: "#fff",
+          borderRadius: "15px",
+          my: 5,
+        }}
+      >
         <h1 style={style}>{t("hotel_create")}</h1>
         <Typography variant="h6">{t("name_ar")}</Typography>
 
@@ -125,26 +131,29 @@ const Page = () => {
           </Select>
         </FormControl>
 
-        <Box sx={style}>
-          <Typography variant="h6" sx={{ my: 5 }}>
-            {t("description_ar")}
-          </Typography>
+        <Typography variant="h6">{t("description_ar")}</Typography>
 
-          <CKEditor
-            editorLoaded={editorLoaded}
-            onChange={(v) => setItem({ ...item, description_ar: v })}
-          />
-        </Box>
-        <Box sx={style}>
-          <Typography variant="h6" sx={{ my: 5 }}>
-            {t("description_en")}
-          </Typography>
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.description_ar}
+          name="description_ar"
+          multiline
+          rows={4}
+          fullWidth
+        />
 
-          <CKEditor
-            editorLoaded={editorLoaded}
-            onChange={(v) => setItem({ ...item, description_en: v })}
-          />
-        </Box>
+        <Typography variant="h6">{t("description_en")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.description_en}
+          name="description_en"
+          multiline
+          rows={4}
+          fullWidth
+        />
 
         <Typography variant="h6">{t("suitable_for")}</Typography>
 
@@ -164,7 +173,7 @@ const Page = () => {
           </Select>
         </FormControl>
 
-        <Typography variant="h6">{t("url")}</Typography>
+        <Typography variant="h6">{t("affiliate_url")}</Typography>
 
         <TextField
           sx={style}
@@ -172,6 +181,17 @@ const Page = () => {
           required
           value={item?.url}
           name="url"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("thumbnail_url")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          required
+          value={item?.thumbnail_url}
+          name="thumbnail_url"
           fullWidth
         />
 
@@ -203,15 +223,6 @@ const Page = () => {
           }
           renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
-
-        <Typography variant="h6">{t("published_draft")}</Typography>
-
-        <FormControl fullWidth>
-          <Select native name="is_draft" sx={style} onChange={handleChange}>
-            <option value="0">{t("published")}</option>
-            <option value="1">{t("draft")}</option>
-          </Select>
-        </FormControl>
 
         <Typography variant="h6">{t("image")}</Typography>
 
@@ -252,6 +263,21 @@ const Page = () => {
           name="image_source_link"
           fullWidth
         />
+
+        <Typography variant="h6">{t("published_draft")}</Typography>
+
+        <FormControl fullWidth>
+          <Select
+            native
+            name="is_draft"
+            value={item?.is_draft}
+            sx={style}
+            onChange={handleChange}
+          >
+            <option value="1">{t("draft")}</option>
+            <option value="0">{t("published")}</option>
+          </Select>
+        </FormControl>
         <Button onClick={FormSubmit} variant="contained">
           {t("save")}
         </Button>

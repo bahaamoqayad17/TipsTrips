@@ -78,7 +78,7 @@ export const update = createAsyncThunk(
 const initialState = {
   all: [],
   hotels: [],
-  one: {},
+  hotel: {},
   loading: false,
   error: null,
   success: null,
@@ -121,14 +121,9 @@ const HotelSlice = createSlice({
       state.loading = false;
       state.error = null;
     });
-    builder.addCase(indexHotels.fulfilled, (state, action) => {
-      state.hotels = action.payload.hotels;
-      state.count = action.payload.total;
-      state.loading = false;
-      state.error = null;
-    });
     builder.addCase(show.fulfilled, (state, action) => {
-      state.one = action.payload.Hotels;
+      console.log(action.payload.data);
+      state.hotel = action.payload.data;
       state.loading = false;
       state.error = null;
     });

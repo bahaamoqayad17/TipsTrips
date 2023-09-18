@@ -4,21 +4,16 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
-
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { create } from "@/store/RestaurantSlice";
-import { useRouter } from "next/router";
 import Dropzone from "@/lib/Dropzone";
 import { handleImageChange } from "@/lib/Base64EnCode";
 import { fetchCountriesAndCites } from "@/store/CountrySlice";
-import CKEditor from "@/lib/CKEditor";
 
 const style = {
   marginBottom: "30px",
@@ -31,7 +26,6 @@ const Page = () => {
   const [owners, setOwners] = useState([]);
   const [image, setImage] = useState(null);
   const [country, setCountry] = useState({});
-  const [editorLoaded, setEditorLoaded] = useState(false);
 
   const { countries } = useSelector(({ countries }) => countries);
 
@@ -50,17 +44,23 @@ const Page = () => {
   };
 
   useEffect(() => {
-    setItem({ ...item, datee: owners });
+    setItem({ ...item, images: owners });
   }, [owners]);
 
   useEffect(() => {
-    setEditorLoaded(true);
-    dispatch(fetchCountriesAndCites());
+    if (countries.length === 0) dispatch(fetchCountriesAndCites());
   }, []);
 
   return (
     <>
-      <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
+      <Box
+        sx={{
+          p: { md: 8, xs: 4 },
+          backgroundColor: "#fff",
+          borderRadius: "15px",
+          my: 5,
+        }}
+      >
         <h1 style={style}>{t("restaurant_create")}</h1>
 
         <Typography variant="h6">{t("name_ar")}</Typography>
@@ -83,51 +83,33 @@ const Page = () => {
           fullWidth
         />
 
-        <Typography variant="h6">{t("countries")}</Typography>
+        <Typography variant="h6">{t("country")}</Typography>
 
         <Autocomplete
-          multiple
-          id="tags-outlined"
           options={countries}
           getOptionLabel={(option) => option.name}
+          fullWidth
+          sx={style}
           onChange={(e, val) => {
             setCountry(val);
-            handleChange({
-              target: {
-                name: "country_id",
-                value: val?.map((item) => item.id),
-              },
-            });
+            handleChange({ target: { name: "country_id", value: val?.id } });
           }}
-          style={style}
-          name="country"
-          filterSelectedOptions
-          renderInput={(params) => <TextField {...params} name="country" />}
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
 
-        <Typography variant="h6">{t("cities")}</Typography>
+        <Typography variant="h6">{t("city")}</Typography>
 
         <Autocomplete
-          multiple
-          id="tags-outlined"
           options={
-            countries.find((item) => country.find((con) => con.id == item.id))
-              ?.cities || []
+            countries.find((item) => country?.id === item.id)?.cities || []
           }
           getOptionLabel={(option) => option.name}
-          onChange={(e, val) => {
-            setCountry(val);
-            handleChange({
-              target: {
-                name: "city_id",
-                value: val?.map((item) => item.id),
-              },
-            });
-          }}
-          style={style}
-          name="country"
-          filterSelectedOptions
-          renderInput={(params) => <TextField {...params} name="country" />}
+          fullWidth
+          sx={style}
+          onChange={(e, val) =>
+            handleChange({ target: { name: "city_id", value: val?.id } })
+          }
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
 
         <Typography variant="h6">{t("longitude")}</Typography>
@@ -152,26 +134,29 @@ const Page = () => {
           fullWidth
         />
 
-        <Box sx={style}>
-          <Typography variant="h6" sx={{ my: 5 }}>
-            {t("description_ar")}
-          </Typography>
+        <Typography variant="h6">{t("description_ar")}</Typography>
 
-          <CKEditor
-            editorLoaded={editorLoaded}
-            onChange={(v) => setItem({ ...item, description_ar: v })}
-          />
-        </Box>
-        <Box sx={style}>
-          <Typography variant="h6" sx={{ my: 5 }}>
-            {t("description_en")}
-          </Typography>
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.description_ar}
+          name="description_ar"
+          multiline
+          rows={5}
+          fullWidth
+        />
 
-          <CKEditor
-            editorLoaded={editorLoaded}
-            onChange={(v) => setItem({ ...item, description_en: v })}
-          />
-        </Box>
+        <Typography variant="h6">{t("description_en")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.description_en}
+          name="description_en"
+          multiline
+          rows={5}
+          fullWidth
+        />
 
         <Typography variant="h6">{t("halal")}</Typography>
 
@@ -187,7 +172,7 @@ const Page = () => {
           <Dropzone setOwners={setOwners} owners={owners} />
         </Box>
 
-        <Typography variant="h6">{t("featured_image")}</Typography>
+        <Typography variant="h6">{t("image")}</Typography>
 
         <input
           type="file"

@@ -2,58 +2,50 @@ import Head from "next/head";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SvgIcon from "@mui/material/SvgIcon";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-
 import Search from "@mui/icons-material/Search";
-
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { index } from "@/store/ArticleSlice";
+import { fetchCountries } from "@/store/CountrySlice";
 import DashboardLayout from "@/components/Admin/DashboardLayout";
 import DataTable from "@/components/Admin/DataTable";
-import Autocomplete from "@mui/material/Autocomplete";
-import { fetchCountriesAndCites } from "@/store/CountrySlice";
-import { useRouter } from "next/router";
+import Button from "@mui/material/Button";
+import Router from "next/router";
 const Page = () => {
-  const { count, all, loading } = useSelector(({ articles }) => articles);
-  const { countries } = useSelector(({ countries }) => countries);
+  const { count, countries, loading } = useSelector(
+    ({ countries }) => countries
+  );
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const getPagination = (page, limit) => {
     page++;
-    dispatch(index({ page, per_page: limit }));
+    dispatch(fetchCountries({ page, per_page: limit }));
   };
-  const router = useRouter();
 
   const search = (e) => {
     const value = e.target.value;
     if (value) {
       setTimeout(() => {
-        dispatch(index({ name: value }));
+        dispatch(fetchCountries({ name: value }));
       }, 500);
     } else {
-      dispatch(index());
+      dispatch(fetchCountries());
     }
   };
 
   useEffect(() => {
-    dispatch(index());
-    if (countries.length === 0) dispatch(fetchCountriesAndCites());
+    dispatch(fetchCountries());
   }, []);
 
   return (
     <>
       <Head>
-        <title>{`${process.env.APP_NAME} | Articles`}</title>
+        <title>{`${process.env.APP_NAME} | Countries`}</title>
       </Head>
       <Box
         component="main"
@@ -74,31 +66,24 @@ const Page = () => {
               }}
             >
               <Typography sx={{ m: 1 }} variant="h3">
-                {t("all_articles")}
+                {t("all_countries")}
               </Typography>
               <Box sx={{ m: 1 }}>
                 <Button
-                  onClick={() => router.push("articles/create")}
+                  onClick={() => Router.push("countries/create")}
                   color="primary"
                   variant="contained"
                 >
-                  {t("add_article")}
+                  {t("add_country")}
                 </Button>
               </Box>
             </Box>
-
             <Box sx={{ mt: 3 }}>
               <Card>
                 <CardContent>
-                  <Box
-                    display={"flex"}
-                    justifyContent={"space-between"}
-                    flexDirection={{ xs: "column", md: "row" }}
-                  >
+                  <Box sx={{ maxWidth: 500 }}>
                     <TextField
                       onChange={(e) => search(e)}
-                      fullWidth
-                      sx={{ my: 1 }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -108,41 +93,9 @@ const Page = () => {
                           </InputAdornment>
                         ),
                       }}
-                      placeholder={t("search_articles")}
+                      placeholder={t("search_countries")}
                       variant="outlined"
                     />
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <Autocomplete
-                      sx={{ my: 1 }}
-                      fullWidth
-                      options={countries}
-                      getOptionLabel={(option) => option.name}
-                      onChange={(e, value) => {
-                        dispatch(index({ country_id: value?.id }));
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={t("country")}
-                          variant="outlined"
-                        />
-                      )}
-                    />
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                    <FormControl fullWidth sx={{ my: 1 }}>
-                      <InputLabel>{t("published")}</InputLabel>
-                      <Select
-                        native
-                        name="is_draft"
-                        onChange={(e) => {
-                          dispatch(index({ is_draft: e.target.value }));
-                        }}
-                        label={t("published")}
-                      >
-                        <option value="0">{t("published")}</option>
-                        <option value="1">{t("draft")}</option>
-                      </Select>
-                    </FormControl>
                   </Box>
                 </CardContent>
               </Card>
@@ -151,9 +104,9 @@ const Page = () => {
           <Box sx={{ mt: 3 }}>
             <DataTable
               getPagination={getPagination}
-              model={"articles"}
+              model={"countries"}
               loading={loading}
-              items={all}
+              items={countries}
               count={count}
             />
           </Box>

@@ -53,7 +53,7 @@ export const update = createAsyncThunk(
 const initialState = {
   all: [],
   restaurants: [],
-  one: {},
+  restaurant: {},
   loading: false,
   error: null,
   success: null,
@@ -97,7 +97,7 @@ const RestaurantSlice = createSlice({
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
-      state.one = action.payload.Restaurants;
+      state.restaurant = action.payload.data;
       state.loading = false;
       state.error = null;
     });

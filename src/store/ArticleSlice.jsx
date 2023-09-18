@@ -8,7 +8,7 @@ export const index = createAsyncThunk(
   async (params, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.post("Articles", params);
+      const res = await axios.get("admin/articles", { params });
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -21,7 +21,7 @@ export const show = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.get(`Articles/${id}`);
+      const res = await axios.get(`admin/articles/${id}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -33,7 +33,7 @@ export const create = createAsyncThunk(
   "articles/create",
   async (item, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post("Articles/Create", item);
+      const res = await axios.post("admin/articles", item);
       return res.data;
     } catch (error) {
       FireToast("error", error.response?.data?.message);
@@ -46,7 +46,7 @@ export const removeArticle = createAsyncThunk(
   "articles/delete",
   async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.delete(`Articles/destroy/${id}`);
+      const res = await axios.delete(`admin/articles/${id}`);
       dispatch(index());
       return { message: "success" };
     } catch (error) {
@@ -60,7 +60,7 @@ export const update = createAsyncThunk(
   "articles/update",
   async (item, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post(`Articles/Update/${item.id}`, item);
+      const res = await axios.post(`admin/articles/${item.id}`, item);
       return res.data;
     } catch (error) {
       FireToast("error", error.response?.data?.message);
@@ -71,14 +71,14 @@ export const update = createAsyncThunk(
 
 const initialState = {
   all: [],
-  one: {},
+  article: {},
   loading: false,
   error: null,
   success: null,
 };
 
 const ArticleSlice = createSlice({
-  name: "hotels",
+  name: "articles",
   initialState,
   reducers: {
     startLoading: (state) => {
@@ -87,8 +87,8 @@ const ArticleSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(index.fulfilled, (state, action) => {
-      state.all = action.payload.articles;
-      state.count = action.payload.total;
+      state.all = action.payload.data.data;
+      state.count = action.payload.data.total;
       state.loading = false;
       state.error = null;
     });
@@ -110,7 +110,7 @@ const ArticleSlice = createSlice({
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
-      state.one = action.payload.Article;
+      state.article = action.payload.data;
       state.loading = false;
       state.error = null;
     });

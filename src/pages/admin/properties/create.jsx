@@ -3,14 +3,16 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Typography from "@mui/material/Typography";
-import { useEffect, useMemo, useState } from "react";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import countryList from "react-select-country-list";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { create } from "@/store/PropertiesSlice";
 import Dropzone from "@/lib/Dropzone";
 import { Button } from "@mui/material";
 import { handleImageChange } from "@/lib/Base64EnCode";
+import { fetchCountriesAndCites } from "@/store/CountrySlice";
 
 const style = {
   marginBottom: "30px",
@@ -20,19 +22,15 @@ const Page = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const options = useMemo(() => countryList().getData(), []);
   const [item, setItem] = useState({});
   const [owners, setOwners] = useState([]);
   const [image, setImage] = useState("");
-
-  const handleAutocompleteChange = (event, value) => {
-    const selectedCountries = value.map((option) => option.label).join(",");
-    setItem({ ...item, country: selectedCountries });
-  };
+  const [country, setCountry] = useState({});
+  const { countries } = useSelector(({ countries }) => countries);
 
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
-    if (name === "featured_image") {
+    if (name === "image") {
       setImage(files[0]);
       setItem({ ...item, [name]: await handleImageChange(files[0]) });
     } else {
@@ -40,64 +38,93 @@ const Page = () => {
     }
   };
   const handleSubmit = () => {
-    setItem({ ...item, datee: owners });
+    setItem({ ...item, images: owners });
     dispatch(create(item));
   };
 
   useEffect(() => {
-    setItem({ ...item, datee: owners });
+    setItem({ ...item, images: owners });
   }, [owners]);
+
+  useEffect(() => {
+    if (countries.length === 0) {
+      dispatch(fetchCountriesAndCites());
+    }
+  }, []);
 
   return (
     <>
-      <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
+      <Box
+        sx={{
+          p: { md: 8, xs: 4 },
+          backgroundColor: "#fff",
+          borderRadius: "15px",
+          my: 5,
+        }}
+      >
         <h1 style={style}>{t("property_create")}</h1>
 
-        <Typography variant="h6">{t("property_name")}</Typography>
+        <Typography variant="h6">{t("name_ar")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.title}
-          name="title"
+          value={item?.name_ar}
+          name="name_ar"
           fullWidth
         />
 
-        <Typography variant="h6">{t("property_name_ar")}</Typography>
+        <Typography variant="h6">{t("name_en")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.title_ar}
-          name="title_ar"
+          value={item?.name_en}
+          name="name_en"
           fullWidth
         />
 
-        <>
-          <Typography variant="h6">{t("countries")}</Typography>
-          <Autocomplete
-            multiple
-            id="tags-outlined"
-            options={options}
-            required
-            getOptionLabel={(option) => option.label}
-            onChange={handleAutocompleteChange}
-            filterSelectedOptions
-            name="country"
-            renderInput={(params) => (
-              <TextField {...params} required name="country" />
-            )}
-          />
-        </>
+        <Typography variant="h6">{t("live_camera_url")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.live_camera_url}
+          name="live_camera_url"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("countries")}</Typography>
+        <Autocomplete
+          id="tags-outlined"
+          options={countries}
+          required
+          sx={style}
+          getOptionLabel={(option) => option.name}
+          onChange={(e, val) => {
+            setCountry(val);
+            setItem({ ...item, country_id: val.id });
+          }}
+          filterSelectedOptions
+          name="country"
+          renderInput={(params) => (
+            <TextField {...params} required name="country" />
+          )}
+        />
 
         <Typography variant="h6">{t("city")}</Typography>
 
-        <TextField
-          sx={style}
-          onChange={handleChange}
-          value={item?.city}
-          name="city"
+        <Autocomplete
+          options={
+            countries.find((item) => country?.id === item.id)?.cities || []
+          }
+          getOptionLabel={(option) => option.name}
           fullWidth
+          sx={style}
+          onChange={(e, val) =>
+            handleChange({ target: { name: "city_id", value: val?.id } })
+          }
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
 
         <Typography variant="h6">{t("ticket_url")}</Typography>
@@ -154,13 +181,23 @@ const Page = () => {
           fullWidth
         />
 
-        <Typography variant="h6">{t("geo_location")}</Typography>
+        <Typography variant="h6">{t("geo_location_ar")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.geo_location}
-          name="geo_location"
+          value={item?.geo_location_ar}
+          name="geo_location_ar"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("geo_location_en")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.geo_location_en}
+          name="geo_location_en"
           fullWidth
         />
 
@@ -187,44 +224,53 @@ const Page = () => {
           fullWidth
         />
 
-        <Typography variant="h6">{t("duration")}</Typography>
+        <Typography variant="h6">{t("duration_visit_hours")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.duration_of_the_visit}
-          name="duration_of_the_visit"
+          value={item?.duration_visit_hours}
+          name="duration_visit_hours"
+          type="number"
           fullWidth
         />
 
-        <Typography variant="h6">{t("notes")}</Typography>
+        <Typography variant="h6">{t("duration_visit_minutes")}</Typography>
 
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.duration_visit_minutes}
+          name="duration_visit_minutes"
+          type="number"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("notes_ar")}</Typography>
         <TextField
           onChange={handleChange}
           sx={style}
           id="outlined-multiline-flexible"
-          name="notes_for_things_to_do"
+          name="notes_ar"
           multiline
           minRows={5}
           fullWidth
-          value={item?.notes_for_things_to_do}
+          value={item?.notes_ar}
         />
 
-        <Typography variant="h6">{t("description")}</Typography>
-
+        <Typography variant="h6">{t("notes_en")}</Typography>
         <TextField
           onChange={handleChange}
           sx={style}
           id="outlined-multiline-flexible"
-          name="description"
+          name="notes_en"
           multiline
           minRows={5}
           fullWidth
-          value={item?.description}
+          value={item?.notes_en}
         />
 
         <Typography variant="h6">{t("description_ar")}</Typography>
-
         <TextField
           onChange={handleChange}
           sx={style}
@@ -236,6 +282,19 @@ const Page = () => {
           value={item?.description_ar}
         />
 
+        <Typography variant="h6">{t("description_en")}</Typography>
+
+        <TextField
+          onChange={handleChange}
+          sx={style}
+          id="outlined-multiline-flexible"
+          name="description_en"
+          multiline
+          minRows={5}
+          fullWidth
+          value={item?.description_en}
+        />
+
         <Box>
           <Typography variant="h6">{t("gallery")}</Typography>
 
@@ -243,11 +302,11 @@ const Page = () => {
         </Box>
 
         <Box>
-          <Typography variant="h6">{t("featured_image")}</Typography>
+          <Typography variant="h6">{t("image")}</Typography>
 
           <input
             type="file"
-            name="featured_image"
+            name="image"
             multiple
             style={style}
             onChange={handleChange}
@@ -266,26 +325,41 @@ const Page = () => {
 
           <br />
 
-          <Typography variant="h6">{t("source_link")}</Typography>
+          <Typography variant="h6">{t("image_source_link")}</Typography>
 
           <TextField
             sx={style}
             onChange={handleChange}
-            value={item?.source_link}
-            name="source_link"
+            value={item?.image_source_link}
+            name="image_source_link"
             fullWidth
           />
 
-          <Typography variant="h6">{t("owner")}</Typography>
+          <Typography variant="h6">{t("image_owner")}</Typography>
 
           <TextField
             sx={style}
             onChange={handleChange}
-            value={item?.owner}
-            name="owner"
+            value={item?.image_owner}
+            name="image_owner"
             fullWidth
           />
         </Box>
+
+        <Typography variant="h6">{t("published_draft")}</Typography>
+
+        <FormControl fullWidth>
+          <Select
+            native
+            name="is_draft"
+            value={item?.is_draft}
+            sx={style}
+            onChange={handleChange}
+          >
+            <option value="1">{t("draft")}</option>
+            <option value="0">{t("published")}</option>
+          </Select>
+        </FormControl>
         <Button onClick={handleSubmit} variant="contained">
           {t("save")}
         </Button>

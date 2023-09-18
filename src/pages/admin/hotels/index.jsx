@@ -47,7 +47,7 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(index());
-    dispatch(fetchCountriesAndCites());
+    if (countries.length === 0) dispatch(fetchCountriesAndCites());
   }, []);
 
   return (

@@ -248,7 +248,14 @@ const Page = (props) => {
 
   return (
     <>
-      <Box sx={{ p: 8, backgroundColor: "#fff", borderRadius: "15px", my: 5 }}>
+      <Box
+        sx={{
+          p: { md: 8, xs: 4 },
+          backgroundColor: "#fff",
+          borderRadius: "15px",
+          my: 5,
+        }}
+      >
         <h1 style={style}>{t("itinerary_create")}</h1>
 
         <Typography variant="h6">{t("itinerary_title")}</Typography>

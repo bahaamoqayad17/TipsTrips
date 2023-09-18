@@ -77,11 +77,14 @@ const Page = () => {
             <Typography
               variant="h1"
               mb={2}
-              fontSize={{ md: 60, xs: 24 }}
+              fontSize={{ md: 60, xs: 37 }}
               color="primary.200"
               sx={{
                 px: { xs: 8, md: 0 },
                 textShadow: "4px 10px 8px rgba(0, 0, 0, 0.40)",
+                paddingLeft: { xs: "20px", md: 0 },
+                paddingRight: { xs: "20px", md: 0 },
+                lineHeight: 1.1,
               }}
             >
               {t("ready_to_start")}
@@ -89,7 +92,7 @@ const Page = () => {
             <Typography
               variant="h3"
               mb={3}
-              fontSize={{ md: 32, xs: 18 }}
+              fontSize={{ md: 32, xs: 20 }}
               color="white"
               sx={{
                 px: { xs: 5, md: 0 },
@@ -129,7 +132,7 @@ const Page = () => {
             <Typography
               variant="h3"
               sx={{
-                fontSize: { xs: "20px", md: "36px" },
+                fontSize: { xs: " 1.5rem", md: "36px" },
                 mb: { xs: 2, md: 5 },
               }}
             >
@@ -150,7 +153,10 @@ const Page = () => {
         <Container sx={{ py: 5 }}>
           <Typography
             variant="h3"
-            sx={{ fontSize: { xs: "20px", md: "36px" }, mb: { xs: 2, md: 5 } }}
+            sx={{
+              fontSize: { xs: " 1.5rem", md: "36px" },
+              mb: { xs: 2, md: 5 },
+            }}
           >
             {t("popular_itineraries")}
           </Typography>
@@ -197,7 +203,10 @@ const Page = () => {
         <Container sx={{ py: 5 }}>
           <Typography
             variant="h3"
-            sx={{ fontSize: { xs: "20px", md: "36px" }, mb: { xs: 2, md: 5 } }}
+            sx={{
+              fontSize: { xs: " 1.5rem", md: "36px" },
+              mb: { xs: 2, md: 5 },
+            }}
           >
             {t("latest_articles")}
           </Typography>

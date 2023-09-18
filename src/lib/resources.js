@@ -9,23 +9,23 @@ import { removeRestaurant } from "@/store/RestaurantSlice";
 
 export const resources = {
   hotels: {
-    headers: ["name"],
-    fields: ["name"],
+    headers: ["name", "country", "city", "status"],
+    fields: ["name", "country.name", "city.name", "status"],
     remove: removeHotel,
   },
   articles: {
-    headers: ["article_name", "article_name_ar", "country", "seo_title"],
-    fields: ["title", "title_ar", "country", "seo_title"],
+    headers: ["name", "country", "status"],
+    fields: ["name", "country.name", "status"],
     remove: removeArticle,
   },
   properties: {
-    headers: ["property_name", "city", "property_name_ar"],
-    fields: ["title", "city", "title_ar"],
+    headers: ["name", "country", "city", "status"],
+    fields: ["name", "country.name", "city.name", "status"],
     remove: removeProperty,
   },
   restaurants: {
-    headers: ["restaurant_name"],
-    fields: ["name"],
+    headers: ["name", "country", "city", "status"],
+    fields: ["name", "country.name", "city.name", "status"],
     remove: removeRestaurant,
   },
   destinations: {
@@ -34,8 +34,8 @@ export const resources = {
     remove: removeDestination,
   },
   itineraries: {
-    headers: ["itinerary_name", "itinerary_name_ar", "country"],
-    fields: ["title", "title_ar", "country"],
+    headers: ["name", "country", "city", "status"],
+    fields: ["name", "country.name", "city.name", "status"],
     remove: removeItinerary,
   },
   users: {

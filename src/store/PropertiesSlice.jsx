@@ -8,7 +8,7 @@ export const index = createAsyncThunk(
   async (params, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.post("properties", params);
+      const res = await axios.get("admin/attractions", { params });
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -20,7 +20,7 @@ export const indexProperties = createAsyncThunk(
   "properties/indexProperties",
   async (params, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post("properties", params);
+      const res = await axios.get("admin/attractions", { params });
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -33,7 +33,7 @@ export const show = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.get(`properties/${id}`);
+      const res = await axios.get(`admin/attractions/${id}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -45,7 +45,7 @@ export const create = createAsyncThunk(
   "properties/create",
   async (item, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post("properties/Create", item);
+      const res = await axios.post("admin/attractions", item);
       return res.data;
     } catch (error) {
       FireToast("error", error.response?.data?.message);
@@ -58,7 +58,7 @@ export const removeProperty = createAsyncThunk(
   "properties/delete",
   async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.delete(`properties/destroy/${id}`);
+      const res = await axios.delete(`admin/attractions/${id}`);
       dispatch(index());
       return { message: "success" };
     } catch (error) {
@@ -72,7 +72,7 @@ export const update = createAsyncThunk(
   "properties/update",
   async (item, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post(`properties/Update/${item.id}`, item);
+      const res = await axios.post(`admin/attractions/${item.id}`, item);
       return res.data;
     } catch (error) {
       FireToast("error", error.response?.data?.message);
@@ -83,7 +83,7 @@ export const update = createAsyncThunk(
 
 const initialState = {
   all: [],
-  one: {},
+  property: {},
   loading: false,
   error: null,
   success: null,
@@ -99,8 +99,8 @@ const PropertieSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(index.fulfilled, (state, action) => {
-      state.all = action.payload.Properties;
-      state.count = action.payload.total;
+      state.all = action.payload.data.data;
+      state.count = action.payload.data.total;
       state.loading = false;
       state.error = null;
     });
@@ -128,7 +128,7 @@ const PropertieSlice = createSlice({
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
-      state.one = action.payload.Properties;
+      state.property = action.payload.data;
       state.loading = false;
       state.error = null;
     });
