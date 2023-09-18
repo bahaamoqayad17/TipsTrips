@@ -19,8 +19,8 @@ const DestinationSlider = ({ destinations }) => {
         }}
         breakpoints={{
           0: {
-            slidesPerView: 2.5,
-            spaceBetween: 20,
+            slidesPerView: 2.6,
+            spaceBetween: 10,
           },
           960: {
             slidesPerView: 4,
@@ -41,6 +41,7 @@ const DestinationSlider = ({ destinations }) => {
                 <img className="destination-image" src={item.image} alt="" />
                 <Typography
                   fontSize={{ md: 24, xs: 18 }}
+                  sx={{ marginTop: "10px" }}
                   color={"#2C2C2C"}
                   fontWeight={700}
                 >

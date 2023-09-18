@@ -9,7 +9,7 @@ const style = {
 
 export default function EditOwner(props) {
   const { t } = useTranslation();
-  const [item, setItem] = useState(props.image);
+  const [item, setItem] = useState(props.item);
 
   const handleChange = (e) => {
     setItem({ ...item, [e.target.name]: e.target.value });
@@ -17,9 +17,13 @@ export default function EditOwner(props) {
 
   const handleSubmit = () => {
     props.setOwners((prevOwners) =>
-      prevOwners.map((owner) =>
-        owner.image === props.image ? { ...owner, ...item } : owner
-      )
+      prevOwners.map((owner) => {
+        if (owner.image == props.item.image) {
+          return { ...owner, ...item };
+        } else {
+          return owner;
+        }
+      })
     );
     props.handleCloseModal();
   };
@@ -30,16 +34,16 @@ export default function EditOwner(props) {
         sx={style}
         label={t("source_link")}
         onChange={handleChange}
-        value={item?.source_link}
-        name="source_link"
+        value={item?.image_source_link}
+        name="image_source_link"
         fullWidth
       />
       <TextField
         sx={style}
         label={t("owner")}
         onChange={handleChange}
-        value={item?.owner}
-        name="owner"
+        value={item?.image_owner}
+        name="image_owner"
         fullWidth
       />
       <Button variant="contained" onClick={handleSubmit}>

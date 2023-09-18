@@ -27,6 +27,9 @@ import FestivalIcon from "@mui/icons-material/Festival";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 import CommuteIcon from "@mui/icons-material/Commute";
+import GroupIcon from "@mui/icons-material/Group";
+import PublicIcon from "@mui/icons-material/Public";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 
 const drawerWidth = 240;
 
@@ -80,6 +83,21 @@ function DashboardLayout(props) {
       title: "itineraries",
       icon: CommuteIcon,
       link: "/itineraries",
+    },
+    {
+      title: "users",
+      icon: GroupIcon,
+      link: "/users",
+    },
+    {
+      title: "countries",
+      icon: PublicIcon,
+      link: "/countries",
+    },
+    {
+      title: "cities",
+      icon: ApartmentIcon,
+      link: "/cities",
     },
   ];
 
@@ -140,12 +158,12 @@ function DashboardLayout(props) {
               width: "100%",
               justifyContent: "space-between",
               alignItems: "center",
-              paddingY: "8px",
+              py: "8px",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <IconButton
-                color="inherit"
+                color="black"
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}

@@ -61,9 +61,12 @@ function NavBar(props) {
                 onClick={() => {
                   router.push(`/${item.link}`);
                 }}
-                sx={{ px: 0 }}
+                sx={{ px: 0, fontSize: "1.3rem", fontWeight: 600 }}
               >
-                <ListItemText primary={t(item.title)} />
+                <ListItemText
+                  sx={{ fontSize: "1.3rem", fontWeight: 600 }}
+                  primary={t(item.title)}
+                />
               </ListItemButton>
             </ListItem>
           ))}
@@ -82,7 +85,7 @@ function NavBar(props) {
         sx={{
           backgroundColor: "#fff",
           boxShadow: "0px 0px 8px #c5c5c5",
-          zIndex: { xs: 1, md: 5000 },
+          zIndex: { xs: 1, md: 500000 },
         }}
         component="nav"
       >

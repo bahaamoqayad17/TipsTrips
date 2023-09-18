@@ -130,32 +130,16 @@ export default function Footer() {
                 {t("about")}
               </Typography>
               <ul>
-                <Typography
-                  mb={1}
-                  fontSize={{ xs: "14px", md: "17px" }}
-                  color={"black"}
-                >
+                <Typography mb={1} fontSize={"17px"} color={"black"}>
                   {t("about_us")}
                 </Typography>
-                <Typography
-                  mb={1}
-                  fontSize={{ xs: "14px", md: "17px" }}
-                  color={"black"}
-                >
+                <Typography mb={1} fontSize={"17px"} color={"black"}>
                   {t("contact")}
                 </Typography>
-                <Typography
-                  mb={1}
-                  fontSize={{ xs: "14px", md: "17px" }}
-                  color={"black"}
-                >
+                <Typography mb={1} fontSize={"17px"} color={"black"}>
                   {t("terms_of_use")}
                 </Typography>
-                <Typography
-                  mb={1}
-                  fontSize={{ xs: "14px", md: "17px" }}
-                  color={"black"}
-                >
+                <Typography mb={1} fontSize={"17px"} color={"black"}>
                   {t("privacy_policy")}
                 </Typography>
               </ul>

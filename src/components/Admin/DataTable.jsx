@@ -49,13 +49,17 @@ export default function DataTable({
       return <img src={value} alt="Image" width={"60"} height={"60"} />;
     }
 
+    // if (field === "is_draft") {
+    //   return value ? t("draft") : t("published");
+    // }
+
     return value;
   };
 
   return (
     <Card>
       <PerfectScrollbar>
-        <Box>
+        <Box sx={{ overflowX: "auto", maxWidth: "100%" }}>
           <Table>
             <TableHead>
               <TableRow>

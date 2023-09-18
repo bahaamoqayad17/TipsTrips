@@ -53,13 +53,6 @@ const Submit = styled("div")(({ theme }) => ({
   flexDirection: "column",
 }));
 
-const LoginByGoogle = styled("div")(({ theme }) => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  marginTop: 20,
-}));
-
 const LoginWith = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -68,6 +61,8 @@ const LoginWith = styled("div")(({ theme }) => ({
   padding: "8px 16px",
   marginBottom: 24,
   cursor: "pointer",
+  backgroundColor: "#f5f5f5",
+  borderRadius: "5px",
   "& p": {
     color: "#2C2C2C",
     fontSize: 18,

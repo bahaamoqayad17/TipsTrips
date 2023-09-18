@@ -40,20 +40,30 @@ export default function SingleItenirary() {
             sx={{
               display: "flex",
               alignItems: "center",
-              fontSize: "16px",
+              fontSize: { md: "16px", xs: "15px" },
               fontWeight: 400,
             }}
           >
             <LocationOnOutlinedIcon fontSize="small" /> Egypt, Cairo
           </Box>
         </Typography>
-        <Typography mb={2} variant="h5" fontWeight={"bold"}>
+        <Typography
+          fontSize={{ xs: "1.3rem", md: "1.5rem" }}
+          mb={2}
+          variant="h5"
+          fontWeight={"bold"}
+        >
           Itinerart 6 days in Amsterdam and the Dutch countryside
         </Typography>
         <Typography variant="body2" fontWeight={"bold"}>
           Estimate Itinerary Cost:
         </Typography>
-        <Typography variant="caption" fontSize={"14px"} color={"primary"}>
+        <Typography
+          variant="caption"
+          sx={{ paddingBottom: { md: 0, xs: "10px" } }}
+          fontSize={"14px"}
+          color={"primary"}
+        >
           Free
         </Typography>
 

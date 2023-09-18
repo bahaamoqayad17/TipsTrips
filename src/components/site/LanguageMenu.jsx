@@ -42,6 +42,9 @@ export default function LanguageMenu() {
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
+        sx={{
+          top: "22px",
+        }}
         onClose={handleCloseMenu}
         anchorOrigin={{
           vertical: "bottom",

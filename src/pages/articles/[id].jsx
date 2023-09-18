@@ -11,7 +11,7 @@ const Route = styled("p")(({ theme }) => ({
   color: "#757575",
   fontSize: 18,
   fontWeight: 400,
-  marginBottom: 56,
+  marginBottom: 10,
 }));
 
 const Date = styled("p")(({ theme }) => ({
@@ -28,9 +28,10 @@ const SubTitle = styled("h3")(({ theme }) => ({
 
 const Title = styled("h1")(({ theme }) => ({
   color: "#2C2C2C",
-  fontSize: 32,
+  fontSize: 30,
   fontWeight: 700,
   marginBottom: 30,
+  lineHeight: 1.3,
 }));
 const Content = styled("p")(({ theme }) => ({
   fontSize: 18,

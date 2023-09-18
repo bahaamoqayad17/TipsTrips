@@ -35,6 +35,8 @@ export default function ChooseDestination({ countries }) {
           px: { xs: 2, md: 4 },
           py: 1.5,
           fontSize: 18,
+          textTransform: "uppercase !important",
+          width: "300px",
         }}
         style={open ? { backgroundColor: "#fff", color: "#000" } : {}}
         variant="contained"
@@ -52,7 +54,7 @@ export default function ChooseDestination({ countries }) {
         PaperProps={{
           sx: {
             overflow: "visible",
-            width: { md: "11.1%", xs: "48%" },
+            width: { md: "14.5%", xs: "73%" },
             mt: 0.4,
             ml: 1,
             borderRadius: "0px",
@@ -76,7 +78,7 @@ export default function ChooseDestination({ countries }) {
                     position="start"
                     sx={{
                       fontWeight: "bold",
-                      fontSize: { xs: "10px", md: "18px" },
+                      fontSize: "14px",
                     }}
                   >
                     <SearchIcon /> {t("where_to")}
@@ -96,6 +98,8 @@ export default function ChooseDestination({ countries }) {
                     color: "#fff",
                   },
                   width: "100%",
+                  fontSize: "1.3rem",
+                  borderTop: "1px dotted #ccc",
                 }}
                 fullWidth
                 onClick={handleClose}

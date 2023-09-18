@@ -65,7 +65,27 @@ export default function ChangeLanguage({ lang }) {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        sx={{
+          // "& .": {
+          borderRadius: "10px",
+          m: 5,
+          backgroundColor: "red",
+          boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.2)",
+          // },
+        }}
         elevation={0.5}
+        PaperProps={{
+          elevation: 0.5,
+
+          sx: {
+            borderRadius: "10px",
+            backgroundColor: "red",
+            boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.2)",
+          },
+          "& .MuiAvatar-root": {
+            mt: 6,
+          },
+        }}
       >
         {languages.map((lang) => {
           return (
