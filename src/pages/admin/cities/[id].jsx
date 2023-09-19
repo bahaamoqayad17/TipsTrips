@@ -7,7 +7,7 @@ import DashboardLayout from "@/components/Admin/DashboardLayout";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCountries } from "@/store/CountrySlice";
+import { fetchAllCountries } from "@/store/CountrySlice";
 import { useRouter } from "next/router";
 import { getCity, updateCity } from "@/store/CitySlice";
 
@@ -34,7 +34,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchCountries({ page: -1 }));
+    dispatch(fetchAllCountries());
   }, []);
 
   useEffect(() => {
