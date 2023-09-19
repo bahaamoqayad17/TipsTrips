@@ -98,7 +98,6 @@ const Page = () => {
                     (c) => c.id == item?.country_id
                   )}
                   onChange={(e, val) => {
-                    setCountry(val);
                     handleChange({
                       target: { name: "country_id", value: val?.id },
                     });

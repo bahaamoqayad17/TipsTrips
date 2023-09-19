@@ -37,6 +37,14 @@ export const addCountry = createAsyncThunk(
   }
 );
 
+export const getCountry = createAsyncThunk(
+  "countries/getCountry",
+  async (id, { rejectWithValue, dispatch }) => {
+    const res = await axios.get(`admin/countries/${id}`);
+    return res.data;
+  }
+);
+
 export const updateCountry = createAsyncThunk(
   "countries/updateCountry",
   async (item, { rejectWithValue, dispatch }) => {
@@ -71,6 +79,7 @@ export const fetchCountriesAndCites = createAsyncThunk(
 const initialState = {
   countries: [],
   cities: [],
+  country: {},
   loading: false,
   error: null,
   count: 0,
@@ -87,6 +96,10 @@ const CountrySlice = createSlice({
     builder.addCase(fetchCountries.fulfilled, (state, action) => {
       state.countries = action.payload.data.data;
       state.count = action.payload.data.total;
+      state.loading = false;
+    });
+    builder.addCase(getCountry.fulfilled, (state, action) => {
+      state.country = action.payload.data;
       state.loading = false;
     });
     builder.addCase(fetchAllCountries.fulfilled, (state, action) => {
