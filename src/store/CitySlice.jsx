@@ -18,9 +18,8 @@ export const fetchCities = createAsyncThunk(
 export const addCity = createAsyncThunk(
   "cities/createCity",
   async (item, { rejectWithValue, dispatch }) => {
-    dispatch(fetchCities());
-
     const res = await axios.post("admin/cities", item);
+    dispatch(fetchCities());
     return res.data;
   }
 );
@@ -28,9 +27,8 @@ export const addCity = createAsyncThunk(
 export const updateCity = createAsyncThunk(
   "cities/updateCity",
   async (item, { rejectWithValue, dispatch }) => {
-    dispatch(fetchCities());
-
     const res = await axios.post(`admin/cities/${item.id}`, item);
+    dispatch(fetchCities());
     return res.data;
   }
 );
@@ -38,15 +36,24 @@ export const updateCity = createAsyncThunk(
 export const deleteCity = createAsyncThunk(
   "cities/deleteCity",
   async (id, { rejectWithValue, dispatch }) => {
-    dispatch(fetchCities());
     const res = await axios.delete(`admin/cities/${id}`);
+    dispatch(fetchCities());
+    return res.data;
+  }
+);
+
+export const getCity = createAsyncThunk(
+  "cities/getCity",
+  async (id, { rejectWithValue, dispatch }) => {
+    dispatch(startLoading());
+    const res = await axios.get(`admin/cities/${id}`);
     return res.data;
   }
 );
 
 const initialState = {
   cities: [],
-  cities: [],
+  city: {},
   loading: false,
   error: null,
   count: 0,
@@ -63,6 +70,10 @@ const CitySlice = createSlice({
     builder.addCase(fetchCities.fulfilled, (state, action) => {
       state.cities = action.payload.data.data;
       state.count = action.payload.data.total;
+      state.loading = false;
+    });
+    builder.addCase(getCity.fulfilled, (state, action) => {
+      state.city = action.payload.data;
       state.loading = false;
     });
     builder.addCase(addCity.fulfilled, (state, action) => {

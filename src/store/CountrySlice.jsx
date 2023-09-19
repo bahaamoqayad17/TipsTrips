@@ -18,9 +18,8 @@ export const fetchCountries = createAsyncThunk(
 export const addCountry = createAsyncThunk(
   "countries/createCountry",
   async (item, { rejectWithValue, dispatch }) => {
-    dispatch(fetchCountries());
-
     const res = await axios.post("admin/countries", item);
+    dispatch(fetchCountries());
     return res.data;
   }
 );
@@ -28,9 +27,8 @@ export const addCountry = createAsyncThunk(
 export const updateCountry = createAsyncThunk(
   "countries/updateCountry",
   async (item, { rejectWithValue, dispatch }) => {
-    dispatch(fetchCountries());
-
     const res = await axios.post(`admin/countries/${item.id}`, item);
+    dispatch(fetchCountries());
     return res.data;
   }
 );
@@ -38,8 +36,8 @@ export const updateCountry = createAsyncThunk(
 export const deleteCountry = createAsyncThunk(
   "countries/deleteCountry",
   async (id, { rejectWithValue, dispatch }) => {
-    dispatch(fetchCountries());
     const res = await axios.delete(`admin/countries/${id}`);
+    dispatch(fetchCountries());
     return res.data;
   }
 );

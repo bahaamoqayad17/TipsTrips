@@ -29,7 +29,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchCountries());
+    dispatch(fetchCountries({ page: -1 }));
   }, []);
 
   return (
