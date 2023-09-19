@@ -47,7 +47,7 @@ const Page = () => {
 
   return (
     <>
-      <section>
+      <section style={{ paddingTop: "50px" }}>
         <Container>
           <Grid container>
             <Grid md={6} xs={12}>

@@ -13,7 +13,7 @@ const Page = () => {
   const { t } = useTranslation();
   return (
     <>
-      <section>
+      <section style={{ paddingTop: "50px" }}>
         <Container>
           <h1>{t("my_subscription")}</h1>
 
