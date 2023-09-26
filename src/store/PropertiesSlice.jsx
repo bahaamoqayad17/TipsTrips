@@ -111,8 +111,10 @@ const PropertieSlice = createSlice({
       state.error = null;
     });
     builder.addCase(create.fulfilled, (state, action) => {
-      FireToast("success", "Property Created Successfully");
-      Router.push("/admin/properties");
+      if (action.payload.status) {
+        FireToast("success", "Property Created Successfully");
+        Router.push("/admin/properties");
+      }
       state.loading = false;
       state.error = null;
     });
@@ -122,12 +124,26 @@ const PropertieSlice = createSlice({
       state.error = null;
     });
     builder.addCase(update.fulfilled, (state, action) => {
-      FireToast("success", "Property Updated Successfully");
-      Router.push("/admin/properties");
+      if (action.payload.status) {
+        FireToast("success", "Property Updated Successfully");
+        Router.push("/admin/properties");
+        state.property = {};
+      }
       state.loading = false;
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
+      if (action.payload.data && Array.isArray(action.payload.data.images)) {
+        action.payload.data.image = null;
+
+        action.payload.data.images = action.payload.data.images.map(
+          (imageObj) => ({
+            ...imageObj,
+            image: null,
+          })
+        );
+      }
+
       state.property = action.payload.data;
       state.loading = false;
       state.error = null;

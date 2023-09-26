@@ -10,6 +10,7 @@ import AuthSlice from "./AuthSlice";
 import CountrySlice from "./CountrySlice";
 import UserSlice from "./UserSlice";
 import CitySlice from "./CitySlice";
+import SettingSlice from "./SettingSlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
     countries: CountrySlice,
     users: UserSlice,
     cities: CitySlice,
+    settings: SettingSlice,
   },
 });

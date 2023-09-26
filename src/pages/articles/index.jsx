@@ -97,7 +97,11 @@ const Page = () => {
               <Chip
                 label={country}
                 variant="outlined"
-                sx={{ fontSize: "20px", border: "1.5px solid #EDEDED" }}
+                sx={{
+                  fontSize: "20px",
+                  mb: "15px !important",
+                  border: "1.5px solid #EDEDED",
+                }}
                 onDelete={() => handleDelete(country)}
               />
             ))}

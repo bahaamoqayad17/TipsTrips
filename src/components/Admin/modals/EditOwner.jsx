@@ -18,10 +18,18 @@ export default function EditOwner(props) {
   const handleSubmit = () => {
     props.setOwners((prevOwners) =>
       prevOwners.map((owner) => {
-        if (owner.image == props.item.image) {
-          return { ...owner, ...item };
+        if (item.id) {
+          if (owner.id == item.id) {
+            return { ...owner, ...item };
+          } else {
+            return owner;
+          }
         } else {
-          return owner;
+          if (owner.image == props.item.image) {
+            return { ...owner, ...item };
+          } else {
+            return owner;
+          }
         }
       })
     );

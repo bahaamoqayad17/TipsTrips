@@ -5,12 +5,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import { useTranslation } from "react-i18next";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
 import { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { Heart } from "@/icons/Heart";
 import { HeartFilled } from "@/icons/HeartFilled";
+import Router from "next/router";
 
 export default function SingleItenirary() {
   const { t } = useTranslation();
@@ -23,11 +22,19 @@ export default function SingleItenirary() {
     <Card
       sx={{
         position: "relative",
-        borderRadius: "16px",
+        borderRadius: { xs: "4px", md: "16px" },
         boxShadow: "0px 0px 20px 0px rgba(0,0,0,10%)",
+        "& .css-46bh2p-MuiCardContent-root:last-child": {
+          paddingBottom: "10px",
+        },
       }}
     >
-      <CardMedia sx={{ height: 295 }} component="img" image="/test1.svg" />
+      <CardMedia
+        // onClick={() => Router.push("/itineraries/5")}
+        sx={{ height: 295, cursor: "pointer" }}
+        component="img"
+        image="/test1.svg"
+      />
       <CardContent>
         <Typography
           gutterBottom
@@ -52,6 +59,8 @@ export default function SingleItenirary() {
           mb={2}
           variant="h5"
           fontWeight={"bold"}
+          sx={{ cursor: "pointer" }}
+          // onClick={() => Router.push("/itineraries/5")}
         >
           Itinerart 6 days in Amsterdam and the Dutch countryside
         </Typography>
@@ -59,8 +68,7 @@ export default function SingleItenirary() {
           Estimate Itinerary Cost:
         </Typography>
         <Typography
-          variant="caption"
-          sx={{ paddingBottom: { md: 0, xs: "10px" } }}
+          sx={{ paddingBottom: 0 }}
           fontSize={"14px"}
           color={"primary"}
         >

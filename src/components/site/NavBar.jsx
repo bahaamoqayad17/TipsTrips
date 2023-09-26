@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import AccountMenu from "./AccountMenu";
 import LanguageMenu from "./LanguageMenu";
@@ -22,10 +22,10 @@ import { BorderHeart } from "@/icons/BorderHeart";
 const drawerWidth = 240;
 const navItems = [
   { title: "home", link: "/" },
-  { title: "itineraries", link: "/" },
+  { title: "itineraries", link: "/itineraries" },
   { title: "articles", link: "/articles" },
   { title: "my_trips", link: "/my-trips" },
-  { title: "contact", link: "/" },
+  { title: "contact", link: "/contact" },
 ];
 
 function NavBar(props) {
@@ -55,8 +55,8 @@ function NavBar(props) {
       </Box>
       <Box onClick={handleDrawerToggle} sx={{ p: 2 }}>
         <List>
-          {navItems.map((item) => (
-            <ListItem key={item.title} disablePadding>
+          {navItems.map((item, i) => (
+            <ListItem key={i} disablePadding>
               <ListItemButton
                 onClick={() => {
                   router.push(`/${item.link}`);
@@ -85,7 +85,7 @@ function NavBar(props) {
         sx={{
           backgroundColor: "#fff",
           boxShadow: "0px 0px 8px #c5c5c5",
-          zIndex: { xs: 1, md: 500000 },
+          zIndex: 500000,
         }}
         component="nav"
       >
@@ -103,7 +103,12 @@ function NavBar(props) {
                 color="black"
                 onClick={handleDrawerToggle}
               />
-              <BorderHeart fontSize="medium" color="black" sx={{ ml: 2 }} />
+              <BorderHeart
+                onClick={() => Router.push("/user/favorites")}
+                fontSize="medium"
+                color="black"
+                sx={{ ml: 2, cursor: "pointer" }}
+              />
             </Box>
 
             <img width={"140px"} src="/logo-mobile.svg" alt="logo" />
@@ -133,9 +138,8 @@ function NavBar(props) {
                 }}
               >
                 {navItems.map((item, i) => (
-                  <>
+                  <React.Fragment key={i}>
                     <Link
-                      key={item.title}
                       style={{
                         color: "#2C2C2C",
                         fontSize: "17px",
@@ -159,7 +163,7 @@ function NavBar(props) {
                         ></div>
                       </>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </Box>
               <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>

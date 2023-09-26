@@ -77,11 +77,16 @@ const CitySlice = createSlice({
       state.loading = false;
     });
     builder.addCase(addCity.fulfilled, (state, action) => {
-      FireToast("success", "City Added Successfully");
+      if (action.payload.status) {
+        FireToast("success", "City Added Successfully");
+      }
       state.loading = false;
     });
     builder.addCase(updateCity.fulfilled, (state, action) => {
-      FireToast("success", "City Updated Successfully");
+      if (action.payload.status) {
+        FireToast("success", "City Updated Successfully");
+        state.city = {};
+      }
       state.loading = false;
     });
     builder.addCase(deleteCity.fulfilled, (state, action) => {

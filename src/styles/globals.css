@@ -27,7 +27,7 @@ button {
 }
 
 section {
-  padding-top: 15px;
+  padding-top: 50px;
   padding-bottom: 100px;
 }
 
@@ -97,14 +97,34 @@ section {
   width: 100%;
 }
 
+.number-input::-webkit-inner-spin-button {
+  font-size: 50px;
+}
+
+.number-input:focus {
+  outline: none;
+}
+
+/* .swiper-slide {
+  margin-left: 50px !important;
+} */
+
+.destination-image {
+  width: 280px;
+}
+
 @media (max-width: 768px) {
   .header {
     background-image: url("../../public/header-mobile.svg");
     height: 246px;
   }
 
+  section {
+    padding-top: 15px;
+  }
+
   .css-52fzo0-MuiTypography-root {
-    font-weight: 600 !important;
+    font-weight: bold !important;
     font-size: 1.3rem !important;
   }
 

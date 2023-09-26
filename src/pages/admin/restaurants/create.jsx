@@ -31,7 +31,7 @@ const Page = () => {
 
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
-    if (name === "featured_image") {
+    if (name == "image") {
       setImage(URL.createObjectURL(files[0]));
       setItem({ ...item, [name]: await handleImageChange(files[0]) });
     } else {
@@ -112,6 +112,26 @@ const Page = () => {
           renderInput={(params) => <TextField {...params} variant="outlined" />}
         />
 
+        <Typography variant="h6">{t("geo_location_ar")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.geo_location_ar}
+          name="geo_location_ar"
+          fullWidth
+        />
+
+        <Typography variant="h6">{t("geo_location_en")}</Typography>
+
+        <TextField
+          sx={style}
+          onChange={handleChange}
+          value={item?.geo_location_en}
+          name="geo_location_en"
+          fullWidth
+        />
+
         <Typography variant="h6">{t("longitude")}</Typography>
 
         <TextField
@@ -158,15 +178,6 @@ const Page = () => {
           fullWidth
         />
 
-        <Typography variant="h6">{t("halal")}</Typography>
-
-        <FormControl fullWidth sx={{ my: 1 }}>
-          <Select native name="is_halal" sx={style} onChange={handleChange}>
-            <option value="1">{t("halal")}</option>
-            <option value="0">{t("not_halal")}</option>
-          </Select>
-        </FormControl>
-
         <Box>
           <Typography variant="h6">{t("gallery")}</Typography>
           <Dropzone setOwners={setOwners} owners={owners} />
@@ -211,6 +222,30 @@ const Page = () => {
           name="image_source_link"
           fullWidth
         />
+
+        <Typography variant="h6">{t("halal")}</Typography>
+
+        <FormControl fullWidth sx={{ my: 1 }}>
+          <Select native name="is_halal" sx={style} onChange={handleChange}>
+            <option value={1}>{t("halal")}</option>
+            <option value={0}>{t("not_halal")}</option>
+          </Select>
+        </FormControl>
+
+        <Typography variant="h6">{t("published_draft")}</Typography>
+
+        <FormControl fullWidth>
+          <Select
+            native
+            name="is_draft"
+            value={item?.is_draft}
+            sx={style}
+            onChange={handleChange}
+          >
+            <option value="1">{t("draft")}</option>
+            <option value="0">{t("published")}</option>
+          </Select>
+        </FormControl>
 
         <Button onClick={handleSubmit} variant="contained">
           {t("save")}

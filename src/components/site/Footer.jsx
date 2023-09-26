@@ -2,11 +2,11 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Image from "next/image";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Link from "next/link";
+import Router from "next/router";
 
 const destinations = [
   {
@@ -43,7 +43,24 @@ const destinations = [
   },
 ];
 
-// ... (previous imports and code)
+const links = [
+  {
+    name: "about_us",
+    link: "/about",
+  },
+  {
+    name: "contact",
+    link: "/contact",
+  },
+  {
+    name: "terms_of_use",
+    link: "/privacy",
+  },
+  {
+    name: "privacy_policy",
+    link: "/privacy",
+  },
+];
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -130,18 +147,18 @@ export default function Footer() {
                 {t("about")}
               </Typography>
               <ul>
-                <Typography mb={1} fontSize={"17px"} color={"black"}>
-                  {t("about_us")}
-                </Typography>
-                <Typography mb={1} fontSize={"17px"} color={"black"}>
-                  {t("contact")}
-                </Typography>
-                <Typography mb={1} fontSize={"17px"} color={"black"}>
-                  {t("terms_of_use")}
-                </Typography>
-                <Typography mb={1} fontSize={"17px"} color={"black"}>
-                  {t("privacy_policy")}
-                </Typography>
+                {links.map((item, i) => (
+                  <Typography
+                    key={i}
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => Router.push(item.link)}
+                    mb={1}
+                    fontSize={"17px"}
+                    color={"black"}
+                  >
+                    {t(item.name)}
+                  </Typography>
+                ))}
               </ul>
             </Grid>
           </Grid>

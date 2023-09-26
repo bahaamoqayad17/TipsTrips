@@ -62,15 +62,15 @@ export default function Dropzone(props) {
     },
   });
 
-  const deleteFile = (fileName, fileGallery) => {
+  const deleteFile = (fileName, fileID) => {
     if (fileName) {
       props.setOwners((prevOwners) =>
         prevOwners.filter((owner) => owner.imagePreview !== fileName)
       );
     }
-    if (fileGallery) {
+    if (fileID) {
       props.setOwners((prevOwners) =>
-        prevOwners.filter((owner) => owner.imagePreview.url !== fileGallery)
+        prevOwners.filter((owner) => owner.id !== fileID)
       );
     }
   };
@@ -103,9 +103,10 @@ export default function Dropzone(props) {
             />
           </div>
         </div>
+
         <Button
           variant="contained"
-          onClick={() => deleteFile(file.imagePreview, file?.image?.image_url)}
+          onClick={() => deleteFile(file.imagePreview, file?.id)}
         >
           {t("delete")}
         </Button>

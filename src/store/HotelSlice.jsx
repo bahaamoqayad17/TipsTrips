@@ -117,12 +117,14 @@ const HotelSlice = createSlice({
       if (action.payload.status) {
         FireToast("success", "Hotel Updated Successfully");
         Router.push("/admin/hotels");
+        state.hotel = {};
       }
       state.loading = false;
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
-      console.log(action.payload.data);
+      action.payload.data.image = null;
+
       state.hotel = action.payload.data;
       state.loading = false;
       state.error = null;

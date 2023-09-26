@@ -128,7 +128,11 @@ const Page = () => {
 
       <Box>
         <Box sx={{ py: 5 }}>
-          <Container>
+          <Container
+            sx={{
+              display: { xs: "none", md: "block" },
+            }}
+          >
             <Typography
               variant="h3"
               sx={{
@@ -140,13 +144,20 @@ const Page = () => {
             </Typography>
             <DestinationSlider destinations={destinations} />
           </Container>
-        </Box>
 
-        {/* <Box sx={{ pb: 5, display: { xs: "none", md: "block" } }}>
-          <center>
-            <img src="./advertisement.svg" alt="" />
-          </center>
-        </Box> */}
+          <Box pl={2} display={{ xs: "block", md: "none" }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: { xs: " 1.5rem", md: "36px" },
+                mb: { xs: 2, md: 5 },
+              }}
+            >
+              {t("popular_destinations")}
+            </Typography>
+            <DestinationSlider destinations={destinations} />
+          </Box>
+        </Box>
       </Box>
 
       <Box sx={{ backgroundColor: "#F5F5F5" }}>
@@ -193,12 +204,6 @@ const Page = () => {
         </Container>
       </Box>
 
-      {/* <Box sx={{ pt: 5, display: { xs: "none", md: "block" } }}>
-        <center>
-          <img src="./advertisement.svg" alt="" />
-        </center>
-      </Box> */}
-
       <Box>
         <Container sx={{ py: 5 }}>
           <Typography
@@ -233,11 +238,6 @@ const Page = () => {
           </Grid>
         </Container>
       </Box>
-      {/* <Box sx={{ pb: 5, display: { xs: "none", md: "block" } }}>
-        <center>
-          <img src="./advertisement.svg" alt="" />
-        </center>
-      </Box> */}
 
       <Box
         sx={{

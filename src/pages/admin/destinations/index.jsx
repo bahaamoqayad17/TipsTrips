@@ -9,31 +9,38 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SvgIcon from "@mui/material/SvgIcon";
 import Search from "@mui/icons-material/Search";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { index } from "@/store/DestinationSlice";
 import DashboardLayout from "@/components/Admin/DashboardLayout";
-import DynamicModal from "@/components/Admin/DynamicModal";
+import Autocomplete from "@mui/material/Autocomplete";
 import DataTable from "@/components/Admin/DataTable";
 import { useRouter } from "next/router";
+import { fetchCountriesAndCites } from "@/store/CountrySlice";
 const Page = () => {
   const { count, all, loading } = useSelector(
     ({ destinations }) => destinations
   );
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { countries } = useSelector(({ countries }) => countries);
+  const [country, setCountry] = useState({});
   const router = useRouter();
   const getPagination = (page, limit) => {
     page++;
-    dispatch(index({ page }));
+    dispatch(index({ page, per_page: limit }));
   };
 
   const search = (e) => {
     const value = e.target.value;
     if (value) {
       setTimeout(() => {
-        dispatch(index({ searchbyjobname: value }));
+        dispatch(index({ name: value }));
       }, 500);
     } else {
       dispatch(index());
@@ -42,6 +49,7 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(index());
+    if (countries.length === 0) dispatch(fetchCountriesAndCites());
   }, []);
 
   return (
@@ -83,9 +91,15 @@ const Page = () => {
             <Box sx={{ mt: 3 }}>
               <Card>
                 <CardContent>
-                  <Box sx={{ maxWidth: 500 }}>
+                  <Box
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                    flexDirection={{ xs: "column", md: "row" }}
+                  >
                     <TextField
                       onChange={(e) => search(e)}
+                      fullWidth
+                      sx={{ my: 1 }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -98,6 +112,59 @@ const Page = () => {
                       placeholder={t("search_destinations")}
                       variant="outlined"
                     />
+                    &nbsp; &nbsp; &nbsp;
+                    <Autocomplete
+                      sx={{ my: 1 }}
+                      fullWidth
+                      options={countries}
+                      getOptionLabel={(option) => option.name}
+                      onChange={(e, value) => {
+                        setCountry(value);
+                        dispatch(index({ country_id: value?.id }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("country")}
+                          variant="outlined"
+                        />
+                      )}
+                    />
+                    &nbsp; &nbsp; &nbsp;
+                    <Autocomplete
+                      fullWidth
+                      sx={{ my: 1 }}
+                      options={
+                        countries.find((item) => country?.id === item.id)
+                          ?.cities || []
+                      }
+                      getOptionLabel={(option) => option.name}
+                      onChange={(e, value) => {
+                        dispatch(index({ city_id: value?.id }));
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("city")}
+                          variant="outlined"
+                        />
+                      )}
+                    />
+                    &nbsp; &nbsp; &nbsp;
+                    <FormControl fullWidth sx={{ my: 1 }}>
+                      <InputLabel>{t("popular")}</InputLabel>
+                      <Select
+                        native
+                        name="is_popular"
+                        onChange={(e) => {
+                          dispatch(index({ is_draft: e.target.value }));
+                        }}
+                        label={t("popular")}
+                      >
+                        <option value="0">{t("popular")}</option>
+                        <option value="1">{t("not_popular")}</option>
+                      </Select>
+                    </FormControl>
                   </Box>
                 </CardContent>
               </Card>

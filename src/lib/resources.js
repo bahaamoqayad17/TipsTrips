@@ -29,8 +29,8 @@ export const resources = {
     remove: removeRestaurant,
   },
   destinations: {
-    headers: ["destination_name", "name_ar", "city", "country"],
-    fields: ["name", "name_ar", "city", "country"],
+    headers: ["name", "country", "city", "status"],
+    fields: ["name", "country.name", "city.name", "status"],
     remove: removeDestination,
   },
   itineraries: {

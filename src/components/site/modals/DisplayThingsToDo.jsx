@@ -37,7 +37,11 @@ export default function DisplayThingsToDo() {
       >
         <Box display={"flex"}>
           <TourOutlinedIcon /> &nbsp; &nbsp;
-          <Typography fontWeight={600} fontSize={18} component={"span"}>
+          <Typography
+            fontWeight={600}
+            fontSize={{ xs: 15, md: 18 }}
+            component={"span"}
+          >
             {t("things_to_do")}
           </Typography>
         </Box>

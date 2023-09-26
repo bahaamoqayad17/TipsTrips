@@ -245,7 +245,6 @@ const Page = () => {
               value={item?.longitude}
               name="longitude"
               type="number"
-              asd
               fullWidth
             />
 

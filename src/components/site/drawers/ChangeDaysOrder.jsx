@@ -51,6 +51,44 @@ const ButtonStyle = {
   fontSize: 20,
 };
 
+const initDays = [
+  {
+    id: "1",
+    name: "Day 1",
+    drag: "day-list",
+  },
+  {
+    id: "2",
+    name: "Day 2",
+    drag: "day-list",
+  },
+  {
+    id: "3",
+    name: "Day 3",
+    drag: "day-list",
+  },
+  {
+    id: "4",
+    name: "Day 4",
+    drag: "day-list",
+  },
+  {
+    id: "5",
+    name: "Day 5",
+    drag: "day-list",
+  },
+  {
+    id: "6",
+    name: "Day 6",
+    drag: "day-list",
+  },
+  {
+    id: "7",
+    name: "Day 7",
+    drag: "day-list",
+  },
+];
+
 export default function ChangeDaysOrder() {
   const [state, setState] = useState({
     top: false,
@@ -60,36 +98,7 @@ export default function ChangeDaysOrder() {
   });
   const { t } = useTranslation();
 
-  const [days, setDays] = useState([
-    {
-      id: "1",
-      name: "Day 1",
-    },
-    {
-      id: "2",
-      name: "Day 2",
-    },
-    {
-      id: "3",
-      name: "Day 3",
-    },
-    {
-      id: "4",
-      name: "Day 4",
-    },
-    {
-      id: "5",
-      name: "Day 5",
-    },
-    {
-      id: "6",
-      name: "Day 6",
-    },
-    {
-      id: "7",
-      name: "Day 7",
-    },
-  ]);
+  const [days, setDays] = useState(initDays);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -103,37 +112,23 @@ export default function ChangeDaysOrder() {
   };
 
   const handleDragEnd = (result) => {
-    console.log(result);
     if (!result.destination) {
-      return; // Dropped outside the list
+      return;
     }
 
     const reorderedDays = [...days];
     const [movedDay] = reorderedDays.splice(result.source.index, 1);
     reorderedDays.splice(result.destination.index, 0, movedDay);
-
-    // Update the state with the new order
-    // You can also make an API call here to update the server with the new order
-    // For now, we'll just update the local state
-    // Note: Make sure your day objects have a unique ID (e.g., "day-1", "day-2")
     setDays(reorderedDays);
   };
 
-  const onDragStart = (e, index) => {
-    console.log("drag start", index);
-  };
-
-  const onDragEnd = (e, index) => {
-    console.log("drag Emd", index);
-  };
-
-  const onDragEnter = (e, index) => {
-    console.log("drag Enter", index);
+  const handleReset = () => {
+    setDays(initDays);
   };
 
   return (
     <div>
-      <React.Fragment key={"ShowDetails"}>
+      <div key={"ShowDetails"}>
         <DisplayButton
           color="primary"
           variant="contained"
@@ -175,36 +170,10 @@ export default function ChangeDaysOrder() {
             <Box>
               <Typography mb={3}>{t("drag_and_drop")}</Typography>
 
-              <DragDropContext>
-                <Droppable droppableId="Bahaa-Id">
-                  {(provided) => (
-                    <div {...provided.droppableProps} ref={provided.innerRef}>
-                      {days.map((day, index) => (
-                        <Draggable
-                          key={day.id}
-                          draggableId={day.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <Day
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              <MenuIcon /> &nbsp; &nbsp; {day.name}
-                            </Day>
-                          )}
-                        </Draggable>
-                      ))}
-                    </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
-              {/* 
               <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="days">
+                <Droppable droppableId="1">
                   {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                    <ul {...provided.droppableProps} ref={provided.innerRef}>
                       {days.map((day, index) => (
                         <Draggable
                           key={day.id}
@@ -212,21 +181,23 @@ export default function ChangeDaysOrder() {
                           index={index}
                         >
                           {(provided) => (
-                            <Day
+                            <li
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <MenuIcon /> &nbsp; &nbsp; {day.name}
-                            </Day>
+                              <Day>
+                                <MenuIcon /> &nbsp; &nbsp; {day.name}
+                              </Day>
+                            </li>
                           )}
                         </Draggable>
                       ))}
                       {provided.placeholder}
-                    </div>
+                    </ul>
                   )}
                 </Droppable>
-              </DragDropContext> */}
+              </DragDropContext>
 
               <Box mt={5} display={"flex"} justifyContent={"space-between"}>
                 <Button
@@ -236,14 +207,10 @@ export default function ChangeDaysOrder() {
                 >
                   {t("save")}
                 </Button>
-                <Button
-                  onClick={toggleDrawer("ShowDetails", false)}
-                  sx={ButtonStyle}
-                >
+                <Button onClick={handleReset} sx={ButtonStyle}>
                   {t("reset")}
                 </Button>
               </Box>
-
               <Box
                 mt={5}
                 display={"flex"}
@@ -255,7 +222,7 @@ export default function ChangeDaysOrder() {
             </Box>
           </Box>
         </Drawer>
-      </React.Fragment>
+      </div>
     </div>
   );
 }

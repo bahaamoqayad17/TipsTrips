@@ -30,6 +30,7 @@ import CommuteIcon from "@mui/icons-material/Commute";
 import GroupIcon from "@mui/icons-material/Group";
 import PublicIcon from "@mui/icons-material/Public";
 import ApartmentIcon from "@mui/icons-material/Apartment";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const drawerWidth = 240;
 
@@ -98,6 +99,11 @@ function DashboardLayout(props) {
       title: "cities",
       icon: ApartmentIcon,
       link: "/cities",
+    },
+    {
+      title: "settings",
+      icon: SettingsIcon,
+      link: "/settings",
     },
   ];
 

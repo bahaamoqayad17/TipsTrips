@@ -10,6 +10,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Typography from "@mui/material/Typography";
 import { BorderHeart } from "@/icons/BorderHeart";
 import Link from "next/link";
+import Router from "next/router";
 
 const navItems = [
   {
@@ -18,11 +19,11 @@ const navItems = [
   },
   {
     title: "my_favorites",
-    link: "/",
+    link: "/favorites",
   },
   {
     title: "my_subscriptions",
-    link: "/",
+    link: "/subscriptions",
   },
   {
     title: "edit",
@@ -60,7 +61,11 @@ export default function AccountMenu() {
               margin: "10px 10px 0 10px",
             }}
           >
-            <BorderHeart fontSize="large" />
+            <BorderHeart
+              onClick={() => Router.push("/user/favorites")}
+              sx={{ cursor: "pointer" }}
+              fontSize="large"
+            />
           </Link>
         </Box>
         <Tooltip title={t("settings")}>
@@ -131,11 +136,11 @@ export default function AccountMenu() {
             boxShadow: "0px 0px 10px 0px rgba(0,0,0,10%)",
           },
         }}
-        transformOrigin={{ horizontal: "bottom", vertical: "top" }}
-        anchorOrigin={{ horizontal: "bottom", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "left", vertical: "top" }}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
         {navItems.map((item, i) => (
-          <>
+          <div key={i}>
             <MenuItem
               sx={{
                 py: 0,
@@ -145,7 +150,7 @@ export default function AccountMenu() {
               }}
               style={item.title === "sign_out" ? { color: "#44A44C" } : {}}
               key={item.title}
-              onClick={handleClose}
+              onClick={() => Router.push(`/user${item.link}`)}
             >
               {t(item.title)}
             </MenuItem>
@@ -157,7 +162,7 @@ export default function AccountMenu() {
                 className="divider-account"
               />
             )}
-          </>
+          </div>
         ))}
       </Menu>
     </>

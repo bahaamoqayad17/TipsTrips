@@ -102,7 +102,7 @@ export default function RecommendedRestaurants() {
 
   return (
     <div>
-      <React.Fragment key={"ShowDetails"}>
+      <div key={"ShowDetails"}>
         <DisplayButton
           color="primary"
           variant="contained"
@@ -233,7 +233,7 @@ export default function RecommendedRestaurants() {
             </Card>
           </Box>
         </Drawer>
-      </React.Fragment>
+      </div>
     </div>
   );
 }

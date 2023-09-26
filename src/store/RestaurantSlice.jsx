@@ -1,6 +1,7 @@
 import { FireToast } from "@/lib/FireToast";
 import axios from "@/lib/axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Router from "next/router";
 
 export const index = createAsyncThunk(
   "Restaurants/index",
@@ -79,6 +80,7 @@ const RestaurantSlice = createSlice({
       if (action.payload.status) {
         FireToast("success", "Restaurant Created Successfully");
         Router.push("/admin/restaurants");
+        state.restaurant = {};
       }
       state.loading = false;
       state.error = null;
@@ -92,11 +94,22 @@ const RestaurantSlice = createSlice({
       if (action.payload.status) {
         FireToast("success", "Restaurant Updated Successfully");
         Router.push("/admin/restaurants");
+        state.restaurant = {};
       }
       state.loading = false;
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
+      if (action.payload.data && Array.isArray(action.payload.data.images)) {
+        action.payload.data.image = null;
+
+        action.payload.data.images = action.payload.data.images.map(
+          (imageObj) => ({
+            ...imageObj,
+            image: null,
+          })
+        );
+      }
       state.restaurant = action.payload.data;
       state.loading = false;
       state.error = null;

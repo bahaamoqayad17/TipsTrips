@@ -43,15 +43,21 @@ const StartTime = styled("div")(({ theme }) => ({
   fontSize: "18px",
 }));
 
+const Fork = styled("div")(({ theme }) => ({
+  position: "absolute",
+  top: 8,
+  right: 8,
+}));
+
 const SingleProperty = () => {
   const { t } = useTranslation();
   return (
     <>
       <Card
         sx={{
-          maxWidth: 345,
+          width: { md: 345, xs: "100%" },
           position: "relative",
-
+          mb: 3,
           "& .css-ujozlm-MuiCardContent-root:last-child": {
             paddingBottom: 0,
           },
@@ -63,6 +69,9 @@ const SingleProperty = () => {
           height="244"
           image="/test1.svg"
         />
+        <Fork>
+          <img src="/fork.svg" alt="" />
+        </Fork>
         <StartTime>9:00 - 10:00</StartTime>
         <TitleContainer>
           <Typography fontSize={20} fontWeight={700}>
@@ -84,17 +93,29 @@ const SingleProperty = () => {
         >
           <Box px={2} py={1} display={"flex"} alignItems={"center"}>
             <AccessTimeOutlinedIcon /> &nbsp; &nbsp;{" "}
-            <Typography fontWeight={600} fontSize={18} component={"span"}>
+            <Typography
+              fontWeight={600}
+              fontSize={{ xs: 15, md: 18 }}
+              component={"span"}
+            >
               {t("duration")}:
             </Typography>
-            <Typography fontWeight={400} fontSize={18} component={"span"}>
+            <Typography
+              fontWeight={400}
+              fontSize={{ xs: 15, md: 18 }}
+              component={"span"}
+            >
               1 {t("hour")}
             </Typography>
           </Box>
           <Divider />
           <Box px={2} py={1} display={"flex"} alignItems={"center"}>
             <DirectionsOutlinedIcon /> &nbsp; &nbsp;{" "}
-            <Typography fontWeight={600} fontSize={18} component={"span"}>
+            <Typography
+              fontWeight={600}
+              fontSize={{ xs: 15, md: 18 }}
+              component={"span"}
+            >
               {t("go_to_location")}
             </Typography>
           </Box>
@@ -108,13 +129,17 @@ const SingleProperty = () => {
           >
             <Box display={"flex"}>
               <Ticket fontSize="large" />
-              <Typography fontWeight={600} fontSize={18} component={"span"}>
+              <Typography
+                fontWeight={600}
+                fontSize={{ xs: 15, md: 18 }}
+                component={"span"}
+              >
                 {t("admission_ticket")}:
               </Typography>
               <Typography
                 color="primary"
                 fontWeight={400}
-                fontSize={18}
+                fontSize={{ xs: 15, md: 18 }}
                 component={"span"}
               >
                 {t("free")}
@@ -140,7 +165,11 @@ const SingleProperty = () => {
             <Box display={"flex"} alignItems={"center"}>
               <Video fontSize="large" />
 
-              <Typography fontWeight={600} fontSize={18} component={"span"}>
+              <Typography
+                fontWeight={600}
+                fontSize={{ xs: 15, md: 18 }}
+                component={"span"}
+              >
                 {t("live_camera")}
               </Typography>
             </Box>

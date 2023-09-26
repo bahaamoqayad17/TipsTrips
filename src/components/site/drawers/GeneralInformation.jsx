@@ -30,6 +30,13 @@ const Button = styled("button")(({ theme }) => ({
   },
 }));
 
+const Title = styled("h3")(({ theme }) => ({
+  fontSize: 18,
+  fontWeight: 700,
+  color: "#2C2C2C",
+  marginBottom: 16,
+}));
+
 export default function GeneralInformation() {
   const [state, setState] = useState({
     top: false,
@@ -52,7 +59,7 @@ export default function GeneralInformation() {
 
   return (
     <div>
-      <React.Fragment key={"ShowDetails"}>
+      <div key={"ShowDetails"}>
         <Button
           color="primary"
           variant="contained"
@@ -73,7 +80,7 @@ export default function GeneralInformation() {
           <Box
             sx={{
               padding: "16px 32px",
-              width: "450px",
+              maxWidth: 710,
             }}
           >
             <Box
@@ -90,9 +97,43 @@ export default function GeneralInformation() {
                 onClick={toggleDrawer("ShowDetails", false)}
               />
             </Box>
+
+            <Box>
+              <Title>Plan the User Experience</Title>
+              <p>
+                A wireframe is a low-fidelity sketch of a user interface,
+                showing the layout of elements such as buttons, text fields, and
+                navigation menus. By creating a wireframe, designers can plan
+                the user flow and ensure that the final product is intuitive and
+                easy to use. This helps to create a positive user experience,
+                which is essential for the success of any digital product.
+              </p>
+              <Box my={1}>
+                <img src="/info.svg" alt="" />
+              </Box>
+
+              <p>
+                A wireframe is a low-fidelity sketch of a user interface,
+                showing the layout of elements such as buttons, text fields, and
+                navigation menus. By creating a wireframe, designers can plan
+                the user flow and ensure that the final product is intuitive and
+                easy to use. This helps to create a positive user experience,
+                which is essential for the success of any digital product.
+              </p>
+
+              <Title>Plan the User Experience</Title>
+              <p>
+                A wireframe is a low-fidelity sketch of a user interface,
+                showing the layout of elements such as buttons, text fields, and
+                navigation menus. By creating a wireframe, designers can plan
+                the user flow and ensure that the final product is intuitive and
+                easy to use. This helps to create a positive user experience,
+                which is essential for the success of any digital product.
+              </p>
+            </Box>
           </Box>
         </Drawer>
-      </React.Fragment>
+      </div>
     </div>
   );
 }

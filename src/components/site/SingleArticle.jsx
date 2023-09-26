@@ -6,7 +6,7 @@ import Router from "next/router";
 
 export default function SingleArticle() {
   return (
-    <Card sx={{ borderRadius: "16px", boxShadow: "none" }}>
+    <Card sx={{ borderRadius: { xs: "4px", md: "16px" }, boxShadow: "none" }}>
       <CardMedia
         onClick={() => Router.push("/articles/5")}
         component="img"
@@ -14,7 +14,7 @@ export default function SingleArticle() {
         image="/test1.svg"
         sx={{ cursor: "pointer" }}
       />
-      <CardContent sx={{ pl: 0 }}>
+      <CardContent sx={{ pl: 0, pt: 0 }}>
         <Typography
           sx={{ cursor: "pointer", paddingTop: "8px" }}
           onClick={() => Router.push("/articles/5")}

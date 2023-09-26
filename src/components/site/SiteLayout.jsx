@@ -30,7 +30,7 @@ export default function SiteLayout({ children }) {
             position: "fixed",
             bottom: 30,
             right: 30,
-            zIndex: 1000,
+            zIndex: 500000,
             cursor: "pointer",
             color: "#fff",
           }}

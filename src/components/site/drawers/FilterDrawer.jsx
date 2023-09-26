@@ -2,18 +2,25 @@ import React, { useState } from "react";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Router from "next/router";
+import Button from "@mui/material/Button";
 import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
-import AddIcon from "@mui/icons-material/Add";
-
+import LocalHotelIcon from "@mui/icons-material/LocalHotel";
 import CloseIcon from "@mui/icons-material/Close";
+import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+import Filter from "../Filter";
+import Settings from "@/icons/Settings";
 
 const DisplayButton = styled("button")(({ theme }) => ({
-  backgroundColor: "#E0E0E0",
+  backgroundColor: "#F5F5F5",
   borderRadius: "4px",
-  width: 313,
+  width: "100%",
   height: 63,
-  fontSize: 20,
+  fontSize: 16,
   fontWeight: 600,
   color: "#2C2C2C",
   cursor: "pointer",
@@ -21,9 +28,25 @@ const DisplayButton = styled("button")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   border: "none",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+    color: "#fff",
+    "& svg": {
+      fill: "#fff",
+    },
+  },
 }));
 
-export default function AddNewPlace() {
+const Suitable = styled("p")(({ theme }) => ({
+  fontSize: 18,
+  fontWeight: 400,
+  color: "#fff",
+  position: "absolute",
+  top: "43%",
+  left: 8,
+}));
+
+export default function FilterDrawer() {
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -45,10 +68,8 @@ export default function AddNewPlace() {
 
   return (
     <div>
-      <React.Fragment key={"ShowDetails"}>
-        <DisplayButton onClick={toggleDrawer("ShowDetails", true)}>
-          <AddIcon /> &nbsp; {t("add_new_place")}
-        </DisplayButton>
+      <div key={"ShowDetails"}>
+        <Settings onClick={toggleDrawer("ShowDetails", true)} />
         <Drawer
           anchor={"left"}
           open={state["ShowDetails"]}
@@ -59,29 +80,11 @@ export default function AddNewPlace() {
             zIndex: 10000000,
           }}
         >
-          <Box
-            sx={{
-              padding: "16px 32px",
-              width: "450px",
-            }}
-          >
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-            >
-              <Typography fontSize={20} fontWeight={700}>
-                {t("add_new_place")}
-              </Typography>
-
-              <CloseIcon
-                sx={{ cursor: "pointer" }}
-                onClick={toggleDrawer("ShowDetails", false)}
-              />
-            </Box>
+          <Box maxWidth={330}>
+            <Filter />
           </Box>
         </Drawer>
-      </React.Fragment>
+      </div>
     </div>
   );
 }

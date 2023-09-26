@@ -1,16 +1,18 @@
-import DashboardLayout from "@/components/Admin/DashboardLayout";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import countryList from "react-select-country-list";
-import { useRouter } from "next/router";
+import FormControl from "@mui/material/FormControl";
+import Autocomplete from "@mui/material/Autocomplete";
+import Select from "@mui/material/Select";
+import { useEffect, useState } from "react";
+import { show, update } from "@/store/DestinationSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { create, show, update } from "@/store/DestinationSlice";
+import { useTranslation } from "react-i18next";
+import DashboardLayout from "@/components/Admin/DashboardLayout";
 import { handleImageChange } from "@/lib/Base64EnCode";
+import { fetchCountriesAndCites } from "@/store/CountrySlice";
+import { useRouter } from "next/router";
 
 const style = {
   marginBottom: "30px",
@@ -18,59 +20,49 @@ const style = {
 
 const Page = () => {
   const { t } = useTranslation();
-  const { all } = useSelector(({ destinations }) => destinations);
   const dispatch = useDispatch();
-
   const router = useRouter();
   const { id } = router.query;
-  const [item, setItem] = useState(all.find((item) => item.id == id));
-  const [image, setImage] = useState({
-    data: item?.image,
-    mime: "image/jpg",
-  });
-  const options = useMemo(() => countryList().getData(), []);
+  const [item, setItem] = useState({});
+  const [image, setImage] = useState(null);
+  const [country, setCountry] = useState({});
+  const { countries } = useSelector(({ countries }) => countries);
+  const { destination } = useSelector(({ destinations }) => destinations);
 
   const handleChange = async (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setImage({ data: URL.createObjectURL(files[0]) });
-      setItem({ ...item, [name]: await handleImageChange(files[0]) });
+    if (e.target.name === "image") {
+      setImage(URL.createObjectURL(e.target.files[0]));
+      setItem({
+        ...item,
+        [e.target.name]: await handleImageChange(e.target.files[0]),
+      });
     } else {
-      setItem({ ...item, [name]: value });
+      setItem({ ...item, [e.target.name]: e.target.value });
     }
   };
 
-  const handleSubmit = async (e) => {
+  const FormSubmit = async (e) => {
     e.preventDefault();
-
-    if (item?.id) {
-      dispatch(update(item));
-    } else {
-      dispatch(create(item));
-    }
-  };
-
-  const handleAutocompleteChange = (event, value) => {
-    const selectedCountries = value.map((option) => option.label).join(",");
-    setItem({ ...item, country: selectedCountries });
+    dispatch(update(item));
   };
 
   useEffect(() => {
-    if (id === "create") {
-    } else {
-      dispatch(show(id))
-        .then((response) => {
-          setItem(response.payload.Destinations);
-          setItem({
-            ...item,
-            image: { data: item.image, mime: "image/jpg" },
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    if (!destination.id) {
+      dispatch(show(id));
     }
-  }, [id, dispatch]);
+
+    if (destination.id) {
+      if (destination.id == id) {
+        setImage(destination.image_url);
+        setItem(destination);
+      } else {
+        dispatch(show(id));
+      }
+    }
+    if (countries.length === 0) {
+      dispatch(fetchCountriesAndCites());
+    }
+  }, [id, destination]);
 
   return (
     <>
@@ -82,20 +74,7 @@ const Page = () => {
           my: 5,
         }}
       >
-        <h1 style={style}>
-          {id === "create" ? t("destination_create") : t("destination_update")}
-        </h1>
-
-        <Typography variant="h6">{t("name")}</Typography>
-
-        <TextField
-          sx={style}
-          onChange={handleChange}
-          value={item?.name}
-          name="name"
-          fullWidth
-        />
-
+        <h1 style={style}>{t("destination_create")}</h1>
         <Typography variant="h6">{t("name_ar")}</Typography>
 
         <TextField
@@ -105,37 +84,14 @@ const Page = () => {
           name="name_ar"
           fullWidth
         />
-        {item?.country && (
-          <>
-            <Typography variant="h6">{t("countries")}</Typography>
 
-            <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={options}
-              required
-              getOptionLabel={(option) => option.label}
-              onChange={handleAutocompleteChange}
-              style={style}
-              defaultValue={item?.country
-                ?.split(",")
-                .map((value) => ({ label: value.trim() }))}
-              filterSelectedOptions
-              name="country"
-              renderInput={(params) => (
-                <TextField {...params} required name="country" />
-              )}
-            />
-          </>
-        )}
-
-        <Typography variant="h6">{t("city")}</Typography>
+        <Typography variant="h6">{t("name_en")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.city}
-          name="city"
+          value={item?.name_en}
+          name="name_en"
           fullWidth
         />
 
@@ -149,13 +105,62 @@ const Page = () => {
           fullWidth
         />
 
+        <Typography variant="h6">{t("country")}</Typography>
+
+        {item?.country_id && (
+          <>
+            <Autocomplete
+              options={countries}
+              getOptionLabel={(option) => option.name}
+              fullWidth
+              sx={style}
+              defaultValue={countries.find((c) => c.id == item?.country_id)}
+              onChange={(e, val) => {
+                setCountry(val);
+                handleChange({
+                  target: { name: "country_id", value: val?.id },
+                });
+              }}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+            />
+          </>
+        )}
+
+        <Typography variant="h6">{t("city")}</Typography>
+
+        {item?.city_id && (
+          <>
+            <Autocomplete
+              options={
+                countries.find((city) => country?.id === city?.id)?.cities || []
+              }
+              getOptionLabel={(option) => option.name}
+              fullWidth
+              sx={style}
+              defaultValue={countries
+                .find((con) => con.id === item?.country_id)
+                ?.cities.find((c) => c.id === item?.city_id)}
+              onChange={(e, val) =>
+                handleChange({
+                  target: { name: "city_id", value: val?.id },
+                })
+              }
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+            />
+          </>
+        )}
+
         <Typography variant="h6">{t("image")}</Typography>
 
         <input
           type="file"
           name="image"
-          multiple
           style={style}
+          required
           onChange={handleChange}
           accept="image/*"
         />
@@ -163,7 +168,7 @@ const Page = () => {
         {image && (
           <Box sx={style}>
             <img
-              src={image?.data}
+              src={image}
               alt="Selected Image"
               style={{ width: "100px", height: "auto" }}
             />
@@ -175,21 +180,35 @@ const Page = () => {
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.owner}
-          name="owner"
+          value={item?.image_owner}
+          name="image_owner"
           fullWidth
         />
-
         <Typography variant="h6">{t("source_link")}</Typography>
 
         <TextField
           sx={style}
           onChange={handleChange}
-          value={item?.source_link}
-          name="source_link"
+          value={item?.image_source_link}
+          name="image_source_link"
           fullWidth
         />
-        <Button onClick={handleSubmit} variant="contained">
+
+        <Typography variant="h6">{t("is_popular")}</Typography>
+
+        <FormControl fullWidth>
+          <Select
+            native
+            name="is_popular"
+            value={item?.is_popular}
+            sx={style}
+            onChange={handleChange}
+          >
+            <option value="0">{t("not_popular")}</option>
+            <option value="1">{t("popular")}</option>
+          </Select>
+        </FormControl>
+        <Button onClick={FormSubmit} variant="contained">
           {t("save")}
         </Button>
       </Box>

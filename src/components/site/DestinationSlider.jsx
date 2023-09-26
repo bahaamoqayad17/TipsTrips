@@ -1,5 +1,4 @@
 import { Navigation, A11y } from "swiper/modules";
-
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -23,7 +22,7 @@ const DestinationSlider = ({ destinations }) => {
             spaceBetween: 10,
           },
           960: {
-            slidesPerView: 4,
+            slidesPerView: 4.15,
             spaceBetween: 50,
           },
         }}
@@ -36,12 +35,13 @@ const DestinationSlider = ({ destinations }) => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                  ml: { xs: 0, md: 6 },
                 }}
               >
                 <img className="destination-image" src={item.image} alt="" />
                 <Typography
                   fontSize={{ md: 24, xs: 18 }}
-                  sx={{ marginTop: "10px" }}
+                  sx={{ marginTop: "5px" }}
                   color={"#2C2C2C"}
                   fontWeight={700}
                 >

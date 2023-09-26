@@ -93,8 +93,10 @@ const ArticleSlice = createSlice({
       state.error = null;
     });
     builder.addCase(create.fulfilled, (state, action) => {
-      FireToast("success", "Article Created Successfully");
-      Router.push("/admin/articles");
+      if (action.payload.status) {
+        FireToast("success", "Article Created Successfully");
+        Router.push("/admin/articles");
+      }
       state.loading = false;
       state.error = null;
     });
@@ -104,12 +106,27 @@ const ArticleSlice = createSlice({
       state.error = null;
     });
     builder.addCase(update.fulfilled, (state, action) => {
-      FireToast("success", "Article Updated Successfully");
-      Router.push("/admin/articles");
+      if (action.payload.status) {
+        FireToast("success", "Article Updated Successfully");
+        Router.push("/admin/articles");
+        state.article = {};
+      }
       state.loading = false;
       state.error = null;
     });
     builder.addCase(show.fulfilled, (state, action) => {
+      if (action.payload.data && Array.isArray(action.payload.data.images)) {
+        action.payload.data.image = null;
+        action.payload.data.head_image = null;
+
+        action.payload.data.images = action.payload.data.images.map(
+          (imageObj) => ({
+            ...imageObj,
+            image: null,
+          })
+        );
+      }
+
       state.article = action.payload.data;
       state.loading = false;
       state.error = null;

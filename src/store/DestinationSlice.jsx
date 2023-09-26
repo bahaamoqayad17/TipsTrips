@@ -8,7 +8,7 @@ export const index = createAsyncThunk(
   async (params, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.post("Destinations", params);
+      const res = await axios.get("admin/destinations", { params });
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -21,7 +21,7 @@ export const show = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     dispatch(startLoading());
     try {
-      const res = await axios.get(`Destinations/${id}`);
+      const res = await axios.get(`admin/destinations/${id}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -32,13 +32,8 @@ export const show = createAsyncThunk(
 export const create = createAsyncThunk(
   "Destinations/create",
   async (item, { rejectWithValue, dispatch }) => {
-    try {
-      const res = await axios.post("Destinations/Create", item);
-      return res.data;
-    } catch (error) {
-      FireToast("error", error.response?.data?.message);
-      return rejectWithValue(error);
-    }
+    const res = await axios.post("admin/destinations", item);
+    return res.data;
   }
 );
 
@@ -46,7 +41,7 @@ export const removeDestination = createAsyncThunk(
   "Destinations/delete",
   async (id, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.delete(`Destinations/destroy/${id}`);
+      const res = await axios.delete(`admin/destinations/${id}`);
       dispatch(index());
       return { message: "success" };
     } catch (error) {
@@ -60,7 +55,7 @@ export const update = createAsyncThunk(
   "Destinations/update",
   async (item, { rejectWithValue, dispatch }) => {
     try {
-      const res = await axios.post(`Destinations/Update/${item.id}`, item);
+      const res = await axios.post(`admin/destinations/${item.id}`, item);
       return res.data;
     } catch (error) {
       FireToast("error", error.response?.data?.message);
@@ -71,7 +66,7 @@ export const update = createAsyncThunk(
 
 const initialState = {
   all: [],
-  one: {},
+  destination: {},
   loading: false,
   error: null,
   success: null,
@@ -87,14 +82,16 @@ const Destinationslice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(index.fulfilled, (state, action) => {
-      state.all = action.payload.destinations;
-      state.count = action.payload.total;
+      state.all = action.payload.data.data;
+      state.count = action.payload.data.total;
       state.loading = false;
       state.error = null;
     });
     builder.addCase(create.fulfilled, (state, action) => {
-      FireToast("success", "Destination Created Successfully");
-      Router.push("/admin/destinations");
+      if (action.payload.status) {
+        FireToast("success", "Destination Created Successfully");
+        Router.push("/admin/destinations");
+      }
       state.loading = false;
       state.error = null;
     });
@@ -104,14 +101,18 @@ const Destinationslice = createSlice({
       state.error = null;
     });
     builder.addCase(update.fulfilled, (state, action) => {
-      FireToast("success", "Destination Updated Successfully");
-      Router.push("/admin/destinations");
+      if (action.payload.status) {
+        FireToast("success", "Destination Updated Successfully");
+        Router.push("/admin/destinations");
+        state.destination = {};
+      }
       state.loading = false;
       state.error = null;
     });
 
     builder.addCase(show.fulfilled, (state, action) => {
-      state.one = action.payload.Destinations;
+      action.payload.data.image = null;
+      state.destination = action.payload.data;
       state.loading = false;
       state.error = null;
     });

@@ -111,11 +111,16 @@ const CountrySlice = createSlice({
       state.countries = action.payload.data;
     });
     builder.addCase(addCountry.fulfilled, (state, action) => {
-      FireToast("success", "Country Added Successfully");
+      if (action.payload.status) {
+        FireToast("success", "Country Added Successfully");
+      }
       state.loading = false;
     });
     builder.addCase(updateCountry.fulfilled, (state, action) => {
-      FireToast("success", "Country Updated Successfully");
+      if (action.payload.status) {
+        FireToast("success", "Country Updated Successfully");
+        state.country = {};
+      }
       state.loading = false;
     });
     builder.addCase(deleteCountry.fulfilled, (state, action) => {
