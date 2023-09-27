@@ -30,7 +30,7 @@ export default function SingleItenirary() {
       }}
     >
       <CardMedia
-        // onClick={() => Router.push("/itineraries/5")}
+        onClick={() => Router.push("/itineraries/5")}
         sx={{ height: 295, cursor: "pointer" }}
         component="img"
         image="/test1.svg"
@@ -60,7 +60,7 @@ export default function SingleItenirary() {
           variant="h5"
           fontWeight={"bold"}
           sx={{ cursor: "pointer" }}
-          // onClick={() => Router.push("/itineraries/5")}
+          onClick={() => Router.push("/itineraries/5")}
         >
           Itinerart 6 days in Amsterdam and the Dutch countryside
         </Typography>
@@ -134,13 +134,11 @@ export default function SingleItenirary() {
             icon={
               <Heart
                 fontSize="large"
-                // sx={{ width: "50px", height: "50px" }}
               />
             }
             checkedIcon={
               <HeartFilled
                 fontSize="large"
-                // sx={{ width: "50px", height: "50px" }}
               />
             }
           />
