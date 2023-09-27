@@ -11,13 +11,17 @@ import Typography from "@mui/material/Typography";
 import styled from "@emotion/styled";
 
 const Mark = styled("div")(({ theme }) => ({
-  width: 30,
+  width: 33,
   height: 39,
   backgroundImage: "url(/mark.svg)",
   backgroundSize: "contain",
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
   position: "relative",
+  [theme.breakpoints.down("sm")]: {
+    width: 24,
+    height: 26,
+  },
 }));
 
 const Number = styled("span")(({ theme }) => ({
@@ -28,11 +32,18 @@ const Number = styled("span")(({ theme }) => ({
   color: "#fff",
   fontWeight: 600,
   fontSize: 18,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 14,
+  },
 }));
 
 const Image = styled("img")(({ theme }) => ({
   width: 32,
   height: 32,
+  [theme.breakpoints.down("sm")]: {
+    width: 24,
+    height: 24,
+  },
 }));
 
 export default function TripTimeline() {
@@ -41,7 +52,7 @@ export default function TripTimeline() {
       <Timeline
         sx={{
           "& .MuiTimelineDot-root": {
-            width: 30,
+            width: 32,
             height: 32,
           },
           "& .css-f07dfy-MuiTypography-root-MuiTimelineContent-root": {
@@ -52,7 +63,11 @@ export default function TripTimeline() {
           },
           "& .css-1ami7lv-MuiTimelineConnector-root": {
             backgroundColor: "inherit",
-            border: "1.5px dashed #B9B9B9",
+            backgroundImage:
+              "linear-gradient(#B9B9B9 70%, rgba(255,255,255,0) 0%)",
+            backgroundPosition: "right",
+            backgroundSize: "2px 20px",
+            backgroundRepeat: "repeat-y",
           },
         }}
       >

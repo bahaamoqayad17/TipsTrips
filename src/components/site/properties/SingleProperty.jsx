@@ -30,6 +30,9 @@ const TitleContainer = styled("div")(({ theme }) => ({
   color: "#fff",
   width: "100%",
   background: `linear-gradient(rgba(250, 250, 250, 0.1),#000)`,
+  [theme.breakpoints.down("sm")]: {
+    top: "33%",
+  },
 }));
 
 const StartTime = styled("div")(({ theme }) => ({

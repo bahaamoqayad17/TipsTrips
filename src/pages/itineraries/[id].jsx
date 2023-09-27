@@ -17,6 +17,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChangeDaysOrder from "@/components/site/drawers/ChangeDaysOrder";
 import TripTimeline from "@/components/site/TripTimeline";
 import Map from "@/components/site/Map";
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
+import { useTheme } from "@mui/material/styles";
+import MapIcon from "@/icons/MapIcon";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ImagesSlider from "@/components/site/properties/ImagesSlider";
+
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const Route = styled("p")(({ theme }) => ({
   color: "#757575",
@@ -30,6 +38,9 @@ const Title = styled("h1")(({ theme }) => ({
   fontSize: 32,
   fontWeight: 700,
   maxWidth: 500,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 22,
+  },
 }));
 
 const SubTitle = styled("p")(({ theme }) => ({
@@ -39,6 +50,9 @@ const SubTitle = styled("p")(({ theme }) => ({
   display: "inline-block",
   marginRight: 16,
   marginBottom: 0,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 18,
+  },
 }));
 
 const Badge = styled("div")(({ theme }) => ({
@@ -49,6 +63,10 @@ const Badge = styled("div")(({ theme }) => ({
   display: "inline-block",
   fontSize: 16,
   fontWeight: 600,
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 14,
+    padding: "4px 8px",
+  },
 }));
 
 const Button = styled("button")(({ theme }) => ({
@@ -100,6 +118,35 @@ const ShowInMap = styled("button")(({ theme }) => ({
   justifyContent: "space-around",
   cursor: "pointer",
   border: "1px solid #B9B9B9",
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}));
+
+const ShowMapMobile = styled("button")(({ theme }) => ({
+  backgroundColor: "#E0E0E0",
+  borderRadius: "4px",
+  fontSize: 14,
+  padding: "4px 8px",
+  width: 125,
+  height: 32,
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  fontWeight: 400,
+  color: "#2C2C2C",
+  border: "1px solid #C2C2C2",
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
+}));
+
+const Image = styled("img")(({ theme }) => ({
+  borderRadius: "16px",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
 }));
 
 const TabPanel = ({ value, index, children }) => {
@@ -114,10 +161,40 @@ const TabPanel = ({ value, index, children }) => {
   );
 };
 
+const images = [
+  {
+    label: "San Francisco – Oakland Bay Bridge, United States",
+    imgPath:
+      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
+  },
+  {
+    label: "Bird",
+    imgPath:
+      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
+  },
+  {
+    label: "Bali, Indonesia",
+    imgPath:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+  },
+  {
+    label: "Goč, Serbia",
+    imgPath:
+      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
+  },
+];
+
 const Page = () => {
   const { t } = useTranslation();
   const [value, setValue] = useState(0);
   const [showMap, setShowMap] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
+
+  const theme = useTheme();
 
   return (
     <>
@@ -136,7 +213,7 @@ const Page = () => {
               Itinerary 6 days in Amsterdam and the Dutch countryside
             </Title>
             <Box
-              display={"flex"}
+              display={{ md: "flex", xs: "none" }}
               alignItems={"center"}
               justifyContent={"space-between"}
               width={180}
@@ -146,9 +223,18 @@ const Page = () => {
               <img src="/share.svg" alt="" />
               <GrayBorderHeart fontSize="large" />
             </Box>
+
+            <Box display={{ md: "none", xs: "block" }}>
+              <MoreVertIcon />
+            </Box>
           </Box>
 
           <Grid container>
+            <Grid item xs={12}>
+              <Box display={{ xs: "block", md: "none" }}>
+                <ImagesSlider />
+              </Box>
+            </Grid>
             <Grid item xs={12} md={6}>
               <Typography mb={6}>{t("about_content")}</Typography>
 
@@ -190,8 +276,23 @@ const Page = () => {
               </Grid>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box display={"flex"} flexDirection={"row-reverse"}>
-                <img style={{ borderRadius: "16px" }} src="/test1.svg" alt="" />
+              <Box display={{ xs: "none", md: "block" }}>
+                <AutoPlaySwipeableViews
+                  axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                  index={activeStep}
+                  onChangeIndex={handleStepChange}
+                  enableMouseEvents
+                >
+                  {images.map((step, index) => (
+                    <>
+                      {Math.abs(activeStep - index) <= 2 ? (
+                        <Box display={"flex"} flexDirection={"row-reverse"}>
+                          <Image src="/test1.svg" alt="" />
+                        </Box>
+                      ) : null}
+                    </>
+                  ))}
+                </AutoPlaySwipeableViews>
               </Box>
             </Grid>
           </Grid>
@@ -203,33 +304,33 @@ const Page = () => {
               <Grid item xs={12}>
                 <Box
                   display={{ xs: "flex", md: "none" }}
-                  justifyContent={"space-around"}
+                  justifyContent={"space-between"}
                 >
-                  <ChangeDaysOrder />
                   {!showMap && (
                     <>
-                      <ShowInMap onClick={() => setShowMap(true)}>
-                        &nbsp; <MenuIcon /> &nbsp; &nbsp; {t("show_in_map")}
-                        &nbsp;
-                      </ShowInMap>
+                      <ShowMapMobile onClick={() => setShowMap(true)}>
+                        <MapIcon />
+                        {t("show_in_map")}
+                      </ShowMapMobile>
                     </>
                   )}
                   {showMap && (
                     <>
-                      <ShowInMap
+                      <ShowMapMobile
                         style={{
                           backgroundImage: "none",
                           backgroundColor: "#E0E0E0",
                         }}
                         onClick={() => setShowMap(false)}
                       >
-                        &nbsp; <MenuIcon /> &nbsp; &nbsp; {t("show_in_list")}
-                        &nbsp;
-                      </ShowInMap>
+                        <MenuIcon /> {t("show_in_list")}
+                      </ShowMapMobile>
                     </>
                   )}
+                  <ChangeDaysOrder />
                 </Box>
               </Grid>
+
               <Grid item md={8} xs={12}>
                 <Tabs
                   value={value}
@@ -340,9 +441,10 @@ const Page = () => {
                       <Box
                         display={"flex"}
                         justifyContent={"space-between"}
-                        alignItems={"center"}
+                        alignItems={{ md: "center", xs: "flex-start" }}
+                        flexDirection={{ xs: "column", md: "row" }}
                       >
-                        <Box>
+                        <Box mb={3}>
                           <Typography
                             color={"#000"}
                             fontWeight={600}
@@ -354,8 +456,8 @@ const Page = () => {
                         <Box>
                           <Typography
                             color={"#2c2c2c"}
-                            fontWeight={600}
-                            fontSize={20}
+                            fontWeight={{ md: 600, xs: 400 }}
+                            fontSize={{ md: 20, xs: 16 }}
                             maxWidth={290}
                           >
                             Total estimated duration of visits to places for

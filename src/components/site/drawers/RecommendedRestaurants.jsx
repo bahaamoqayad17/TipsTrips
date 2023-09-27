@@ -67,9 +67,6 @@ const IsHalal = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   borderRadius: "4px",
   padding: "8px 16px",
-  //   position: "absolute",
-  //   left: 10,
-  //   bottom: 10,
   color: "#fff",
 }));
 
@@ -102,7 +99,7 @@ export default function RecommendedRestaurants() {
 
   return (
     <div>
-      <div key={"ShowDetails"}>
+      <Box mb={3} key={"ShowDetails"}>
         <DisplayButton
           color="primary"
           variant="contained"
@@ -124,7 +121,7 @@ export default function RecommendedRestaurants() {
           <Box
             sx={{
               padding: "16px 32px",
-              width: "450px",
+              width: { xs: "100%", md: "450px" },
             }}
           >
             <Box
@@ -233,7 +230,7 @@ export default function RecommendedRestaurants() {
             </Card>
           </Box>
         </Drawer>
-      </div>
+      </Box>
     </div>
   );
 }

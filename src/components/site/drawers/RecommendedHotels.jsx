@@ -87,7 +87,7 @@ export default function RecommendedHotels() {
           <Box
             sx={{
               padding: "16px 32px",
-              width: "450px",
+              width: { xs: "100%", md: "450px" },
             }}
           >
             <Box

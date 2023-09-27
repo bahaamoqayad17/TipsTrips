@@ -80,7 +80,7 @@ export default function GeneralInformation() {
           <Box
             sx={{
               padding: "16px 32px",
-              maxWidth: 710,
+              maxWidth: { xs: "100%", md: 710 },
             }}
           >
             <Box

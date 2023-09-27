@@ -47,30 +47,32 @@ function NavBar(props) {
 
   const drawer = (
     <>
-      <Box sx={{ p: 2 }}>
-        <AccountMenu />
-      </Box>
-      <Box sx={{ p: 2, pb: 0 }}>
-        <LanguageMenu />
-      </Box>
-      <Box onClick={handleDrawerToggle} sx={{ p: 2 }}>
-        <List>
-          {navItems.map((item, i) => (
-            <ListItem key={i} disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  router.push(`/${item.link}`);
-                }}
-                sx={{ px: 0, fontSize: "1.3rem", fontWeight: 600 }}
-              >
-                <ListItemText
-                  sx={{ fontSize: "1.3rem", fontWeight: 600 }}
-                  primary={t(item.title)}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+      <Box>
+        <Box sx={{ p: 2 }}>
+          <AccountMenu />
+        </Box>
+        <Box sx={{ p: 2, pb: 0 }}>
+          <LanguageMenu />
+        </Box>
+        <Box onClick={handleDrawerToggle} sx={{ p: 2 }}>
+          <List>
+            {navItems.map((item, i) => (
+              <ListItem key={i} disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    router.push(`/${item.link}`);
+                  }}
+                  sx={{ px: 0, fontSize: "1.3rem", fontWeight: 600 }}
+                >
+                  <ListItemText
+                    sx={{ fontSize: "1.3rem", fontWeight: 600 }}
+                    primary={t(item.title)}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
       </Box>
     </>
   );
@@ -85,7 +87,7 @@ function NavBar(props) {
         sx={{
           backgroundColor: "#fff",
           boxShadow: "0px 0px 8px #c5c5c5",
-          zIndex: 500000,
+          zIndex: { md: 500000, xs: 2 },
         }}
         component="nav"
       >

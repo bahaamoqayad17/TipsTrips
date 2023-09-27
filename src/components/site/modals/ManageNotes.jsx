@@ -63,7 +63,7 @@ export default function ManageNotes() {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <Box width={460} sx={{ padding: "16px 32px" }}>
+        <Box width={{ md: 460, xs: 320 }} sx={{ padding: "16px 32px" }}>
           <Box
             display={"flex"}
             alignItems={"center"}

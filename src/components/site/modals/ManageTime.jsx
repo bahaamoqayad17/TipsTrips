@@ -9,10 +9,25 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import styled from "@emotion/styled";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const Plus = styled("img")(({ theme }) => ({
+  position: "absolute",
+  top: 0,
+  right: 0,
+  cursor: "pointer",
+}));
+
+const Minus = styled("img")(({ theme }) => ({
+  position: "absolute",
+  bottom: 0,
+  right: 0,
+  cursor: "pointer",
+}));
 
 const NumberInput = ({ max }) => {
   const style = {
@@ -26,7 +41,7 @@ const NumberInput = ({ max }) => {
     color: "#2C2C2C",
     fontWeight: 700,
   };
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const handleChange = (e) => {
     const { value } = e.target;
     if (value > max) {
@@ -36,15 +51,38 @@ const NumberInput = ({ max }) => {
     }
   };
   return (
-    <input
-      className="number-input"
-      style={style}
-      type="number"
-      max={max}
-      min={1}
-      value={value || 1}
-      onChange={handleChange}
-    />
+    <>
+      <Box position={"relative"}>
+        <input
+          style={style}
+          type="number"
+          max={max}
+          disabled
+          min={1}
+          value={value}
+          onChange={handleChange}
+        />
+
+        <Plus
+          onClick={() => {
+            if (value < max) {
+              setValue(value + 1);
+            }
+          }}
+          src="/plus.svg"
+          alt=""
+        />
+        <Minus
+          onClick={() => {
+            if (value > 1) {
+              setValue(value - 1);
+            }
+          }}
+          src="/minus.svg"
+          alt=""
+        />
+      </Box>
+    </>
   );
 };
 
@@ -96,7 +134,7 @@ export default function ManageTime() {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <Box width={510} sx={{ padding: "16px" }}>
+        <Box width={{ md: 510, xs: 320 }} sx={{ padding: "16px" }}>
           <Box
             display={"flex"}
             alignItems={"center"}
@@ -164,7 +202,8 @@ export default function ManageTime() {
               fontSize={18}
               color={"#616161"}
             >
-              {t("people_spend")}: 1h 15m {t("here")}
+              {t("people_spend")}: {Math.floor(minutes / 60)}h {minutes % 60}m{" "}
+              {t("here")}
             </Typography>
             <Box display={"flex"} justifyContent={"space-between"}>
               <Typography fontWeight={700} fontSize={20} color={"#2C2C2C"}>

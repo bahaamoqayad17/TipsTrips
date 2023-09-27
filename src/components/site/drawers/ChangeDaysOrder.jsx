@@ -9,6 +9,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import DaysOrder from "@/icons/DaysOrder";
 
 const DisplayButton = styled("button")(({ theme }) => ({
   backgroundColor: "#E0E0E0",
@@ -24,6 +26,28 @@ const DisplayButton = styled("button")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   border: "1px solid #B9B9B9",
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}));
+
+const MobileButton = styled("button")(({ theme }) => ({
+  backgroundColor: "#E0E0E0",
+  borderRadius: "4px",
+  width: 200,
+  height: 32,
+  padding: "4px 8px",
+  fontSize: 14,
+  fontWeight: 400,
+  color: "#2C2C2C",
+  border: "1px solid #C2C2C2",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
 }));
 
 const Day = styled("div")(({ theme }) => ({
@@ -55,37 +79,30 @@ const initDays = [
   {
     id: "1",
     name: "Day 1",
-    drag: "day-list",
   },
   {
     id: "2",
     name: "Day 2",
-    drag: "day-list",
   },
   {
     id: "3",
     name: "Day 3",
-    drag: "day-list",
   },
   {
     id: "4",
     name: "Day 4",
-    drag: "day-list",
   },
   {
     id: "5",
     name: "Day 5",
-    drag: "day-list",
   },
   {
     id: "6",
     name: "Day 6",
-    drag: "day-list",
   },
   {
     id: "7",
     name: "Day 7",
-    drag: "day-list",
   },
 ];
 
@@ -129,13 +146,13 @@ export default function ChangeDaysOrder() {
   return (
     <div>
       <div key={"ShowDetails"}>
-        <DisplayButton
-          color="primary"
-          variant="contained"
-          onClick={toggleDrawer("ShowDetails", true)}
-        >
+        <DisplayButton onClick={toggleDrawer("ShowDetails", true)}>
           {t("change_order_days")}
         </DisplayButton>
+
+        <MobileButton onClick={toggleDrawer("ShowDetails", true)}>
+          <DaysOrder /> {t("change_order_days")}
+        </MobileButton>
         <Drawer
           anchor={"left"}
           open={state["ShowDetails"]}
@@ -149,7 +166,7 @@ export default function ChangeDaysOrder() {
           <Box
             sx={{
               padding: "16px 32px",
-              width: "450px",
+              width: { xs: "100%", md: "450px" },
             }}
           >
             <Box

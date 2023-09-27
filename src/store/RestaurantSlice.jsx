@@ -29,6 +29,15 @@ export const show = createAsyncThunk(
 export const create = createAsyncThunk(
   "restaurants/create",
   async (item, { rejectWithValue, dispatch }) => {
+    item.images.forEach((image) => {
+      if (!image.image_source_link) {
+        image.image_source_link = "";
+      }
+
+      if (!image.image_owner) {
+        image.image_owner = "";
+      }
+    });
     const res = await axios.post("admin/restaurants", item);
     return res.data;
   }

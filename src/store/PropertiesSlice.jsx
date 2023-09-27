@@ -111,6 +111,15 @@ const PropertieSlice = createSlice({
       state.error = null;
     });
     builder.addCase(create.fulfilled, (state, action) => {
+      item.images.forEach((image) => {
+        if (!image.image_source_link) {
+          image.image_source_link = "";
+        }
+
+        if (!image.image_owner) {
+          image.image_owner = "";
+        }
+      });
       if (action.payload.status) {
         FireToast("success", "Property Created Successfully");
         Router.push("/admin/properties");
