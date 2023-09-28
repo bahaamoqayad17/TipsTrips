@@ -220,7 +220,20 @@ const Filter = () => {
           marks={marks}
           max={1000}
           valueLabelDisplay="on"
-          sx={{ fontSize: 20 }}
+          sx={{
+            fontSize: 20,
+            "& .MuiSlider-markLabel[data-index='1']": {
+              left: "94% !important",
+            },
+            "& .MuiSlider-markLabel[data-index='0']": {
+              left: "6% !important",
+            },
+            "& .MuiSlider-markLabel": {
+              fontSize: "20px !important",
+              fontWeight: "600 !important",
+              color: "#2c2c2c !important",
+            },
+          }}
         />
 
         <Button

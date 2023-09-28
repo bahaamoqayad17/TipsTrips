@@ -65,11 +65,10 @@ section {
   left: -2%;
   bottom: 45%;
   z-index: 2220;
-
   cursor: pointer;
 }
 
-.MuiSlider-markLabel {
+/* .MuiSlider-markLabel {
   font-size: 20px !important;
   font-weight: 600 !important;
   color: #2c2c2c !important;
@@ -81,7 +80,7 @@ section {
 
 .MuiSlider-markLabel[data-index="0"] {
   left: 6% !important;
-}
+} */
 
 .basic-menu {
   top: 73px !important;
