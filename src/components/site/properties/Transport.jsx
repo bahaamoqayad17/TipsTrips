@@ -37,7 +37,7 @@ const Transport = () => {
           maxWidth: 345,
           position: "relative",
 
-          "& .css-ujozlm-MuiCardContent-root:last-child": {
+          "& .MuiCardContent-root:last-child": {
             paddingBottom: 0,
           },
           mb: 3,
@@ -61,6 +61,8 @@ const Transport = () => {
             color: "#2C2C2C",
           }}
         >
+          <Divider />
+
           <Box px={2} py={1} display={"flex"} alignItems={"center"}>
             <DirectionsOutlinedIcon /> &nbsp; &nbsp;{" "}
             <Typography fontWeight={600} fontSize={18} component={"span"}>
@@ -71,7 +73,6 @@ const Transport = () => {
 
           <Divider />
           <DisplayNote />
-          <Divider />
         </CardContent>
       </Card>
     </>

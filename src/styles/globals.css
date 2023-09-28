@@ -76,11 +76,11 @@ section {
   color: #2c2c2c !important;
 }
 
-.css-2oe6m4-MuiSlider-markLabel {
+.MuiSlider-markLabel[data-index="1"] {
   left: 94% !important;
 }
 
-.css-1kmqerr-MuiSlider-markLabel {
+.MuiSlider-markLabel[data-index="1"] {
   left: 6% !important;
 }
 
@@ -114,10 +114,12 @@ section {
     background-image: url("../../public/header-mobile.svg");
     height: 246px;
   }
+
   .MuiTimelineDot-root {
     width: 24px !important;
     height: 24px !important;
   }
+
   section {
     padding-top: 15px;
   }
@@ -140,6 +142,7 @@ section {
     height: 100%;
     width: 100%;
   }
+
   .divider-account {
     margin: 0 !important;
   }

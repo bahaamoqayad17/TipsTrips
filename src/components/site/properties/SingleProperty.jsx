@@ -31,7 +31,7 @@ const TitleContainer = styled("div")(({ theme }) => ({
   width: "100%",
   background: `linear-gradient(rgba(250, 250, 250, 0.1),#000)`,
   [theme.breakpoints.down("sm")]: {
-    top: "33%",
+    top: "31%",
   },
 }));
 
@@ -61,7 +61,7 @@ const SingleProperty = () => {
           width: { md: 345, xs: "100%" },
           position: "relative",
           mb: 3,
-          "& .css-ujozlm-MuiCardContent-root:last-child": {
+          "& .MuiCardContent-root:last-child": {
             paddingBottom: 0,
           },
         }}
