@@ -52,10 +52,6 @@ section {
   font-size: 11px;
 }
 
-.css-17mmue9-MuiButtonBase-root-MuiButton-root {
-  font-family: "Source Sans 3", sans-serif !important;
-}
-
 .next-btn {
   position: absolute;
   right: -2%;
@@ -122,24 +118,20 @@ section {
     width: 24px !important;
     height: 24px !important;
   }
-
-  .css-6ck1o7-MuiTabs-root .MuiTabs-scrollButtons {
-    display: none !important;
-  }
   section {
     padding-top: 15px;
   }
 
-  .css-pvyvyk-MuiTimeline-root {
+  .MuiTimeline-root {
     padding: 0 !important;
   }
 
-  .css-3xotmn-MuiTimeline-root,
+  .MuiTimeline-root,
   .css-dh53bo {
     padding: 0 !important;
   }
 
-  .css-52fzo0-MuiTypography-root {
+  .nav-item span {
     font-weight: bold !important;
     font-size: 1.3rem !important;
   }

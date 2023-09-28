@@ -377,6 +377,16 @@ const Page = () => {
                         color: "#FF5733",
                       },
                     },
+
+                    "@media (max-width: 768px)": {
+                      "& .MuiTabs-scrollButtons:last-child": {
+                        display: "none",
+                      },
+                      "& .MuiTabs-scrollButtons:first-child": {
+                        display: "none",
+                      },
+                    },
+
                     "& .MuiTabs-more:last-child": {
                       color: "#44A44C",
                       "&:hover": {

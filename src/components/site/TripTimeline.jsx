@@ -55,13 +55,13 @@ export default function TripTimeline() {
             width: 32,
             height: 32,
           },
-          "& .css-f07dfy-MuiTypography-root-MuiTimelineContent-root": {
+          "& .MuiTypography-root-MuiTimelineContent-root": {
             padding: "13px 16px",
           },
-          "& .css-ha3bif-MuiTimelineItem-root::before": {
+          "& .MuiTimelineItem-root::before": {
             display: "none",
           },
-          "& .css-1ami7lv-MuiTimelineConnector-root": {
+          "& .MuiTimelineConnector-root": {
             backgroundColor: "inherit",
             backgroundImage:
               "linear-gradient(#B9B9B9 70%, rgba(255,255,255,0) 0%)",

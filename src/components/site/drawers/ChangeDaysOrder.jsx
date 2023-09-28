@@ -228,14 +228,14 @@ export default function ChangeDaysOrder() {
                   {t("reset")}
                 </Button>
               </Box>
-              <Box
+              {/* <Box
                 mt={5}
                 display={"flex"}
                 justifyContent={"center"}
                 color={"#FEBE46"}
               >
                 <StarRateRoundedIcon fontSize="large" />
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </Drawer>

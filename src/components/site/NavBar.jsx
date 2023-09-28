@@ -66,6 +66,7 @@ function NavBar(props) {
                 >
                   <ListItemText
                     sx={{ fontSize: "1.3rem", fontWeight: 600 }}
+                    className="nav-item"
                     primary={t(item.title)}
                   />
                 </ListItemButton>
