@@ -46,7 +46,7 @@ export default function DisplayThingsToDo() {
           </Typography>
         </Box>
 
-        <ArrowForwardIosSharpIcon />
+        <ArrowForwardIosSharpIcon fontSize="small" />
       </Box>
       <Dialog
         open={open}

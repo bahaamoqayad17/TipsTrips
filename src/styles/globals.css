@@ -69,8 +69,7 @@ section {
   cursor: pointer;
 }
 
-.css-2oe6m4-MuiSlider-markLabel,
-.css-1kmqerr-MuiSlider-markLabel {
+.MuiSlider-markLabel {
   font-size: 20px !important;
   font-weight: 600 !important;
   color: #2c2c2c !important;
@@ -80,7 +79,7 @@ section {
   left: 94% !important;
 }
 
-.MuiSlider-markLabel[data-index="1"] {
+.MuiSlider-markLabel[data-index="0"] {
   left: 6% !important;
 }
 

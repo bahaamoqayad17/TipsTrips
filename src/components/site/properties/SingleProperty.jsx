@@ -31,7 +31,7 @@ const TitleContainer = styled("div")(({ theme }) => ({
   width: "100%",
   background: `linear-gradient(rgba(250, 250, 250, 0.1),#000)`,
   [theme.breakpoints.down("sm")]: {
-    top: "31%",
+    top: "32.5%",
   },
 }));
 
@@ -149,7 +149,7 @@ const SingleProperty = () => {
               </Typography>
             </Box>
 
-            <ArrowForwardIosSharpIcon />
+            <ArrowForwardIosSharpIcon fontSize="small" />
           </Box>
           <Divider />
 

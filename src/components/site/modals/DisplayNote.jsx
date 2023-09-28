@@ -43,7 +43,7 @@ export default function DisplayNote() {
           </Typography>
         </Box>
 
-        <ArrowForwardIosSharpIcon />
+        <ArrowForwardIosSharpIcon fontSize="small" />
       </Box>
       <Dialog
         open={open}
