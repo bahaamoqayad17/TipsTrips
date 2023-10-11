@@ -9,8 +9,6 @@ import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import { useTranslation } from "react-i18next";
 import DirectionsOutlinedIcon from "@mui/icons-material/DirectionsOutlined";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import Ticket from "@/icons/Ticket";
-import Video from "@/icons/Video";
 import DisplayNote from "../modals/DisplayNote";
 import DisplayThingsToDo from "../modals/DisplayThingsToDo";
 import styled from "@emotion/styled";
@@ -24,15 +22,13 @@ const Title = styled("div")(({ theme }) => ({
 
 const TitleContainer = styled("div")(({ theme }) => ({
   position: "absolute",
-  top: "32%",
-  paddingRight: 8,
+  top: "34%",
+  paddingRight: 0,
   paddingLeft: 8,
   color: "#fff",
   width: "100%",
-  background: `linear-gradient(rgba(250, 250, 250, 0.1),#000)`,
-  [theme.breakpoints.down("sm")]: {
-    top: "32.5%",
-  },
+  height: 70,
+  background: `linear-gradient(rgba(250, 250, 250, 0.1) -30%,#000)`,
 }));
 
 const StartTime = styled("div")(({ theme }) => ({
@@ -98,14 +94,14 @@ const SingleProperty = () => {
             <AccessTimeOutlinedIcon /> &nbsp; &nbsp;{" "}
             <Typography
               fontWeight={600}
-              fontSize={{ xs: 15, md: 18 }}
+              fontSize={{ xs: 15, md: 16 }}
               component={"span"}
             >
-              {t("duration")}:
+              {t("duration")}:&nbsp;
             </Typography>
             <Typography
               fontWeight={400}
-              fontSize={{ xs: 15, md: 18 }}
+              fontSize={{ xs: 15, md: 16 }}
               component={"span"}
             >
               1 {t("hour")}
@@ -116,7 +112,7 @@ const SingleProperty = () => {
             <DirectionsOutlinedIcon /> &nbsp; &nbsp;{" "}
             <Typography
               fontWeight={600}
-              fontSize={{ xs: 15, md: 18 }}
+              fontSize={{ xs: 15, md: 16 }}
               component={"span"}
             >
               {t("go_to_location")}
@@ -131,18 +127,19 @@ const SingleProperty = () => {
             justifyContent={"space-between"}
           >
             <Box display={"flex"}>
-              <Ticket fontSize="large" />
+              <img src="/ticket.svg" width={"22px"} height={"22px"} alt="" />
+              &nbsp;&nbsp;&nbsp;&nbsp;
               <Typography
                 fontWeight={600}
-                fontSize={{ xs: 15, md: 18 }}
+                fontSize={{ xs: 15, md: 16 }}
                 component={"span"}
               >
-                {t("admission_ticket")}:
+                {t("admission_ticket")}:&nbsp;
               </Typography>
               <Typography
                 color="primary"
                 fontWeight={400}
-                fontSize={{ xs: 15, md: 18 }}
+                fontSize={{ xs: 15, md: 16 }}
                 component={"span"}
               >
                 {t("free")}
@@ -156,8 +153,6 @@ const SingleProperty = () => {
           <DisplayThingsToDo />
 
           <Divider />
-          <DisplayNote />
-          <Divider />
           <Box
             px={2}
             py={1}
@@ -166,17 +161,19 @@ const SingleProperty = () => {
             alignContent={"center"}
           >
             <Box display={"flex"} alignItems={"center"}>
-              <Video fontSize="large" />
-
+              <img src="/video.svg" width={"22px"} height={"22px"} alt="" />
+              &nbsp;&nbsp;&nbsp;&nbsp;
               <Typography
                 fontWeight={600}
-                fontSize={{ xs: 15, md: 18 }}
+                fontSize={{ xs: 15, md: 16 }}
                 component={"span"}
               >
                 {t("live_camera")}
               </Typography>
             </Box>
           </Box>
+          <Divider />
+          <DisplayNote />
         </CardContent>
       </Card>
     </>

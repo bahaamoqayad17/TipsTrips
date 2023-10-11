@@ -12,7 +12,9 @@ const Route = styled("p")(({ theme }) => ({
   color: "#757575",
   fontSize: 18,
   fontWeight: 400,
-  marginBottom: 56,
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }));
 
 const Title = styled("h1")(({ theme }) => ({
@@ -41,6 +43,22 @@ const LoadMore = styled("div")(({ theme }) => ({
   fontWeight: 600,
   width: "367px",
   color: "#fff",
+}));
+
+const Icon = styled("img")(({ theme }) => ({
+  position: "absolute",
+  transform: "translate(50%,-50%)",
+  top: "50%",
+  left: "50%",
+  width: 20,
+  height: 20,
+}));
+
+const IconHolder = styled("div")(({ theme }) => ({
+  backgroundColor: "#F5F5F5",
+  borderRadius: "23px",
+  position: "relative",
+  cursor: "pointer",
 }));
 
 const Page = () => {
@@ -89,12 +107,18 @@ const Page = () => {
                 alignItems={"center"}
                 fontSize={"20px"}
                 justifyContent={"space-between"}
-                width={120}
+                width={80}
                 fontWeight={600}
               >
-                <img src="/facebook.svg" alt="" />
-                <img src="/mail.svg" alt="" />
-                <img src="/share.svg" alt="" />
+                <IconHolder>
+                  <Icon src="/facebook.svg" alt="" />
+                </IconHolder>
+                <IconHolder>
+                  <Icon src="/mail.svg" alt="" />
+                </IconHolder>
+                <IconHolder>
+                  <Icon src="/share.svg" alt="" />
+                </IconHolder>
               </Box>
               <Box display={{ xs: "block", md: "none" }}>
                 <FilterDrawer />

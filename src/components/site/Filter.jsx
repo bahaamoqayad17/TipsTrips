@@ -13,7 +13,10 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import Button from "@mui/material/Button";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import { Paper } from "@mui/material";
 
 const FilterTitle = styled("p")(({ theme }) => ({
   color: "#2C2C2C",
@@ -54,9 +57,27 @@ const marks = [
   },
 ];
 
+const countries = [
+  {
+    label: "Switzerland",
+    value: "Switzerland",
+  },
+  {
+    label: "Paris",
+    value: "Paris",
+  },
+  {
+    label: "London",
+    value: "London",
+  },
+  {
+    label: "Berlin",
+    value: "Berlin",
+  },
+];
+
 const Filter = () => {
   const { t } = useTranslation();
-  const [country, setCountry] = useState("Switzerland");
 
   return (
     <>
@@ -69,23 +90,25 @@ const Filter = () => {
       >
         <FilterTitle>{t("choose_a_destination")} :</FilterTitle>
 
-        <FormControl fullWidth sx={{ backgroundColor: "#fff" }}>
-          <Select
-            value={country}
-            sx={{
+        <Autocomplete
+          sx={{
+            backgroundColor: "#fff",
+            "& input": {
               textAlign: "center",
               color: "#757575",
               fontSize: 20,
               fontWeight: 600,
-            }}
-            onChange={(e) => setCountry(e.target.value)}
-          >
-            <MenuItem value="Switzerland">Switzerland</MenuItem>
-            <MenuItem value={"Paris"}>Paris</MenuItem>
-            <MenuItem value={"London"}>London</MenuItem>
-            <MenuItem value={"Berlin"}>Berlin</MenuItem>
-          </Select>
-        </FormControl>
+            },
+            "& .MuiAutocomplete-paper": {
+              color: "red !important",
+            },
+          }}
+          fullWidth
+          options={countries}
+          defaultValue={{ label: "Switzerland", value: "Switzerland" }}
+          getOptionLabel={(option) => option.label}
+          renderInput={(params) => <TextField {...params} variant="outlined" />}
+        />
 
         <FilterTitle>{t("best_in")} :</FilterTitle>
 

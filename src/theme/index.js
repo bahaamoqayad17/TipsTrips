@@ -61,6 +61,11 @@ const theme = createTheme({
       },
     },
   },
+  MuiAutocomplete: {
+    styleOverrides: {
+      popup: { zIndex: "550055555555551300 !important" },
+    },
+  },
   typography: {
     button: {
       fontWeight: 600,

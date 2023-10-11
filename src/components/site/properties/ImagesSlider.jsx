@@ -48,8 +48,13 @@ const ImagesSlider = () => {
         {images.map((item, i) => (
           <>
             <SwiperSlide mb key={i}>
-              <Box mb={3}>
-                <img className="destination-image" src={item.imgPath} alt="" />
+              <Box>
+                <img
+                  className="destination-image"
+                  style={{ borderRadius: "4px" }}
+                  src={item.imgPath}
+                  alt=""
+                />
               </Box>
             </SwiperSlide>
           </>

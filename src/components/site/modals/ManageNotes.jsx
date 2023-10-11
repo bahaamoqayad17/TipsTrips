@@ -8,6 +8,7 @@ import { forwardRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CloseIcon from "@mui/icons-material/Close";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import Divider from "@mui/material/Divider";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -62,13 +63,28 @@ export default function ManageNotes() {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        sx={{
+          "@media(max-width:768px)": {
+            "& .MuiDialog-root": {
+              position: "relative",
+            },
+            "& .MuiPaper-root": {
+              margin: 0,
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              borderBottomRightRadius: 0,
+              borderBottomLeftRadius: 0,
+            },
+          },
+        }}
       >
-        <Box width={{ md: 460, xs: 320 }} sx={{ padding: "16px 32px" }}>
+        <Box width={{ md: 460 }} py={"16px"}>
           <Box
             display={"flex"}
             alignItems={"center"}
             justifyContent={"space-between"}
-            mb={3}
+            px={"32px"}
           >
             <Typography fontSize={20} fontWeight={700} color={"#2C2C2C"}>
               {t("manage_notes")}
@@ -76,28 +92,37 @@ export default function ManageNotes() {
 
             <CloseIcon sx={{ cursor: "pointer" }} onClick={handleClose} />
           </Box>
-          <TextField
-            multiline
-            rows={10}
-            fullWidth
-            variant="outlined"
-            value={note}
-            inputProps={{ maxLength: 500 }}
-            onChange={(e) => setNote(e.target.value)}
+          <Divider
+            sx={{ mb: 3, mt: 1, width: "100%", borderColor: "#E0E0E0" }}
           />
-          <Box mt={1} display={"flex"} flexDirection={"row-reverse"}>
-            <Typography fontSize={18} color={"black"}>
-              {note.length} / 500 {t("char")}
-            </Typography>
-          </Box>
+          <Box px={"32px"}>
+            <TextField
+              multiline
+              rows={10}
+              fullWidth
+              variant="outlined"
+              value={note}
+              inputProps={{ maxLength: 500 }}
+              onChange={(e) => setNote(e.target.value)}
+            />
+            <Box mt={1} display={"flex"} flexDirection={"row-reverse"}>
+              <Typography fontSize={18} color={"black"}>
+                {note.length} / 500 {t("char")}
+              </Typography>
+            </Box>
 
-          <Box mt={5} display={"flex"} justifyContent={"space-between"}>
-            <Button onClick={handleSubmit} sx={ButtonStyle} variant="contained">
-              {t("save")}
-            </Button>
-            <Button onClick={handleRemove} sx={ButtonStyle}>
-              {t("remove")}
-            </Button>
+            <Box mt={5} display={"flex"} justifyContent={"space-between"}>
+              <Button
+                onClick={handleSubmit}
+                sx={ButtonStyle}
+                variant="contained"
+              >
+                {t("save")}
+              </Button>
+              <Button onClick={handleRemove} sx={ButtonStyle}>
+                {t("remove")}
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Dialog>

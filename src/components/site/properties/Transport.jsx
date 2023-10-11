@@ -1,18 +1,12 @@
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import { useTranslation } from "react-i18next";
 import DirectionsOutlinedIcon from "@mui/icons-material/DirectionsOutlined";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import Ticket from "@/icons/Ticket";
-import Video from "@/icons/Video";
 import DisplayNote from "../modals/DisplayNote";
-import DisplayThingsToDo from "../modals/DisplayThingsToDo";
 import styled from "@emotion/styled";
 import PropertyMenu from "./PropertyMenu";
 
@@ -71,7 +65,6 @@ const Transport = () => {
           </Box>
           <Divider />
 
-          <Divider />
           <DisplayNote />
         </CardContent>
       </Card>

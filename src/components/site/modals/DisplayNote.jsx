@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import CloseIcon from "@mui/icons-material/Close";
+import Divider from "@mui/material/Divider";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -51,13 +52,28 @@ export default function DisplayNote() {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        sx={{
+          "@media(max-width:768px)": {
+            "& .MuiDialog-root": {
+              position: "relative",
+            },
+            "& .MuiPaper-root": {
+              margin: 0,
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              borderBottomRightRadius: 0,
+              borderBottomLeftRadius: 0,
+            },
+          },
+        }}
       >
-        <Box maxWidth={460} sx={{ padding: "16px 32px" }}>
+        <Box maxWidth={460} py={"16px"}>
           <Box
             display={"flex"}
             alignItems={"center"}
             justifyContent={"space-between"}
-            mb={3}
+            px={"32px"}
           >
             <Typography fontSize={20} fontWeight={700} color={"#2C2C2C"}>
               {t("my_note")}
@@ -65,10 +81,16 @@ export default function DisplayNote() {
 
             <CloseIcon sx={{ cursor: "pointer" }} onClick={handleClose} />
           </Box>
+
+          <Divider
+            sx={{ mb: 3, mt: 1, width: "100%", borderColor: "#E0E0E0" }}
+          />
+
           <Typography
             fontWeight={400}
             fontSize={18}
             id="alert-dialog-slide-description"
+            px={"32px"}
           >
             His route is approximately 220 kilometers (137 miles) long and takes
             about 2.5 to 3 hours, depending on traffic and road conditions. It

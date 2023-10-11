@@ -12,12 +12,21 @@ const Route = styled("p")(({ theme }) => ({
   color: "#757575",
   fontSize: 18,
   fontWeight: 400,
-  marginBottom: 56,
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }));
 
 const Title = styled("h1")(({ theme }) => ({
   color: "#2C2C2C",
   fontSize: 32,
+  fontWeight: 700,
+  marginBottom: 30,
+}));
+
+const TitleTwo = styled("h2")(({ theme }) => ({
+  color: "#2C2C2C",
+  fontSize: 25,
   fontWeight: 700,
   marginBottom: 30,
 }));
@@ -47,7 +56,7 @@ const Page = () => {
           </Route>
           <Title>{t("contact")}</Title>
 
-          <Title style={{ marginTop: 100 }}>{t("send_us_message")}</Title>
+          <TitleTwo>{t("send_us_message")}</TitleTwo>
 
           <Grid container>
             <Grid xs={12} md={6}>

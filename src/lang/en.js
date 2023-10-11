@@ -348,5 +348,6 @@ export const en = {
     analytics_code: "Analytics Code",
     search_console_code: "Search Console Code",
     js_code: "JS Code",
+    traffic_alert: "Traffic Alert",
   },
 };

@@ -22,8 +22,9 @@ export default function SingleItenirary() {
     <Card
       sx={{
         position: "relative",
-        borderRadius: { xs: "4px", md: "16px" },
+        borderRadius: "16px",
         boxShadow: "0px 0px 20px 0px rgba(0,0,0,10%)",
+        border: "1px solid #ccc",
         "& .css-46bh2p-MuiCardContent-root:last-child": {
           paddingBottom: "10px",
         },
@@ -131,16 +132,8 @@ export default function SingleItenirary() {
           <Checkbox
             checked={checked}
             onChange={handleCheckBox}
-            icon={
-              <Heart
-                fontSize="large"
-              />
-            }
-            checkedIcon={
-              <HeartFilled
-                fontSize="large"
-              />
-            }
+            icon={<Heart fontSize="large" />}
+            checkedIcon={<HeartFilled fontSize="large" />}
           />
         </Box>
       </CardContent>

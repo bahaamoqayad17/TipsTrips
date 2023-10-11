@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 import InfoIcon from "@mui/icons-material/Info";
-
+import Divider from "@mui/material/Divider";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Button = styled("button")(({ theme }) => ({
@@ -26,6 +26,14 @@ const Button = styled("button")(({ theme }) => ({
     color: "#fff",
     "& svg": {
       fill: "#fff",
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    border: "1px solid #B9B9B9",
+    fontSize: 20,
+    "& svg": {
+      width: 30,
+      height: 30,
     },
   },
 }));
@@ -75,11 +83,14 @@ export default function GeneralInformation() {
             overflowY: "scroll",
             position: "relative",
             zIndex: 10000000,
+            "& .MuiDrawer-paper": {
+              backgroundColor: "#f5f5f5 !important",
+            },
           }}
         >
           <Box
             sx={{
-              padding: "16px 32px",
+              py: "16px",
               maxWidth: { xs: "100%", md: 710 },
             }}
           >
@@ -87,6 +98,7 @@ export default function GeneralInformation() {
               display={"flex"}
               alignItems={"center"}
               justifyContent={"space-between"}
+              px={"32px"}
             >
               <Typography fontSize={20} fontWeight={700}>
                 {t("general_information")}
@@ -98,7 +110,11 @@ export default function GeneralInformation() {
               />
             </Box>
 
-            <Box>
+            <Divider
+              sx={{ mb: 3, mt: 1, width: "100%", borderColor: "#E0E0E0" }}
+            />
+
+            <Box px={"32px"}>
               <Title>Plan the User Experience</Title>
               <p>
                 A wireframe is a low-fidelity sketch of a user interface,

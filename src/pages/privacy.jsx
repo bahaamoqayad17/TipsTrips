@@ -11,6 +11,9 @@ const Route = styled("p")(({ theme }) => ({
   fontSize: 18,
   fontWeight: 400,
   marginBottom: 56,
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }));
 
 const Title = styled("h1")(({ theme }) => ({

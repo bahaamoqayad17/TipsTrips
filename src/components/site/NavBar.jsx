@@ -113,8 +113,12 @@ function NavBar(props) {
                 sx={{ ml: 2, cursor: "pointer" }}
               />
             </Box>
-
-            <img width={"140px"} src="/logo-mobile.svg" alt="logo" />
+            <img
+              onClick={() => Router.push("/")}
+              width={"140px"}
+              src="/logo-mobile.svg"
+              alt="logo"
+            />
           </IconButton>
 
           <Container>

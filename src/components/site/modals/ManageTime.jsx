@@ -10,6 +10,7 @@ import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import styled from "@emotion/styled";
+import Divider from "@mui/material/Divider";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -52,7 +53,7 @@ const NumberInput = ({ max }) => {
   };
   return (
     <>
-      <Box position={"relative"}>
+      <Box position={"relative"} width={"100%"}>
         <input
           style={style}
           type="number"
@@ -61,6 +62,7 @@ const NumberInput = ({ max }) => {
           min={1}
           value={value}
           onChange={handleChange}
+          className="number-input"
         />
 
         <Plus
@@ -133,12 +135,29 @@ export default function ManageTime() {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        sx={{
+          "@media(max-width:768px)": {
+            "& .MuiDialog-root": {
+              position: "relative",
+            },
+            "& .MuiPaper-root": {
+              margin: 0,
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              borderBottomRightRadius: 0,
+              borderBottomLeftRadius: 0,
+            },
+          },
+        }}
       >
-        <Box width={{ md: 510, xs: 320 }} sx={{ padding: "16px" }}>
+        <Box width={{ md: 510, xs: "100%" }}>
           <Box
             display={"flex"}
             alignItems={"center"}
             justifyContent={"space-between"}
+            p={"16px"}
+            pb={"8px"}
           >
             <Typography fontSize={20} fontWeight={700} color={"#2C2C2C"}>
               {t("manage_time")}
@@ -147,120 +166,136 @@ export default function ManageTime() {
             <CloseIcon sx={{ cursor: "pointer" }} onClick={handleClose} />
           </Box>
 
-          <Typography my={3} fontWeight={400} fontSize={18} color={"#616161"}>
-            {t("working_hours")}: 09:00 - 16:00
-          </Typography>
+          <Divider sx={{ width: "100%", borderColor: "#E0E0E0" }} />
 
-          <Box
-            sx={{ borderBottom: "1px dotted #C2C2C2", pb: 5 }}
-            display={"flex"}
-            justifyContent={"space-between"}
-          >
-            <Typography fontWeight={700} fontSize={20} color={"#2C2C2C"}>
-              {t("start_time")}:
+          <Box p={"16px"} pt={0}>
+            <Typography my={3} fontWeight={400} fontSize={18} color={"#616161"}>
+              {t("working_hours")}: 09:00 - 16:00
             </Typography>
-            <Box display={"flex"}>
-              <Box
-                display={"flex"}
-                flexDirection={"column"}
-                alignItems={"center"}
-                mr={2}
-              >
-                <NumberInput max={24} />
-                <Typography
-                  mt={1}
-                  fontWeight={400}
-                  fontSize={18}
-                  color={"black"}
-                >
-                  {t("hours")}
-                </Typography>
-              </Box>
-              <Box
-                display={"flex"}
-                flexDirection={"column"}
-                alignItems={"center"}
-              >
-                <NumberInput max={24} />
-                <Typography
-                  mt={1}
-                  fontWeight={400}
-                  fontSize={18}
-                  color={"black"}
-                >
-                  {t("minutes")}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
 
-          <Box>
-            <Typography
-              mt={3}
-              mb={1.2}
-              fontWeight={400}
-              fontSize={18}
-              color={"#616161"}
+            <Box
+              sx={{ borderBottom: "1px dotted #C2C2C2", pb: 5 }}
+              display={"flex"}
+              justifyContent={"space-between"}
+              flexDirection={{ md: "row", xs: "column" }}
             >
-              {t("people_spend")}: {Math.floor(minutes / 60)}h {minutes % 60}m{" "}
-              {t("here")}
-            </Typography>
-            <Box display={"flex"} justifyContent={"space-between"}>
               <Typography fontWeight={700} fontSize={20} color={"#2C2C2C"}>
-                {t("duration")}:
+                {t("start_time")}:
               </Typography>
-
-              <Box
-                sx={{
-                  backgroundColor: "#F5F5F5",
-                  borderRadius: "50px",
-                  padding: "4px",
-                }}
-                display={"flex"}
-                alignItems={"center"}
-              >
-                <RemoveIcon
-                  sx={{
-                    cursor: "pointer",
-                    backgroundColor: "#E0E0E0",
-                    borderRadius: "50px",
-                    padding: "8px",
-                  }}
-                  fontSize="large"
-                  onClick={() => setMinutes(minutes - 1)}
-                />
-                <Typography
-                  fontWeight={600}
-                  fontSize={20}
-                  color={"#4F4F4F"}
-                  mx={2}
+              <Box display={"flex"}>
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  alignItems={"center"}
+                  mr={2}
+                  width={"100%"}
                 >
-                  {Math.floor(minutes / 60)}h {minutes % 60}m
-                </Typography>
-                <AddIcon
-                  sx={{
-                    cursor: "pointer",
-                    backgroundColor: "#E0E0E0",
-                    borderRadius: "50px",
-                    padding: "8px",
-                  }}
-                  fontSize="large"
-                  onClick={() => setMinutes(minutes + 1)}
-                />
+                  <NumberInput max={24} />
+                  <Typography
+                    mt={1}
+                    fontWeight={400}
+                    fontSize={18}
+                    color={"black"}
+                  >
+                    {t("hours")}
+                  </Typography>
+                </Box>
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  alignItems={"center"}
+                  width={"100%"}
+                >
+                  <NumberInput max={24} />
+                  <Typography
+                    mt={1}
+                    fontWeight={400}
+                    fontSize={18}
+                    color={"black"}
+                  >
+                    {t("minutes")}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
 
-          <Box mt={5} display={"flex"} justifyContent={"space-between"}>
-            <Button onClick={handleSubmit} sx={ButtonStyle} variant="contained">
-              {t("save")}
-            </Button>
-            <Button
-              onClick={handleRemove}
-              sx={[ButtonStyle, { fontWeight: 400 }]}
-            >
-              {t("reset")}
-            </Button>
+            <Box>
+              <Typography
+                mt={3}
+                mb={1.2}
+                fontWeight={400}
+                fontSize={18}
+                color={"#616161"}
+              >
+                {t("people_spend")}: {Math.floor(minutes / 60)}h {minutes % 60}m{" "}
+                {t("here")}
+              </Typography>
+              <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                flexDirection={{ md: "row", xs: "column" }}
+              >
+                <Typography fontWeight={700} fontSize={20} color={"#2C2C2C"}>
+                  {t("duration")}:
+                </Typography>
+
+                <Box
+                  sx={{
+                    backgroundColor: "#F5F5F5",
+                    borderRadius: "50px",
+                    padding: "4px",
+                  }}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={{ xs: "space-between", md: "none" }}
+                >
+                  <RemoveIcon
+                    sx={{
+                      cursor: "pointer",
+                      backgroundColor: "#E0E0E0",
+                      borderRadius: "50px",
+                      padding: "8px",
+                    }}
+                    fontSize="large"
+                    onClick={() => setMinutes(minutes - 1)}
+                  />
+                  <Typography
+                    fontWeight={600}
+                    fontSize={20}
+                    color={"#4F4F4F"}
+                    mx={2}
+                  >
+                    {Math.floor(minutes / 60)}h {minutes % 60}m
+                  </Typography>
+                  <AddIcon
+                    sx={{
+                      cursor: "pointer",
+                      backgroundColor: "#E0E0E0",
+                      borderRadius: "50px",
+                      padding: "8px",
+                    }}
+                    fontSize="large"
+                    onClick={() => setMinutes(minutes + 1)}
+                  />
+                </Box>
+              </Box>
+            </Box>
+
+            <Box mt={5} display={"flex"} justifyContent={"space-between"}>
+              <Button
+                onClick={handleSubmit}
+                sx={ButtonStyle}
+                variant="contained"
+              >
+                {t("save")}
+              </Button>
+              <Button
+                onClick={handleRemove}
+                sx={[ButtonStyle, { fontWeight: 400 }]}
+              >
+                {t("reset")}
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Dialog>

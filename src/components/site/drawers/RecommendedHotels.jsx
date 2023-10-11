@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import { useTranslation } from "react-i18next";
 import LocalHotelIcon from "@mui/icons-material/LocalHotel";
 import CloseIcon from "@mui/icons-material/Close";
+import Divider from "@mui/material/Divider";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 
 const DisplayButton = styled("button")(({ theme }) => ({
@@ -31,6 +32,14 @@ const DisplayButton = styled("button")(({ theme }) => ({
     color: "#fff",
     "& svg": {
       fill: "#fff",
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    border: "1px solid #B9B9B9",
+    fontSize: 20,
+    "& svg": {
+      width: 30,
+      height: 30,
     },
   },
 }));
@@ -82,11 +91,14 @@ export default function RecommendedHotels() {
             overflowY: "scroll",
             position: "relative",
             zIndex: 10000000,
+            "& .MuiDrawer-paper": {
+              backgroundColor: "#f5f5f5 !important",
+            },
           }}
         >
           <Box
             sx={{
-              padding: "16px 32px",
+              py: "16px",
               width: { xs: "100%", md: "450px" },
             }}
           >
@@ -94,7 +106,7 @@ export default function RecommendedHotels() {
               display={"flex"}
               alignItems={"center"}
               justifyContent={"space-between"}
-              mb={3}
+              px={"32px"}
             >
               <Typography fontSize={20} fontWeight={700}>
                 {t("recommended_hotels")}
@@ -105,8 +117,10 @@ export default function RecommendedHotels() {
                 onClick={toggleDrawer("ShowDetails", false)}
               />
             </Box>
-
-            <Box>
+            <Divider
+              sx={{ mb: 3, mt: 1, width: "100%", borderColor: "#E0E0E0" }}
+            />
+            <Box px={"32px"}>
               <Card
                 sx={{
                   borderRadius: "16px",
@@ -126,13 +140,23 @@ export default function RecommendedHotels() {
                   >
                     Catalonia Plaza Hotel
                   </Typography>
-                  <Box mb={3} color={"#FEBE46"}>
+                  <Box mb={1} color={"#FEBE46"}>
                     <StarRateRoundedIcon />
                     <StarRateRoundedIcon />
                     <StarRateRoundedIcon />
                     <StarRateRoundedIcon />
                     <StarRateRoundedIcon />
                   </Box>
+
+                  <Typography
+                    gutterBottom
+                    fontSize={16}
+                    color={"#2c2c2c"}
+                    fontWeight={400}
+                    mb={2}
+                  >
+                    Hotel Description is Here ...........
+                  </Typography>
                   <Button
                     sx={{
                       padding: "16px",

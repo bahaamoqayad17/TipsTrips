@@ -68,20 +68,6 @@ section {
   cursor: pointer;
 }
 
-/* .MuiSlider-markLabel {
-  font-size: 20px !important;
-  font-weight: 600 !important;
-  color: #2c2c2c !important;
-}
-
-.MuiSlider-markLabel[data-index="1"] {
-  left: 94% !important;
-}
-
-.MuiSlider-markLabel[data-index="0"] {
-  left: 6% !important;
-} */
-
 .basic-menu {
   top: 73px !important;
 }
@@ -113,9 +99,13 @@ section {
     height: 246px;
   }
 
+  .number-input {
+    width: 100% !important;
+  }
+
   .MuiTimelineDot-root {
-    width: 24px !important;
-    height: 24px !important;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   section {

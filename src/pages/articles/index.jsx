@@ -57,6 +57,9 @@ const Page = () => {
     fontSize: 18,
     fontWeight: 400,
     marginBottom: 56,
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   }));
 
   return (

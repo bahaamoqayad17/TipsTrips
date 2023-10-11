@@ -1,20 +1,16 @@
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Divider from "@mui/material/Divider";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ManageNotes from "../modals/ManageNotes";
 import { useState } from "react";
-import ManageTime from "../modals/ManageTime";
-import Trash from "@/icons/Trash";
 import { useTranslation } from "react-i18next";
+import { GrayBorderHeart } from "@/icons/GrayBorderHeart";
 
-export default function PropertyMenu({ color }) {
+export default function ShareMenu() {
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
-    sg;
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -31,7 +27,7 @@ export default function PropertyMenu({ color }) {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreVertIcon sx={{ color: color ? color : "#fff" }} />
+        <MoreVertIcon />
       </IconButton>
       <Menu
         id="long-menu"
@@ -45,31 +41,16 @@ export default function PropertyMenu({ color }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <ManageNotes />
+          <img src="/facebook.svg" alt="" />
         </MenuItem>
-        <Divider
-          sx={{
-            borderColor: "#C2C2C2",
-            "& .css-1wiesuv-MuiButtonBase-root-MuiMenuItem-root+.MuiDivider-root":
-              {
-                margin: 0,
-              },
-          }}
-        />
         <MenuItem>
-          <ManageTime />
+          <img src="/mail.svg" alt="" />
         </MenuItem>
-        <Divider
-          sx={{
-            borderColor: "#C2C2C2",
-            "& .css-1wiesuv-MuiButtonBase-root-MuiMenuItem-root+.MuiDivider-root":
-              {
-                margin: 0,
-              },
-          }}
-        />
         <MenuItem>
-          <Trash /> &nbsp;&nbsp;{t("remove_note")}
+          <img src="/share.svg" alt="" />
+        </MenuItem>
+        <MenuItem>
+          <GrayBorderHeart fontSize="large" />
         </MenuItem>
       </Menu>
     </div>

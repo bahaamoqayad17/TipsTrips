@@ -9,18 +9,19 @@ import SingleProperty from "./properties/SingleProperty";
 import Transport from "./properties/Transport";
 import Typography from "@mui/material/Typography";
 import styled from "@emotion/styled";
+import Alert from "./modals/Alert";
 
 const Mark = styled("div")(({ theme }) => ({
-  width: 33,
-  height: 39,
+  width: 30,
+  height: 34,
   backgroundImage: "url(/mark.svg)",
   backgroundSize: "contain",
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
   position: "relative",
   [theme.breakpoints.down("sm")]: {
-    width: 24,
-    height: 26,
+    width: 20,
+    height: 22,
   },
 }));
 
@@ -33,16 +34,16 @@ const Number = styled("span")(({ theme }) => ({
   fontWeight: 600,
   fontSize: 18,
   [theme.breakpoints.down("sm")]: {
-    fontSize: 14,
+    fontSize: 12,
   },
 }));
 
 const Image = styled("img")(({ theme }) => ({
-  width: 32,
-  height: 32,
+  width: 30,
+  height: 30,
   [theme.breakpoints.down("sm")]: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
   },
 }));
 
@@ -52,11 +53,11 @@ export default function TripTimeline() {
       <Timeline
         sx={{
           "& .MuiTimelineDot-root": {
-            width: 32,
-            height: 32,
+            width: 30,
+            height: 30,
           },
-          "& .MuiTypography-root-MuiTimelineContent-root": {
-            padding: "13px 16px",
+          "& .MuiTimelineContent-root": {
+            padding: "0 16px",
           },
           "& .MuiTimelineItem-root::before": {
             display: "none",
@@ -73,10 +74,18 @@ export default function TripTimeline() {
       >
         <TimelineItem>
           <TimelineSeparator>
-            <TimelineDot color="primary" />
+            <TimelineDot
+              sx={{ display: { xs: "none", md: "block" } }}
+              color="primary"
+            />
+            <TimelineDot sx={{ display: { xs: "block", md: "none" } }} />
             <TimelineConnector />
           </TimelineSeparator>
-          <TimelineContent color="primary">
+          <TimelineContent
+            p={{ xs: "10px 16px !important", md: "12px 16px !important" }}
+            fontWeight={"bold"}
+            color="primary"
+          >
             Start Day, Stay safe and enjoy :)
           </TimelineContent>
         </TimelineItem>
@@ -107,11 +116,7 @@ export default function TripTimeline() {
                 3.5 km - 25 minutest by car
               </Typography>
               <Box display={"flex"}>
-                <img src="/warning.svg" alt="" />
-                &nbsp; &nbsp; &nbsp;
-                <Typography fontSize={16} fontWeight={400} color={"black"}>
-                  The best and easy road driving from Como to Interlaken...
-                </Typography>
+                <Alert />
               </Box>
             </Box>
           </TimelineContent>
@@ -308,7 +313,10 @@ export default function TripTimeline() {
           <TimelineSeparator>
             <TimelineDot />
           </TimelineSeparator>
-          <TimelineContent color="primary">
+          <TimelineContent
+            p={{ xs: "10px 16px !important", md: "12px 16px !important" }}
+            color="primary"
+          >
             <Typography component={"span"} fontWeight={600}>
               End Day,
             </Typography>

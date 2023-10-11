@@ -23,6 +23,8 @@ import { useTheme } from "@mui/material/styles";
 import MapIcon from "@/icons/MapIcon";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ImagesSlider from "@/components/site/properties/ImagesSlider";
+import GalleryModal from "@/components/site/GalleryModal";
+import ShareMenu from "@/components/site/ShareMenu";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -31,21 +33,26 @@ const Route = styled("p")(({ theme }) => ({
   fontSize: 18,
   fontWeight: 400,
   marginBottom: 10,
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }));
 
 const Title = styled("h1")(({ theme }) => ({
   color: "#2C2C2C",
-  fontSize: 32,
+  fontSize: 40,
   fontWeight: 700,
-  maxWidth: 500,
+  maxWidth: 600,
+  lineHeight: 1.375,
   [theme.breakpoints.down("sm")]: {
     fontSize: 22,
+    maxWidth: 280,
   },
 }));
 
 const SubTitle = styled("p")(({ theme }) => ({
   color: "#2C2C2C",
-  fontSize: 24,
+  fontSize: 20,
   fontWeight: 700,
   display: "inline-block",
   marginRight: 16,
@@ -61,8 +68,8 @@ const Badge = styled("div")(({ theme }) => ({
   padding: "8px 16px",
   marginRight: 16,
   display: "inline-block",
-  fontSize: 16,
-  fontWeight: 600,
+  fontSize: 15,
+  fontWeight: "normal",
   [theme.breakpoints.down("sm")]: {
     fontSize: 14,
     padding: "4px 8px",
@@ -82,6 +89,13 @@ const Button = styled("button")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   border: "none",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: 20,
+    "& svg": {
+      width: 30,
+      height: 30,
+    },
+  },
 }));
 
 const TabStyle = {
@@ -90,10 +104,10 @@ const TabStyle = {
   borderRadius: "8px",
   color: "#2C2C2C",
   backgroundColor: "#fff",
-  boxShadow: "box-shadow: 1px 1px 8px 0px rgba(0, 0, 0, 0.10)",
+  boxShadow: "1px 1px 8px 0px rgba(0, 0, 0, 0.10)",
   border: "0.25px solid #E0E0E0",
   fontSize: 18,
-  marginRight: "16px",
+  marginRight: "8px",
 };
 
 const Day = styled("p")(({ theme }) => ({
@@ -142,48 +156,17 @@ const ShowMapMobile = styled("button")(({ theme }) => ({
   },
 }));
 
-const Image = styled("img")(({ theme }) => ({
-  borderRadius: "16px",
-  [theme.breakpoints.down("md")]: {
-    width: "100%",
-  },
-}));
-
 const TabPanel = ({ value, index, children }) => {
   return (
     <div role="tabpanel" hidden={value !== index}>
       {value === index && (
-        <Box p={5} pl={0}>
+        <Box p={{ md: 5, xs: 0 }} pt={"5px"} pl={0}>
           {children}
         </Box>
       )}
     </div>
   );
 };
-
-const images = [
-  {
-    label: "San Francisco – Oakland Bay Bridge, United States",
-    imgPath:
-      "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-  {
-    label: "Bird",
-    imgPath:
-      "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-  {
-    label: "Bali, Indonesia",
-    imgPath:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-  },
-  {
-    label: "Goč, Serbia",
-    imgPath:
-      "https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-];
-
 const Page = () => {
   const { t } = useTranslation();
   const [value, setValue] = useState(0);
@@ -193,8 +176,6 @@ const Page = () => {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
-
-  const theme = useTheme();
 
   return (
     <>
@@ -225,7 +206,7 @@ const Page = () => {
             </Box>
 
             <Box display={{ md: "none", xs: "block" }}>
-              <MoreVertIcon />
+              <ShareMenu />
             </Box>
           </Box>
 
@@ -236,7 +217,9 @@ const Page = () => {
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography mb={6}>{t("about_content")}</Typography>
+              <Typography mb={{ xs: 3, md: 6 }}>
+                {t("about_content")}
+              </Typography>
 
               <Box>
                 <SubTitle>{t("best_in")} : </SubTitle>
@@ -277,22 +260,7 @@ const Page = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Box display={{ xs: "none", md: "block" }}>
-                <AutoPlaySwipeableViews
-                  axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-                  index={activeStep}
-                  onChangeIndex={handleStepChange}
-                  enableMouseEvents
-                >
-                  {images.map((step, index) => (
-                    <>
-                      {Math.abs(activeStep - index) <= 2 ? (
-                        <Box display={"flex"} flexDirection={"row-reverse"}>
-                          <Image src="/test1.svg" alt="" />
-                        </Box>
-                      ) : null}
-                    </>
-                  ))}
-                </AutoPlaySwipeableViews>
+                <GalleryModal />
               </Box>
             </Grid>
           </Grid>
@@ -348,11 +316,12 @@ const Page = () => {
                     "& .MuiTabs-indicator": {
                       display: "none",
                     },
+                    overflow: "unset",
                     position: "relative",
                     "& .MuiTabs-scrollButtons:first-child": {
                       color: "#fff",
                       position: "absolute",
-                      left: "0",
+                      left: "-3%",
                       top: "20%",
                       width: "40px",
                       height: "40px",
@@ -363,7 +332,7 @@ const Page = () => {
                     "& .MuiTabs-scrollButtons:last-child": {
                       color: "#fff",
                       position: "absolute",
-                      right: "0",
+                      right: "-3%",
                       top: "20%",
                       width: "40px",
                       height: "40px",
@@ -463,7 +432,7 @@ const Page = () => {
                             Day 1: Amsterdam - Zaandam
                           </Typography>
                         </Box>
-                        <Box>
+                        <Box mb={{ xs: 2, md: 0 }}>
                           <Typography
                             color={"#2c2c2c"}
                             fontWeight={{ md: 600, xs: 400 }}
@@ -474,7 +443,7 @@ const Page = () => {
                             this day:{" "}
                             <Typography
                               fontWeight={600}
-                              fontSize={20}
+                              fontSize={{ md: 20, xs: 16 }}
                               color={"primary"}
                               component={"span"}
                             >

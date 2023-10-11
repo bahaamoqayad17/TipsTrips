@@ -77,7 +77,6 @@ export default function FilterDrawer() {
           sx={{
             overflowY: "scroll",
             position: "relative",
-            zIndex: 10000000,
           }}
         >
           <Box maxWidth={330}>
